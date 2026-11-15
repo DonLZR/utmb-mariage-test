@@ -1,16 +1,16 @@
-# V2.4.3-test.1 — Parcours Breton ciblé (dépôt test)
+# Journal des versions — UTMB WEDDING SERIES
 
-- Base V2.4.2 conservée : accueil, responsive, Coach, formulaires, animations, performances et pilotage Sheet.
-- Transition courte et premium « Des sommets aux embruns », sans nouvelle section éditoriale.
-- Carte Mont-Blanc remplacée par une carte locale autour du Domaine des Hayes.
-- Nouveau panneau de repères pratiques, piloté par l’onglet `Carte_locale`.
-- Vue immersive MapLibre + secours léger 2D, chargés à l’approche de la section.
-- Coordonnées, style, fond, zoom, orientation et tracé facultatif réglables depuis le Sheet.
-- Aucun asset existant recompressé ou remplacé.
-- Ajout de `INSTRUCTIONS.md` comme contrat canonique et source unique de vérité, avec vision globale, invariants et prompts de passation.
-- Ajout de `.github/copilot-instructions.md` comme relais court imposant la lecture automatique du contrat et du journal avant intervention.
-
-# Journal des versions — U.T.M.B.
+## V3.0.0 — BROCÉLIANDE (chirurgie ciblée de la V2.4.2)
+- Socle fonctionnel V2.4.2 conservé : composants, formulaires, navigation, déblocages, dossard, galerie, PWA, traductions, Coach et chargement différé.
+- Nouvelle identité superposée : palette vert sapin / bleu ardoise / rose granit / crème, Barlow Condensed pour l’affichage sportif, motifs angulaires et lockup parodique « UTMB WEDDING SERIES ».
+- Accueil : course « BROCÉLIANDE », accroche et sous-phrase validées ; photo source conservée sans recompression.
+- Carte : toujours MapLibre 4.7.1, tuiles satellite Esri haute définition, relief DEM Terrarium, hillshade et modes 3D/2D ; vue recentrée sur Brocéliande.
+- Parcours fictif cohérent couvrant Paimpont, l’Étang de Paimpont, le Tombeau de Merlin, la Fontaine de Barenton, le Château de Comper, le Val sans Retour et une arrivée de démonstration au Domaine des Hayes.
+- Coordonnées de toutes les étapes toujours modifiables dans `Etapes › lat / lng`. L’arrivée est explicitement marquée à valider.
+- Apps Script V3 : nouvelles clés éditables, étapes 6/7, dossiers photo associés et preset volontaire `Appliquer le preset BROCÉLIANDE`.
+- PWA : nom, couleurs, cache et icônes mis à jour.
+- Mention explicite d’absence d’affiliation officielle dans le pied de page.
+- `coach.js` et sa référence sont conservés ; les binaires Coach validés doivent être repris à l’identique depuis le dépôt V2.4.2 existant.
 
 ## V2.4.2 — Bouton de départ à cheval sur l’accueil
 - Le bouton « Prendre le départ » chevauche désormais la limite entre la photo d’accueil et la section suivante sur ordinateur, tablette et mobile.

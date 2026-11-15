@@ -1,4 +1,4 @@
-/* UTMB — Alpin chic & champêtre — V2.4.3-test.1 */
+/* UTMB — Alpin chic & champêtre — V2.4.2 */
 :root{
   --forest:#24382c; --forest-2:#2f4a3a; --moss:#6b7f5a; --sage:#a9b79a;
   --cream:#f6f1e7; --linen:#efe7d8; --sand:#d8c3a5; --gold:#b08d57; --gold-2:#c9a66b;
@@ -173,57 +173,6 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1;margin:0}
 .marker.locked .marker-label{top:auto;bottom:40px;opacity:.85}
 .summit{font:600 .75rem var(--sans);color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.9);display:flex;align-items:center;gap:.3rem}
 .maplibregl-ctrl-attrib{font-size:10px}
-
-
-/* V2.4.3-test.1 — transition « Des sommets aux embruns » + carte locale Bretagne */
-.summit-sea{position:relative;display:grid;grid-template-columns:minmax(220px,360px) minmax(260px,520px);align-items:center;gap:clamp(1rem,4vw,3rem);max-width:980px;margin:0 auto 3rem;padding:1.2rem 1.5rem;border:1px solid rgba(176,141,87,.28);border-radius:22px;background:linear-gradient(115deg,rgba(255,253,248,.96),rgba(239,231,216,.78));box-shadow:0 20px 44px -34px rgba(36,56,44,.65);overflow:hidden}
-.summit-sea::after{content:"";position:absolute;inset:auto -8% -55% 36%;height:110%;border-radius:50%;background:radial-gradient(circle,rgba(169,183,154,.22),transparent 66%);pointer-events:none}
-.summit-sea-art{position:relative;z-index:1;min-width:0}
-.summit-sea-art svg{display:block;width:100%;height:auto;overflow:visible}
-.ss-mountain,.ss-wave{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.ss-mountain{stroke:var(--forest);stroke-width:3.2}
-.ss-wave{stroke:var(--gold);stroke-width:2.7}
-.ss-wave-two{opacity:.52}
-.ss-dot{fill:var(--gold-2);filter:drop-shadow(0 0 6px rgba(176,141,87,.8));animation:ssTravel 4.8s ease-in-out infinite}
-.summit-sea-copy{position:relative;z-index:1;display:grid;gap:.35rem}
-.summit-sea-copy strong{font:600 clamp(1.12rem,2.4vw,1.45rem)/1.25 var(--serif);color:var(--forest)}
-@keyframes ssTravel{0%,12%{transform:translateX(-72px);opacity:0}22%{opacity:1}82%{opacity:1}100%{transform:translateX(126px);opacity:0}}
-.map-wrap::before{content:"";position:absolute;z-index:2;inset:0 1rem;border-radius:24px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);pointer-events:none}
-.map-place{position:absolute;z-index:5;left:2rem;bottom:1.25rem;display:flex;align-items:center;gap:.5rem;max-width:min(48%,460px);padding:.55rem .8rem;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(20,32,25,.72);color:#fff;font:600 .78rem var(--sans);box-shadow:0 10px 24px -14px rgba(0,0,0,.8);backdrop-filter:blur(10px)}
-.map-place::before{content:"⌖";display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--gold);font-size:.9rem}
-.local-panel{padding-top:3.35rem}
-.local-panel-head{color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.8);padding:.2rem .3rem .25rem;font:700 .72rem var(--race);letter-spacing:.14em;text-transform:uppercase}
-.local-panel-head small{display:block;margin-top:.15rem;font:500 .72rem var(--sans);letter-spacing:0;text-transform:none;color:rgba(255,255,255,.78)}
-.local-card{position:relative;border-radius:16px;background:rgba(255,255,255,.94);box-shadow:0 10px 24px -16px rgba(0,0,0,.8);overflow:hidden;backdrop-filter:blur(8px)}
-.local-card .cp{border-radius:0;background:transparent;box-shadow:none}
-.local-card.active{box-shadow:0 0 0 2px var(--gold-2),0 12px 26px -15px rgba(0,0,0,.8)}
-.local-card.active .cp{background:var(--forest);color:#fff}
-.local-card.active .cp-meta{color:var(--sand)}
-.local-action{display:block;padding:.45rem .75rem .55rem;border-top:1px solid var(--linen);color:var(--forest);font:700 .72rem var(--sans);text-align:right;text-decoration:none;background:#fffdf8}
-.local-action:hover{text-decoration:underline}
-.local-empty{padding:1rem;border-radius:16px;background:rgba(255,255,255,.92);color:var(--forest);font-size:.84rem}
-.marker.local{width:44px;height:44px;font-size:1.12rem;background:var(--forest);border-color:#fff;box-shadow:0 0 0 5px rgba(201,166,107,.28),0 8px 22px rgba(0,0,0,.5)}
-.marker.local::after{content:"";position:absolute;inset:-11px;border:2px solid rgba(201,166,107,.8);border-radius:50%;animation:ring 2.4s infinite}
-.marker.local.secondary{background:var(--gold);width:40px;height:40px;box-shadow:0 6px 18px rgba(0,0,0,.48)}
-.marker.local.secondary::after{display:none}
-.m2-mk.local circle{fill:var(--forest)}
-.m2-mk.local.primary circle{stroke:var(--gold-2);stroke-width:5}
-.m2-local-route{fill:none;stroke:var(--gold-2);stroke-width:4;stroke-dasharray:3 5;stroke-linecap:round;vector-effect:non-scaling-stroke}
-.maplibregl-popup-content{border-radius:14px;padding:.75rem .85rem;font-family:var(--sans);color:var(--forest);box-shadow:var(--shadow)}
-@media(max-width:820px){
-  .summit-sea{grid-template-columns:1fr;gap:.45rem;margin:0 1rem 2.4rem;padding:1rem 1.1rem;text-align:center}
-  .summit-sea-art{width:min(100%,360px);margin:auto}
-  .summit-sea-copy{justify-items:center}
-  .local-panel{padding-top:1rem}
-  .local-panel-head{min-width:190px;align-self:center;text-shadow:none;color:var(--forest)}
-  .local-panel-head small{color:var(--muted)}
-  .local-card{min-width:250px;scroll-snap-align:start}
-  .map-place{left:1.6rem;right:1.6rem;bottom:.8rem;max-width:none;width:max-content}
-}
-@media(max-width:480px){
-  .summit-sea{border-radius:18px}.summit-sea-art{width:92%}.summit-sea-copy strong{font-size:1.08rem}
-  .map-tools{right:1.6rem;max-width:none}.chip{padding:.46rem .72rem;font-size:.74rem}.map-place{font-size:.7rem}
-}
 
 /* Étapes */
 .sections{display:flex;flex-direction:column;gap:2.5rem;padding:2rem 1rem 4rem;max-width:1000px;margin:0 auto}
@@ -462,3 +411,85 @@ h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.1;margin:0}
 .coach-toggle{margin-top:.7rem;background:none;border:1px solid rgba(255,255,255,.3);color:var(--linen);border-radius:999px;font:500 .72rem var(--sans);padding:.28rem .75rem;cursor:pointer;opacity:.75;transition:opacity .2s}
 .coach-toggle:hover{opacity:1}
 .coach-toggle:focus-visible{outline:2px solid var(--gold-2);outline-offset:2px}
+
+
+/* =====================================================================
+   V3.0.0 — BROCÉLIANDE / UTMB WEDDING SERIES
+   Couche d'identité ciblée. Les composants, breakpoints et animations
+   de la V2.4.2 restent en place ; seuls les tokens et habillages changent.
+   ===================================================================== */
+:root{
+  --forest:#0b3b2e; --forest-2:#145443; --moss:#3f725e; --sage:#aac3b4;
+  --cream:#f5efe4; --linen:#ebe2d2; --sand:#dcccb8;
+  --gold:#d85c7c; --gold-2:#ef8ca6; --slate:#0f2b46; --slate-2:#173c5f;
+  --ink:#10241e; --muted:#66706b; --shadow:0 18px 42px -18px rgba(6,31,24,.42);
+  --race:'Barlow Condensed','Oswald','Arial Narrow',sans-serif;
+}
+body{background-color:var(--cream);background-image:
+  linear-gradient(135deg,rgba(15,43,70,.035) 25%,transparent 25%) 0 0/62px 62px,
+  linear-gradient(315deg,rgba(216,92,124,.035) 25%,transparent 25%) 0 0/62px 62px,
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%230b3b2e' stroke-opacity='.07' stroke-width='1.2'%3E%3Cpath d='M-20 420c80-60 140-40 210-90s120-140 220-120 150 90 210 70'/%3E%3Cpath d='M-20 450c90-55 150-30 220-80s130-130 220-105 140 85 200 65'/%3E%3C/g%3E%3C/svg%3E")}
+.nav{background:linear-gradient(90deg,rgba(8,35,28,.94),rgba(15,43,70,.93));border-bottom-color:rgba(245,239,228,.13)}
+.nav-logo{display:inline-flex;align-items:center;gap:.55rem;letter-spacing:0;color:#fff;line-height:.8}
+.nav-logo-main{font:900 1.55rem/1 var(--race);letter-spacing:-.035em;transform:skew(-5deg)}
+.nav-logo-stack{display:grid;gap:.12rem;border-left:1px solid rgba(255,255,255,.45);padding-left:.55rem;text-align:left}
+.nav-logo-stack strong{font:800 .66rem/.85 var(--race);letter-spacing:.08em;color:#fff}
+.nav-logo-stack small{font:700 .43rem/.85 var(--race);letter-spacing:.2em;color:var(--gold-2);opacity:.78}
+.hero{background:linear-gradient(160deg,var(--slate),var(--forest))}
+.hero-veil{background:
+  linear-gradient(118deg,rgba(7,30,25,.76) 0%,rgba(7,30,25,.18) 50%,rgba(15,43,70,.58) 100%),
+  linear-gradient(180deg,rgba(5,20,17,.30) 0%,rgba(5,20,17,.08) 44%,rgba(5,20,17,.82) 100%)}
+.hero-veil::after{content:"";position:absolute;inset:0;opacity:.18;background:
+  repeating-linear-gradient(128deg,transparent 0 72px,rgba(245,239,228,.18) 72px 88px,transparent 88px 144px);clip-path:polygon(0 0,42% 0,15% 100%,0 100%)}
+.series-lockup{display:inline-flex;align-items:center;gap:.85rem;margin:0 auto 1.05rem;color:#fff;filter:drop-shadow(0 8px 16px rgba(0,0,0,.25))}
+.series-utmb{font:900 clamp(3.7rem,9vw,7.2rem)/.72 var(--race);letter-spacing:-.055em;transform:skew(-5deg)}
+.series-stack{display:grid;gap:.26rem;text-align:left;border-left:2px solid rgba(255,255,255,.7);padding-left:.85rem}
+.series-stack strong{font:900 clamp(.82rem,1.55vw,1.3rem)/.92 var(--race);letter-spacing:.08em;background:var(--gold);padding:.24rem .42rem .18rem;color:#fff;white-space:nowrap}
+.series-stack small{font:800 clamp(.54rem,1vw,.75rem)/1 var(--race);letter-spacing:.25em;color:var(--cream);opacity:.72;white-space:nowrap}
+.hero-title{font-family:var(--race);font-size:clamp(3.7rem,9vw,8.4rem);font-weight:900;letter-spacing:.018em;line-height:.78;text-transform:uppercase;text-shadow:0 5px 26px rgba(0,0,0,.34)}
+.hero-sub{font-family:var(--serif);font-style:italic;letter-spacing:.015em;color:var(--cream)}
+.hero-tagline{max-width:830px;margin:1.15rem auto .22rem;font:800 clamp(1rem,1.65vw,1.28rem)/1.15 var(--race);letter-spacing:.035em;text-transform:uppercase;color:#fff;text-wrap:balance}
+.hero-punchline{max-width:760px;margin:0 auto 1.25rem;font:600 clamp(.84rem,1.2vw,1rem)/1.35 var(--sans);color:rgba(245,239,228,.88);text-wrap:balance}
+.chrono,.alti,.dossard{border-color:rgba(245,239,228,.26);background:linear-gradient(145deg,rgba(9,39,31,.78),rgba(15,43,70,.72));box-shadow:0 18px 40px -18px rgba(0,0,0,.62)}
+.btn-gold{background:var(--gold);box-shadow:0 12px 28px -10px rgba(216,92,124,.78)}
+.btn-gold:hover{background:#c94b6d}
+.parcours{background:linear-gradient(150deg,#082e25 0%,#0f2b46 72%,#153f55 100%)}
+.parcours::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;background:repeating-linear-gradient(135deg,transparent 0 70px,rgba(245,239,228,.13) 70px 86px,transparent 86px 140px)}
+.map-wrap{border-color:rgba(245,239,228,.16);box-shadow:0 30px 70px -30px rgba(0,0,0,.75)}
+.map-edition{position:absolute;z-index:5;left:1rem;top:1rem;display:grid;padding:.55rem .78rem;background:rgba(7,31,25,.80);border:1px solid rgba(245,239,228,.28);border-left:4px solid var(--gold);backdrop-filter:blur(9px);color:#fff;pointer-events:none}
+.map-edition span{font:900 1rem/.95 var(--race);letter-spacing:.1em}
+.map-edition small{font:700 .54rem/1.2 var(--race);letter-spacing:.14em;color:var(--cream);opacity:.74}
+.marker:not(.locked){background:var(--gold);border-color:#fff}.marker.nouveau{box-shadow:0 0 0 7px rgba(216,92,124,.22),0 10px 25px rgba(0,0,0,.35)}
+.broceliande-label{color:#fff;background:rgba(8,46,37,.90);border-color:rgba(245,239,228,.72)}
+.eyebrow{color:var(--gold)}
+.progress-bar span{background:linear-gradient(90deg,var(--gold),#f0a0b6)}
+.footer{background:linear-gradient(135deg,#082e25,#0f2b46)}
+.footer-disclaimer{max-width:680px;margin:.25rem auto;color:rgba(245,239,228,.62);font-size:.72rem}
+@media (max-width:820px){
+  .hero-content{padding-top:6.8rem}
+  .series-lockup{margin-bottom:.9rem}.series-utmb{font-size:clamp(3.25rem,14vw,5.5rem)}
+  .series-stack strong{font-size:.72rem}.series-stack small{font-size:.48rem}
+  .hero-title{font-size:clamp(3.3rem,16vw,6rem)}
+  .hero-tagline{margin-top:1rem;font-size:clamp(.92rem,3.5vw,1.1rem);max-width:92%}
+  .hero-punchline{max-width:90%;font-size:.82rem}
+  .map-edition{left:.75rem;top:.75rem}
+}
+@media (max-width:420px){
+  .nav-logo-stack small{display:none}
+  .series-stack{gap:.18rem;padding-left:.6rem}.series-stack strong{font-size:.62rem}.series-stack small{font-size:.42rem;letter-spacing:.16em}
+  .hero-punchline{margin-bottom:.9rem}
+}
+
+/* Correctifs QA V3 : lisibilité sur fond sombre, cohabitation badge/outils et largeur mobile. */
+.parcours .section-head h2{color:var(--cream);text-shadow:0 6px 20px rgba(0,0,0,.22)}
+.parcours .progress p{color:rgba(245,239,228,.72)}
+.map-edition{left:2rem}
+.map-tools{top:5rem}
+@media (max-width:820px){
+  .hero-title{font-size:clamp(2.75rem,12vw,5rem);letter-spacing:0}
+  .map-edition{left:1.6rem}
+  .map-tools{top:5rem}
+}
+@media (max-width:420px){
+  .hero-title{font-size:clamp(2.55rem,12vw,3.2rem)}
+}

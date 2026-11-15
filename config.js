@@ -4,7 +4,10 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "2.4.3-test.1",
+  version: "3.0.0",
+
+  /* Secours local haute qualité : les photos du Sheet restent prioritaires. */
+  heroFallback: "assets/images/hero-couple-original.jpg",
 
   apiUrl: (window.UTMB_CLES && window.UTMB_CLES.apiUrl) || "",
   accessCodeHash: (window.UTMB_CLES && window.UTMB_CLES.accessCodeHash) || "",
@@ -14,11 +17,11 @@ window.UTMB_CONFIG = {
 
   /* Compte à rebours + altimètre
      dateMariage : utilisée si la ligne date_mariage du Sheet est vide
-     departChrono : date à laquelle l'altimètre part de Chamonix */
+     departChrono : date de départ de la progression altimétrique */
   dateMariage: "2027-07-24T00:00",
   departChrono: "2026-11-01T00:00",
-  altitudeDepart: 1035,   // Chamonix
-  altitudeSommet: 4805,   // Mont Blanc (mesure 2023 : 4 805,59 m)
+  altitudeDepart: 55,     // secteur de Paimpont (valeur de démonstration)
+  altitudeSommet: 181,    // Fontaine de Barenton (valeur de démonstration)
 
   /* Coach la marmotte — valeurs par défaut (les lignes « coach_… » de l'onglet Parametres priment)
      Aucun fichier Coach n'est chargé au démarrage : uniquement à sa 1re apparition. */
@@ -29,48 +32,55 @@ window.UTMB_CONFIG = {
     maxVisite: 3,                            // apparitions aléatoires max par visite
     taillePc: 230, tailleMobile: 160         // hauteur de Coach (px)
   },
-  /* Carte locale Bretagne — les valeurs du Sheet restent prioritaires. */
+  /* Carte 3D — Brocéliande. Valeurs de secours ; le Sheet reste prioritaire. */
   map: {
-    center: [-2.0360475, 47.980186], // Domaine des Hayes, Maxent [longitude, latitude]
-    zoom: 14.6,
-    pitch: 48,
+    center: [-2.17, 48.035], // [longitude, latitude]
+    zoom: 10.55,
+    pitch: 62,
     bearing: -18,
-    exaggeration: 1.15
+    exaggeration: 1.8
   },
-  localFallback: {
-    titre: "Domaine des Hayes", detail: "Les Hayes · 35380 Maxent", categorie: "Lieu du mariage",
-    icone: "🏁", lat: 47.980186, lng: -2.0360475,
-    lien_libelle: "Voir le lieu", lien_url: "https://domaine-des-hayes.fr/"
-  },
+
+  /* Tracé fictif mais géographiquement cohérent.
+     Les marqueurs d'étapes restent pilotés par les colonnes lat/lng du Sheet. */
+  route: [
+    [-2.1728,48.0186],[-2.1900,48.0140],[-2.2200,48.0070],[-2.2500,48.0020],
+    [-2.2833,48.0000],[-2.2750,48.0150],[-2.2610,48.0280],[-2.2469,48.0389],
+    [-2.2210,48.0490],[-2.1960,48.0600],[-2.1728,48.0700],[-2.1450,48.0740],
+    [-2.1175,48.0778],[-2.1050,48.0610],[-2.0940,48.0400],[-2.0830,48.0180],
+    [-2.0700,48.0000],[-2.0500,47.9820]
+  ],
 
   /* Données de démonstration (utilisées tant que apiUrl est vide) */
   demo: {
     parametres: {
-      titre: "U.T.M.B.",
+      titre: "UTMB WEDDING SERIES",
+      course_nom: "BROCÉLIANDE",
       sous_titre: "Ultra Trail du Mariage Bossi",
       prenoms: "[Prénom] & [Prénom]",
       date_mariage: "",
-      lieu: "Bretagne — [à compléter]",
-      message_accueil: "Chaussez vos baskets : la course la plus folle de l'année se prépare. Suivez le parcours, débloquez les ravitos au fil de nos annonces… et rendez-vous sur la ligne d'arrivée !",
+      lieu: "BRETAGNE — DOMAINE DES HAYES",
+      accroche: "Une nouvelle épreuve rejoint le circuit. Barrière horaire supprimée, engagement à vie.",
+      sous_accroche: "Bienvenue sur BROCÉLIANDE, l’ultra où le ravito final se sert en coupe de champagne.",
+      message_accueil: "Des légendes de Brocéliande au Domaine des Hayes, suivez une course pas tout à fait comme les autres : les ravitos se débloquent, le dossard est personnel et l’arrivée se fête en grand.",
       date_limite_reponse: "[à compléter]",
-      carte_centre: "47.980186, -2.0360475", carte_zoom: 14.6, carte_zoom_mobile: 13.8,
-      carte_zoom_etape: 16.2, carte_orientation: -18, carte_inclinaison: 48, carte_relief: 1.15,
-      carte_fond: "satellite", carte_relier_points: "non"
+      carte_zoom_etape: 12.1
     },
     etapes: [
-      { id:"etape-1", ordre:1, cp:"Départ", lieu:"Chamonix", km:0, altitude:1035, titre:"Le Départ", sous_titre:"Retrait des dossards", type:"texte", statut:"ouvert", indice:"", lat:45.9237, lng:6.8694,
-        contenu:"Bienvenue sur la ligne de départ !\n\nOn se marie… en **Bretagne**, mais notre cœur bat au rythme des sentiers du Mont-Blanc. Ce site est votre carnet de course : chaque ravitaillement se débloquera au fil de nos annonces.", lien_libelle:"", lien_url:"" },
-      { id:"etape-2", ordre:2, cp:"Ravito 1", lieu:"Les Contamines", km:31, altitude:1150, titre:"Présence", sous_titre:"Confirmez votre inscription", type:"presence", statut:"nouveau", indice:"", lat:45.8213, lng:6.7273,
+      { id:"etape-1", ordre:1, cp:"Départ", lieu:"Paimpont", km:0, altitude:55, titre:"Le Départ", sous_titre:"Entrée dans la légende", type:"texte", statut:"ouvert", indice:"", lat:48.0186, lng:-2.1728,
+        contenu:"Bienvenue sur **BROCÉLIANDE**. Ici, le terrain est légendaire, le dossard personnel et l’engagement à vie.", lien_libelle:"", lien_url:"" },
+      { id:"etape-2", ordre:2, cp:"Ravito 1", lieu:"Étang de Paimpont", km:7, altitude:62, titre:"Présence", sous_titre:"Confirmez votre inscription", type:"presence", statut:"nouveau", indice:"", lat:48.0191, lng:-2.1734,
         contenu:"Pas de dossard sans inscription ! Dites-nous si vous serez sur la ligne de départ.", lien_libelle:"", lien_url:"" },
-      { id:"etape-3", ordre:3, cp:"Refuge", lieu:"Courmayeur", km:81, altitude:1190, titre:"Hébergement", sous_titre:"Où poser le sac", type:"hebergement", statut:"nouveau", indice:"", lat:45.7917, lng:6.9722,
-        contenu:"Voici quelques adresses pour récupérer après l'effort.", lien_libelle:"", lien_url:"" },
-      { id:"etape-4", ordre:4, cp:"Ravito 2", lieu:"Champex-Lac", km:126, altitude:1470, titre:"Programme", sous_titre:"Le Jour J minute par minute", type:"programme", statut:"verrouille", indice:"Débloqué prochainement", lat:46.0300, lng:7.1170,
+      { id:"etape-3", ordre:3, cp:"Dernière bosse", lieu:"Val sans Retour", km:28, altitude:132, titre:"Hébergement", sous_titre:"Où poser le sac", type:"hebergement", statut:"nouveau", indice:"", lat:48.0000, lng:-2.2833,
+        contenu:"Voici quelques adresses pour récupérer après l’effort.", lien_libelle:"", lien_url:"" },
+      { id:"etape-4", ordre:4, cp:"Source", lieu:"Fontaine de Barenton", km:39, altitude:181, titre:"Programme", sous_titre:"Le Jour J minute par minute", type:"programme", statut:"verrouille", indice:"Débloqué prochainement", lat:48.0389, lng:-2.2469,
         contenu:"", lien_libelle:"", lien_url:"" },
-      { id:"etape-5", ordre:5, cp:"Arrivée", lieu:"Chamonix", km:171, altitude:1035, titre:"Plan du site", sous_titre:"Repérage du terrain", type:"plan", statut:"verrouille", indice:"Débloqué prochainement", lat:45.9300, lng:6.8760,
-        contenu:"", lien_libelle:"", lien_url:"" }
-    ],
-    carte_locale: [
-      { id:"domaine-des-hayes", ordre:1, actif:"oui", categorie:"Lieu du mariage", icone:"🏁", titre:"Domaine des Hayes", detail:"Les Hayes · 35380 Maxent", lat:47.980186, lng:-2.0360475, lien_libelle:"Voir le lieu", lien_url:"https://domaine-des-hayes.fr/" }
+      { id:"etape-5", ordre:5, cp:"Château", lieu:"Château de Comper", km:51, altitude:95, titre:"Plan du site", sous_titre:"Repérage du terrain", type:"plan", statut:"verrouille", indice:"Débloqué prochainement", lat:48.0700, lng:-2.1728,
+        contenu:"", lien_libelle:"", lien_url:"" },
+      { id:"etape-6", ordre:6, cp:"PC Merlin", lieu:"Tombeau de Merlin", km:71, altitude:118, titre:"Dernières consignes", sous_titre:"Avant le sprint final", type:"texte", statut:"verrouille", indice:"Débloqué prochainement", lat:48.0778, lng:-2.1175,
+        contenu:"", lien_libelle:"", lien_url:"" },
+      { id:"etape-7", ordre:7, cp:"Arrivée", lieu:"Domaine des Hayes", km:92, altitude:82, titre:"L’Arrivée", sous_titre:"Ravito champagne", type:"texte", statut:"verrouille", indice:"Débloqué prochainement", lat:47.9820, lng:-2.0500,
+        contenu:"Coordonnées de démonstration à valider puis à ajuster dans le Sheet.", lien_libelle:"", lien_url:"" }
     ],
     hebergements: [
       { nom:"[Hébergement 1]", type:"Hôtel", distance:"[x] km", prix:"[à compléter]", lien:"", description:"[à compléter]" },
