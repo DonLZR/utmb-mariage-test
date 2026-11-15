@@ -4,7 +4,7 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.1.0",
+  version: "3.2.0",
 
   /* Secours local haute qualité : les photos du Sheet restent prioritaires. */
   heroFallback: "assets/images/hero-couple-original.jpg",
@@ -61,6 +61,7 @@ window.UTMB_CONFIG = {
       prenoms: "[Prénom] & [Prénom]",
       date_mariage: "",
       lieu: "BRETAGNE — DOMAINE DES HAYES",
+      /* Conservées pour compatibilité avec les Sheets existants ; non affichées sur l’accueil V3.2. */
       accroche: "Une nouvelle épreuve rejoint le circuit. Barrière horaire supprimée, engagement à vie.",
       sous_accroche: "Bienvenue sur BROCÉLIANDE, l’ultra où le ravito final se sert en coupe de champagne.",
       message_accueil: "Des légendes de Brocéliande au Domaine des Hayes, suivez une course pas tout à fait comme les autres : les ravitos se débloquent, le dossard est personnel et l’arrivée se fête en grand.",

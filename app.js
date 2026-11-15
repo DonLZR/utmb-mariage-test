@@ -4,10 +4,12 @@
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
   const $ = (s, r = document) => r.querySelector(s);
   const SEEN_KEY = 'utmb_seen', DOSSARD_KEY = 'utmb_dossard', GATE_KEY = 'utmb_ok', LANG_KEY = 'utmb_lang',
-        SCROLL_KEY = 'utmb_scroll', MODE_KEY = 'utmb_mode', FORMS_KEY = 'utmb_forms', UNLOCK_KEY = 'utmb_unlock';
+        SCROLL_KEY = 'utmb_scroll', MODE_KEY = 'utmb_mode', FORMS_KEY = 'utmb_forms', UNLOCK_KEY = 'utmb_unlock',
+        MAP_INTRO_KEY = 'utmb_map_intro_v32';
   const NOUVEAU_PERSO_H = 48;                     // durée (heures) du badge « Nouveau » après un déblocage personnel
 let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {}, touring = false, tourRaf = null, MODE = '3d', deferredInstall = null;
   let chronoTarget = null, chronoTimer = null, slideTimer = null, pendingFly = null, mapWanted = false, mapLibPromise = null;
+  let mapIntroVisible = false, mapIntroPending = false, mapIntroStarted = false;
 
   /* ---------- Langue ---------- */
   const LANGS = (C.langues || ['fr']).filter(l => I18N[l]);
@@ -352,8 +354,6 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     $('#heroSousTitre').textContent = p.sous_titre || '';
     $('#heroPrenoms').textContent = p.prenoms || '';
     $('#heroLieu').textContent = p.lieu || '';
-    $('#heroTagline').textContent = p.accroche || 'Une nouvelle épreuve rejoint le circuit. Barrière horaire supprimée, engagement à vie.';
-    $('#heroPunchline').textContent = p.sous_accroche || 'Bienvenue sur BROCÉLIANDE, l’ultra où le ravito final se sert en coupe de champagne.';
     $('#introMessage').textContent = p.message_accueil || '';
     document.title = `UTMB WEDDING SERIES — ${p.course_nom || 'BROCÉLIANDE'}`;
     $('#footerVersion').textContent = 'v' + C.version;
@@ -572,6 +572,13 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
       const io = new IntersectionObserver(en => { if (en.some(x => x.isIntersecting)) { mapWanted = true; io.disconnect(); ensure3D(); } }, { rootMargin: '400px 0px' });
       io.observe($('#parcours'));
     } else { mapWanted = true; ensure3D(); }
+    if ('IntersectionObserver' in window) {
+      const introIo = new IntersectionObserver(en => {
+        mapIntroVisible = en.some(x => x.isIntersecting && x.intersectionRatio >= .18);
+        if (mapIntroVisible) maybeStartMapIntro();
+      }, { threshold: [.18] });
+      introIo.observe($('#map'));
+    } else { mapIntroVisible = true; }
     $('#btnMode').addEventListener('click', () => {
       const next = MODE === '3d' ? '2d' : '3d';
       localStorage.setItem(MODE_KEY, next); setMode(next);
@@ -648,12 +655,27 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
   }
 
   /* ---------- Carte 3D ---------- */
+  function canPlayMapIntro() {
+    if (mapIntroStarted || matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    try { return !localStorage.getItem(MAP_INTRO_KEY); } catch (e) { return true; }
+  }
+  function markMapIntroSeen() {
+    try { localStorage.setItem(MAP_INTRO_KEY, '1'); } catch (e) {}
+  }
+  function maybeStartMapIntro() {
+    if (!map || !mapIntroPending || mapIntroStarted || !mapIntroVisible || !map.loaded()) return;
+    mapIntroPending = false; mapIntroStarted = true; markMapIntroSeen();
+    map.flyTo({ center: VIEW.center, zoom: VIEW.zoom, pitch: VIEW.pitch, bearing: VIEW.bearing,
+      duration: 4800, curve: 1.12, speed: .75, essential: false });
+  }
   function initMap() {
     VIEW = computeView();
+    const playIntro = canPlayMapIntro();
+    const opening = playIntro ? { center: [-2.65, 48.10], zoom: 6.35, pitch: 18, bearing: 0 } : VIEW;
     try {
       map = new maplibregl.Map({
         container: 'map',
-        center: VIEW.center, zoom: VIEW.zoom, pitch: VIEW.pitch, bearing: VIEW.bearing,
+        center: opening.center, zoom: opening.zoom, pitch: opening.pitch, bearing: opening.bearing,
         maxPitch: 80, attributionControl: { compact: true }, cooperativeGestures: matchMedia('(pointer:coarse)').matches,
         style: {
           version: 8,
@@ -680,8 +702,7 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-left');
 
     map.on('load', () => {
-      map.jumpTo({ center: VIEW.center, zoom: VIEW.zoom, pitch: VIEW.pitch, bearing: VIEW.bearing });
-      if (pendingFly) { const id = pendingFly; pendingFly = null; setTimeout(() => selectStage(id, true, true), 900); }
+      if (!playIntro) map.jumpTo({ center: VIEW.center, zoom: VIEW.zoom, pitch: VIEW.pitch, bearing: VIEW.bearing });
 
       const route = routeFromStages();
       const open = DATA.etapes.filter(isOpen), last = open[open.length - 1];
@@ -718,6 +739,13 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
           if (offsets.has(e.id)) opts.offset = offsets.get(e.id); // départ/arrivée : décalage symétrique, quelle que soit l'orientation
           markers[e.id] = new maplibregl.Marker(opts).setLngLat([e.lng, e.lat]).addTo(map);
         });
+      if (pendingFly) {
+        const id = pendingFly; pendingFly = null;
+        setTimeout(() => selectStage(id, true, true), 900);
+      } else {
+        mapIntroPending = playIntro;
+        maybeStartMapIntro();
+      }
     });
     ['mousedown', 'touchstart', 'wheel'].forEach(ev => map.getCanvas().addEventListener(ev, stopTour, { passive: true }));
   }

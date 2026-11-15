@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## V3.2.0 — accueil allégé et arrivée carte cinématique
+
+### Accueil et identité
+- `WEDDING SERIES` est placé sous `UTMB`, plus petit et légèrement déporté à droite, dans l’accueil et la bannière.
+- Le logo maître complet reste intact ; son intégration utilise un masque alpha plus large, asymétrique et organique afin d’effacer toute lecture carrée.
+- L’accroche et la sous-phrase historiques sont retirées de l’accueil sans supprimer leurs clés Sheet, conservées pour compatibilité.
+- `Marie & Lorenzo`, la date et le message d’introduction utilisent des variables typographiques V3.2 basées sur Montserrat, modifiables en tête de la couche CSS V3.2.
+- La date dynamique est remontée immédiatement sous les prénoms ; son format localisé FR/IT/ES et sa source `Parametres › date_mariage` sont inchangés.
+- Le titre noir des grandes cartes d’étape adopte le bleu `#0f2b46` qui entoure la carte 3D.
+
+### Carte
+- Lors de la première arrivée sur la carte par appareil, la vue part d’un cadrage Bretagne large puis rejoint exactement la vue d’ensemble configurée, sans dépasser son niveau de zoom.
+- L’animation ne se rejoue pas après stockage de `utmb_map_intro_v32`, respecte `prefers-reduced-motion` et ne modifie ni le clic sur les étapes ni le bouton de réinitialisation.
+
+### Continuité
+- Versions web, PWA, configuration et Apps Script portées à 3.2.0.
+- Formulaires, FR/IT/ES, Coach, dossard, galerie, boucle Sheet, relief DEM, mode 2D et assets validés préservés.
+
 ## V3.1.0 — identité officielle, boucle Sheet et relief renforcé
 
 ### Identité visuelle
