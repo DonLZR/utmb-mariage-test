@@ -4,7 +4,7 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.0.0",
+  version: "3.1.0",
 
   /* Secours local haute qualité : les photos du Sheet restent prioritaires. */
   heroFallback: "assets/images/hero-couple-original.jpg",
@@ -36,15 +36,16 @@ window.UTMB_CONFIG = {
   map: {
     center: [-2.17, 48.035], // [longitude, latitude]
     zoom: 10.55,
-    pitch: 62,
+    pitch: 64,
     bearing: -18,
-    exaggeration: 1.8
+    exaggeration: 1.9
   },
 
-  /* Tracé fictif mais géographiquement cohérent.
-     Les marqueurs d'étapes restent pilotés par les colonnes lat/lng du Sheet. */
+  /* Secours uniquement si aucune coordonnée d'étape n'est disponible.
+     En fonctionnement normal, app.js construit automatiquement la boucle selon
+     l'ordre des colonnes Etapes › lat / lng et la referme sur le départ. */
   route: [
-    [-2.1728,48.0186],[-2.1900,48.0140],[-2.2200,48.0070],[-2.2500,48.0020],
+    [-2.0500,47.9820],[-2.1900,48.0140],[-2.2200,48.0070],[-2.2500,48.0020],
     [-2.2833,48.0000],[-2.2750,48.0150],[-2.2610,48.0280],[-2.2469,48.0389],
     [-2.2210,48.0490],[-2.1960,48.0600],[-2.1728,48.0700],[-2.1450,48.0740],
     [-2.1175,48.0778],[-2.1050,48.0610],[-2.0940,48.0400],[-2.0830,48.0180],
@@ -67,7 +68,7 @@ window.UTMB_CONFIG = {
       carte_zoom_etape: 12.1
     },
     etapes: [
-      { id:"etape-1", ordre:1, cp:"Départ", lieu:"Paimpont", km:0, altitude:55, titre:"Le Départ", sous_titre:"Entrée dans la légende", type:"texte", statut:"ouvert", indice:"", lat:48.0186, lng:-2.1728,
+      { id:"etape-1", ordre:1, cp:"Départ", lieu:"Domaine des Hayes", km:0, altitude:82, titre:"Le Départ", sous_titre:"Entrée dans la légende", type:"texte", statut:"ouvert", indice:"", lat:47.9820, lng:-2.0500,
         contenu:"Bienvenue sur **BROCÉLIANDE**. Ici, le terrain est légendaire, le dossard personnel et l’engagement à vie.", lien_libelle:"", lien_url:"" },
       { id:"etape-2", ordre:2, cp:"Ravito 1", lieu:"Étang de Paimpont", km:7, altitude:62, titre:"Présence", sous_titre:"Confirmez votre inscription", type:"presence", statut:"nouveau", indice:"", lat:48.0191, lng:-2.1734,
         contenu:"Pas de dossard sans inscription ! Dites-nous si vous serez sur la ligne de départ.", lien_libelle:"", lien_url:"" },

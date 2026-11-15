@@ -1,58 +1,49 @@
-# Rapport qualité — V3.0.0 BROCÉLIANDE
+# Rapport qualité — V3.1.0 BROCÉLIANDE
 
 ## Conclusion
-La V3 conserve le socle premium V2.4.2 et lui superpose une identité BROCÉLIANDE ciblée. Aucun composant validé n’a été reconstruit. Les contrôles automatisés et visuels n’ont détecté ni débordement horizontal, ni collision desktop/tablette, ni erreur JavaScript de page.
+La V3.1.0 est prête pour un dépôt de test GitHub Pages et un redéploiement Apps Script. Les évolutions sont ciblées : identité officielle, présentation simple des deux accroches, palette, boucle calculée depuis le Sheet, pastilles superposées et relief. Les formulaires, traductions, PWA, Coach et mécanismes V3.0.0 restent en place.
 
-## Éléments inchangés
-- Structure des composants V2.4.2 : navigation, accueil, CTA à cheval, chrono, altimètre, dossard, étapes, panneaux de carte, galerie, lightbox et modale iOS.
-- Moteur de formulaires piloté par le Sheet, conditions, validation, enregistrement, déblocage personnel et attribution du dossard.
-- Système FR/IT/ES et `Corrections_traduction`.
-- Chargement différé de MapLibre et du Coach.
-- Carte : MapLibre 4.7.1, tuiles satellite Esri (maxzoom 17), DEM Terrarium (maxzoom 14), hillshade, terrain 3D et secours 2D.
-- Moteur Coach : `assets/coach/coach.js` est strictement identique au fichier V2.4.2 (comparaison binaire).
-- Photo source fournie : conservée sans recompression, hash SHA-256 identique à l’original.
+## Identité officielle
+- Asset actif : `assets/brand/logo-broceliande-nature.webp`, 1536×1024, ratio 3:2.
+- L’image entière est conservée. Comparaison pixel : toutes les composantes RGB des pixels visibles sont strictement identiques au fichier maître ; seuls les pixels entièrement transparents peuvent être neutralisés par l’encodage WebP.
+- Masque : 256 niveaux alpha, centre opaque, alpha nul sur les quatre bords. Aucun recadrage, étirement, élément ajouté ou recomposé.
+- Source maître archivée avec hash SHA-256 identique à la pièce fournie : `6ca9ed9b1cbcf1695f448dc60b7b889cdc0635e7b1119aac08ab8f6de20473c7`.
+- Variante sans nature livrée séparément et non référencée par l’accueil.
+- Palette officielle présente sous forme de variables CSS ; aucune occurrence de l’ancien rose `#d85c7c` ou `#ef8ca6` dans le CSS actif.
+- `WORLD SERIES` absent des deux lockups sous `WEDDING SERIES`.
+- Accroche et sous-phrase comparées caractère par caractère aux textes V3.0.0 ; aucune modification. Les deux éléments n’ont ni fond, ni pictogramme, ni badge, ni symbole.
 
-## Éléments modifiés
-- Couche d’identité : palette, police d’affichage Barlow Condensed, lockup UTMB WEDDING SERIES, motifs angulaires, couleurs des accents et icônes PWA.
-- Accueil : nom BROCÉLIANDE, accroche et sous-phrase validées, fallback local de la photo lorsque le Sheet ne fournit aucune photo.
-- Carte : centre, vue, route, couleurs et étapes de démonstration en Brocéliande ; les coordonnées restent pilotables dans le Sheet.
-- Apps Script : version 3.0.0, paramètres éditables, étapes 6/7, dossiers photos et preset volontaire.
-- PWA : manifeste, thème, cache V3 et jeu d’icônes.
-- Mention d’absence d’affiliation officielle.
+## Contrôles responsive
+Rendus de contrôle produits dans `QA_Comparaisons/V3.1/` :
 
-## Comparaisons visuelles V2.4.2 / V3
-Les captures sont livrées dans `QA_Comparaisons/`. La même photo source a été utilisée pour comparer la géométrie de l’accueil.
-
-| Format | Résultat | Mesures clés |
+| Format | Fichier | Résultat |
 |---|---|---|
-| Desktop 1440×900 | Conforme | aucun débordement ; CTA chevauche la limite de 26 px dans les deux versions ; espace texte/panneaux V3 = 36,6 px |
-| Tablette 768×1024 | Conforme | aucun débordement ; CTA = 26 px ; espace texte/panneaux V3 = 160,7 px |
-| Mobile 390×844 | Conforme après correction | aucun débordement ; panneaux empilés ; titre entièrement visible ; CTA conservé |
-| Mobile étroit 320×760 | Conforme après correction | aucun débordement ; titre réduit sans coupure ; panneaux et date lisibles |
+| PC 1440×900 | `desktop_hero.png` | logo entier, ratio conservé, cœur net, bords fondus, textes lisibles |
+| Tablette 768×1024 | `tablet_hero.png` | logo entier, aucune coupure, accroches hiérarchisées |
+| Mobile 390×844 | `mobile_hero.png` | logo entier, aucun étirement, accroches sans encart et sans débordement |
 
-Correction issue du contrôle : la taille mobile de « BROCÉLIANDE » a été réduite de façon responsive et le contraste du titre de section Carte a été renforcé.
+Ces rendus HTML/CSS ont été produits avec WeasyPrint 70.0. Ils valident la composition statique et les dimensions, mais ne remplacent pas un contrôle final Safari/Chrome après publication.
 
-## Tests fonctionnels
-- 2 formulaires présents ; questions conditionnelles masquées puis affichées après sélection.
-- Soumission en mode démonstration : message attendu affiché, sans envoi.
-- FR/IT/ES : 3 commandes disponibles ; passage en italien contrôlé.
-- 7 étapes et 7 liens de navigation rendus.
-- Bascule vers le mode 2D contrôlée et SVG de secours rendu.
-- Coach absent du chemin critique initial, conformément à la V2.4.2.
-- Manifeste PWA et couleur de thème V3 présents.
-- Validation syntaxique : `app.js`, `config.js`, `i18n.js`, `Code.gs` et `manifest.webmanifest`.
-- Aucune erreur JavaScript de page dans les quatre formats.
+## Carte et parcours
+- La route n’utilise plus le tracé statique V3.0.0 lorsque des étapes valides existent.
+- Test de démonstration : 7 sommets dont 6 points distincts, boucle fermée, aire non nulle ; elle n’est donc ni un cercle ni un ovale parfait.
+- Départ et arrivée : mêmes coordonnées de démonstration au Domaine des Hayes (`47.9820, -2.0500`).
+- Pastilles 3D/2D : numérotation ronde conservée ; groupes au même point décalés symétriquement avec un seuil d’environ 15 m.
+- Relief : source DEM Terrarium, terrain 3D, hillshade 0,62, inclinaison 64°, exagération 1,9.
+- `Etapes › ordre / lat / lng` demeure l’unique source éditable du parcours en fonctionnement normal.
 
-## Performance
-- Ressources transférées dans le scénario comparatif desktop : environ 286,8 ko pour V2.4.2 contre 309,1 ko pour V3 (+22,3 ko, soit +7,8 %).
-- Cette hausse provient de la couche d’identité et ne modifie pas le chargement différé de MapLibre ou de Coach.
-- Les temps observés dans le conteneur ne sont pas représentatifs : les CDN externes y répondent en 403 et déclenchent des délais de repli.
+## Contrôles techniques
+- Syntaxe validée : `app.js`, `config.js`, `i18n.js`, `sw.js`, `assets/coach/coach.js` et `Apps_Script/Code.gs`.
+- Références locales HTML validées ; toutes les ressources principales répondent HTTP 200 sur serveur local.
+- PWA : cache `utmb-broceliande-v3.1.0`, logo actif ajouté au précache, icônes présentes.
+- CSS : accolades équilibrées, variables de marque présentes, trois breakpoints de logo définis.
+- Versions cohérentes : web, PWA, configuration et Apps Script en 3.1.0.
 
-## Réserves explicites
-1. **Carte 3D en ligne** : le conteneur de test bloque `unpkg.com`, les tuiles Esri et le DEM par HTTP 403. La 3D n’a donc pas pu être rendue visuellement ici. Le chemin MapLibre/Esri/DEM d’origine est conservé et le repli 2D a été validé. Un contrôle réel sur le dépôt de test reste indispensable.
-2. **Coach binaire** : le fichier joint `codecomplet_v2.4.2.txt` contient le moteur et la référence, mais pas le binaire validé `assets/coach/coach.webp`. Pour ne pas dégrader Coach, aucun substitut n’a été fabriqué. Le déploiement doit préserver/copier le binaire de la V2.4.2 existante.
-3. **Arrivée Domaine des Hayes** : `47.9820, -2.0500` est une valeur de démonstration volontairement non définitive. La confirmer puis l’ajuster dans `Etapes › lat / lng`.
-4. **Données réelles** : les envois Apps Script, traductions automatiques et photos Drive doivent être validés après déploiement avec le vrai Sheet et le vrai `cles.js`, absents de l’environnement de test pour des raisons de confidentialité.
+## Continuité fonctionnelle
+Aucune suppression dans les moteurs de formulaires, conditions, dossard, déblocages, FR/IT/ES, galerie, lightbox, installation PWA ou Coach différé. Le binaire Coach n’était pas présent dans la source V3.0.0 : le guide impose de conserver `assets/coach/coach.webp` depuis le dépôt actif, conformément à la continuité historique.
 
-## Décision de livraison
-Aucune régression bloquante détectée. La livraison est prête pour le dépôt de test, sous réserve de conserver les binaires Coach existants et d’effectuer le contrôle en ligne de la carte 3D puis de valider les coordonnées exactes d’arrivée.
+## Réserves à vérifier après déploiement
+1. Le conteneur de contrôle ne fournit pas Chromium et peut bloquer les CDN/tuiles. Tester la vraie carte 3D, le DEM et le hillshade sur le dépôt de test avec Chrome et Safari.
+2. Valider les coordonnées exactes du Domaine des Hayes dans le Sheet avant production ; les valeurs livrées restent un preset de démonstration.
+3. Tester les envois Apps Script et les photos Drive avec le vrai `cles.js`, volontairement absent de l’archive.
+4. Conserver le binaire Coach existant lors de la copie du dossier GitHub.

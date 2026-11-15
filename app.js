@@ -140,13 +140,35 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     const d = new Date(s); return isNaN(d) ? null : d;
   }
 
-  /* Proximité de deux étapes (marqueurs superposés) */
-  const close = (a, b) => Math.abs(a.lat - b.lat) < 0.02 && Math.abs(a.lng - b.lng) < 0.02;
-  const stackedIds = () => {
-    const out = new Set();
-    DATA.etapes.forEach((e, i) => { if (DATA.etapes.slice(0, i).some(p => close(p, e))) out.add(e.id); });
+  /* Étapes au même point : seuil volontairement serré (~15 m), puis décalage symétrique.
+     Le départ et l'arrivée du Domaine des Hayes restent ainsi tous les deux lisibles. */
+  const close = (a, b) => Number.isFinite(a?.lat) && Number.isFinite(a?.lng) &&
+    Number.isFinite(b?.lat) && Number.isFinite(b?.lng) &&
+    Math.abs(a.lat - b.lat) < 0.00015 && Math.abs(a.lng - b.lng) < 0.00015;
+  function markerOffsets() {
+    const out = new Map(), valid = DATA.etapes.filter(e => Number.isFinite(e.lat) && Number.isFinite(e.lng));
+    const used = new Set();
+    valid.forEach(e => {
+      if (used.has(e.id)) return;
+      const group = valid.filter(p => close(p, e));
+      group.forEach(p => used.add(p.id));
+      if (group.length < 2) return;
+      group.forEach((p, i) => out.set(p.id, [(i - (group.length - 1) / 2) * 28, -4]));
+    });
     return out;
-  };
+  }
+
+  /* Boucle calculée exclusivement selon l'ordre des coordonnées lat/lng du Sheet.
+     Si l'arrivée n'est pas encore remise sur le départ, la ligne est refermée automatiquement. */
+  function routeFromStages() {
+    const pts = DATA.etapes
+      .filter(e => Number.isFinite(e.lat) && Number.isFinite(e.lng))
+      .map(e => [e.lng, e.lat]);
+    if (pts.length < 2) return Array.isArray(C.route) ? C.route.slice() : [];
+    const first = pts[0], last = pts[pts.length - 1];
+    if (Math.abs(first[0] - last[0]) > 1e-7 || Math.abs(first[1] - last[1]) > 1e-7) pts.push(first.slice());
+    return pts;
+  }
 
   /* ---------- Mémoire de l'appareil : formulaires envoyés ---------- */
   const lireJSON = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || 'null') ?? d; } catch (e) { return d; } };
@@ -561,10 +583,11 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
   function render2D() {
     const box = $('#map2d');
     if (box.dataset.ok) return;
+    const route = routeFromStages();
     const Z = 11, W = 256 * Math.pow(2, Z);                       // coordonnées « pixels » Web Mercator au zoom 11
     const X = lng => (lng + 180) / 360 * W;
     const Y = lat => { const r = lat * Math.PI / 180; return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * W; };
-    const pts = C.route.concat(DATA.etapes.filter(e => !isNaN(e.lat)).map(e => [e.lng, e.lat]));
+    const pts = route.concat(DATA.etapes.filter(e => Number.isFinite(e.lat) && Number.isFinite(e.lng)).map(e => [e.lng, e.lat]));
     const xs = pts.map(p => X(p[0])), ys = pts.map(p => Y(p[1]));
     let x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
     const span = Math.max(x1 - x0, y1 - y0), pad = span * 0.12;
@@ -589,16 +612,17 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     let cut = 0;
     if (last && !isNaN(last.lat)) {
       let best = Infinity;
-      C.route.forEach((p, i) => { const d = (p[0] - last.lng) ** 2 + (p[1] - last.lat) ** 2; if (d < best) { best = d; cut = i; } });
-      if (last === DATA.etapes[DATA.etapes.length - 1]) cut = C.route.length - 1;
+      route.forEach((p, i) => { const d = (p[0] - last.lng) ** 2 + (p[1] - last.lat) ** 2; if (d < best) { best = d; cut = i; } });
+      if (last === DATA.etapes[DATA.etapes.length - 1]) cut = route.length - 1;
     }
     const mbx = X(-2.1728), mby = Y(48.0186);
-    const stacked = stackedIds();
+    const offsets = markerOffsets();
     const order = DATA.etapes.map((e, i) => ({ e, i })).filter(o => !isNaN(o.e.lat))
       .sort((a, b) => (isOpen(a.e) - isOpen(b.e)) || (b.i - a.i)); // verrouillées dessous, étape 1 au-dessus
     const mk = order.map(({ e, i }) => {
       const st = statut(e), locked = st === 'verrouille';
-const dx = stacked.has(e.id) ? -10 * u : 0, dy = stacked.has(e.id) ? -3 * u : 0;   // superposé : à gauche
+      const off = offsets.get(e.id) || [0, 0];
+      const dx = off[0] * u, dy = off[1] * u;
       const x = X(e.lng) + dx, y = Y(e.lat) + dy, r = (locked ? 13 : 16) * u;
       return `<g class="m2-mk ${locked ? 'locked' : st}" data-id="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(e.titre)}">
         <circle cx="${x}" cy="${y}" r="${r}"/><text x="${x}" y="${y}" font-size="${fs(locked ? 11 : 14)}">${locked ? '🔒' : i + 1}</text>
@@ -609,9 +633,9 @@ const dx = stacked.has(e.id) ? -10 * u : 0, dy = stacked.has(e.id) ? -3 * u : 0;
       <rect class="m2-voile" x="${x0}" y="${y0}" width="${vw}" height="${vh}"/>
       <path d="M${mbx - 9 * u},${mby + 6 * u} L${mbx},${mby - 8 * u} L${mbx + 9 * u},${mby + 6 * u} Z" fill="rgba(255,255,255,.9)"/>
       <text class="m2-summit" x="${mbx + 13 * u}" y="${mby + 4 * u}" font-size="${fs(11)}" stroke-width="${fs(3)}">Brocéliande</text>
-      <path class="m2-glow" d="${line(C.route)}"/>
-      <path class="m2-route" d="${line(C.route)}"/>
-      ${cut > 0 ? `<path class="m2-done" d="${line(C.route.slice(0, cut + 1))}"/>` : ''}
+      <path class="m2-glow" d="${line(route)}"/>
+      <path class="m2-route" d="${line(route)}"/>
+      ${cut > 0 ? `<path class="m2-done" d="${line(route.slice(0, cut + 1))}"/>` : ''}
       ${mk}</svg><span class="m2-credit">${esc(t('imagerie'))}</span>`;
     box.dataset.ok = '1';
     if (box.dataset.ev) return;
@@ -646,7 +670,7 @@ const dx = stacked.has(e.id) ? -10 * u : 0, dy = stacked.has(e.id) ? -3 * u : 0;
           layers: [
             { id: 'bg', type: 'background', paint: { 'background-color': '#2b3a31' } },
             { id: 'sat', type: 'raster', source: 'sat', paint: { 'raster-saturation': -0.06, 'raster-contrast': 0.12 } },
-            { id: 'hillshade', type: 'hillshade', source: 'hs', paint: { 'hillshade-exaggeration': 0.48, 'hillshade-shadow-color': '#09271f', 'hillshade-highlight-color': '#f5efe4' } }
+            { id: 'hillshade', type: 'hillshade', source: 'hs', paint: { 'hillshade-exaggeration': 0.62, 'hillshade-shadow-color': '#09271f', 'hillshade-highlight-color': '#f5efe4', 'hillshade-accent-color': '#cc9790' } }
           ],
           terrain: { source: 'dem', exaggeration: VIEW.exaggeration }
         }
@@ -659,7 +683,7 @@ const dx = stacked.has(e.id) ? -10 * u : 0, dy = stacked.has(e.id) ? -3 * u : 0;
       map.jumpTo({ center: VIEW.center, zoom: VIEW.zoom, pitch: VIEW.pitch, bearing: VIEW.bearing });
       if (pendingFly) { const id = pendingFly; pendingFly = null; setTimeout(() => selectStage(id, true, true), 900); }
 
-      const route = C.route;
+      const route = routeFromStages();
       const open = DATA.etapes.filter(isOpen), last = open[open.length - 1];
       let cut = 0;
       if (last && !isNaN(last.lat)) {
@@ -671,13 +695,13 @@ const dx = stacked.has(e.id) ? -10 * u : 0, dy = stacked.has(e.id) ? -3 * u : 0;
       map.addSource('done', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'LineString', coordinates: route.slice(0, cut + 1) } } });
       map.addLayer({ id: 'route-glow', type: 'line', source: 'route', paint: { 'line-color': '#f5efe4', 'line-width': 8, 'line-opacity': 0.22, 'line-blur': 2 } });
       map.addLayer({ id: 'route', type: 'line', source: 'route', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#f5efe4', 'line-width': 2.8, 'line-dasharray': [1.5, 2] } });
-      if (cut > 0) map.addLayer({ id: 'done', type: 'line', source: 'done', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#d85c7c', 'line-width': 5 } });
+      if (cut > 0) map.addLayer({ id: 'done', type: 'line', source: 'done', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#cc9790', 'line-width': 5 } });
 
       const s = document.createElement('div'); s.className = 'summit broceliande-label'; s.innerHTML = '◆ <span>Brocéliande</span>';
       new maplibregl.Marker({ element: s }).setLngLat([-2.1728, 48.0186]).addTo(map);
 
       /* Ordre d'empilement : verrouillées d'abord (dessous), puis ouvertes, étape 1 en dernier (dessus) */
-      const stacked = stackedIds();
+      const offsets = markerOffsets();
       DATA.etapes.map((e, i) => ({ e, i })).filter(o => !isNaN(o.e.lat) && !isNaN(o.e.lng))
         .sort((a, b) => (isOpen(a.e) - isOpen(b.e)) || (b.i - a.i))
         .forEach(({ e, i }) => {
@@ -691,7 +715,7 @@ const dx = stacked.has(e.id) ? -10 * u : 0, dy = stacked.has(e.id) ? -3 * u : 0;
           el.appendChild(pin);
           el.addEventListener('click', ev => { ev.stopPropagation(); selectStage(e.id, true); });
           const opts = { element: el };
-if (stacked.has(e.id)) opts.offset = [-12, -3]; // marqueur superposé : toujours à gauche (décalage écran, quelle que soit l'orientation)
+          if (offsets.has(e.id)) opts.offset = offsets.get(e.id); // départ/arrivée : décalage symétrique, quelle que soit l'orientation
           markers[e.id] = new maplibregl.Marker(opts).setLngLat([e.lng, e.lat]).addTo(map);
         });
     });

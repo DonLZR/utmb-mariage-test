@@ -1,3 +1,27 @@
+# CHANGELOG
+
+## V3.1.0 — identité officielle, boucle Sheet et relief renforcé
+
+### Identité visuelle
+- Le fichier complet `Logo_BROCELIANDE - by UTMB.webp` devient le logo maître indissociable. Aucun élément, décor ou texte n’est extrait, redessiné, recomposé, recoloré ou recadré.
+- Accueil : activation de `assets/brand/logo-broceliande-nature.webp`, qui conserve l’intégralité 1536×1024 et applique uniquement un fondu alpha progressif aux quatre bords. Le cœur et les textes restent intacts.
+- Variante `logo-broceliande-transparent.webp` livrée mais non activée ; procédure d’activation documentée dans le guide et le code consolidé.
+- Palette officielle extraite : forêt `#0c1f1b`, crème `#f4f0e9`, rose granit `#cc9790`, ardoise `#303930`. Les accents et icônes PWA utilisent désormais le rose du logo.
+- Montserrat devient la police d’affichage des titres sportifs ; les polices lisibles existantes restent en place pour les formulaires et les textes longs.
+- Suppression de `WORLD SERIES` sous `WEDDING SERIES`.
+- Accroche et sous-phrase inchangées, présentées sans carte, pictogramme, badge ou symbole.
+
+### Carte
+- Boucle générée automatiquement selon `Etapes › ordre`, `lat`, `lng`, puis refermée vers le premier point.
+- Départ et arrivée de démonstration placés aux mêmes coordonnées du Domaine des Hayes.
+- Pastilles rondes numérotées maintenues en 3D/2D ; superpositions décalées symétriquement.
+- DEM Terrarium, hillshade, inclinaison 64° et exagération 1,9 conservés pour un relief visible mais raisonnable.
+
+### Continuité
+- Versions web, PWA et Apps Script portées à 3.1.0.
+- Formulaires, FR/IT/ES, Coach différé, PWA, dossard, galerie, déblocages et édition Sheet préservés.
+- `INSTRUCTIONS.md` et `.github/copilot-instructions.md` désignent l’identité V3.1 comme invariant durable.
+
 # Journal des versions — UTMB WEDDING SERIES
 
 ## V3.0.0 — BROCÉLIANDE (chirurgie ciblée de la V2.4.2)
