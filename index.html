@@ -25,21 +25,11 @@
   <link rel="dns-prefetch" href="https://unpkg.com">
   <link rel="stylesheet" href="style.css?v=3.3.1">
 
-  <!-- V3.3.3 — image corrigée + lettrage celtique indépendant, plein or et net -->
-  <style id="cover-v333">
-    /* Police d'affichage Gloock — SIL Open Font License 1.1 (licence incluse plus bas). */
-    @font-face {
-      font-family: "Broceliande Title";
-      src: url("assets/fonts/broceliande-title.woff2") format("woff2");
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-    }
-
+  <!-- V3.3.4 — couverture unique + lettrage graphique validé -->
+  <style id="cover-v334">
     /*
-      Une seule image source sur PC, tablette et mobile.
-      object-fit: cover verrouille le ratio natif : le remplissage se fait uniquement
-      par zoom et recadrage périphérique, sans étirement ni aplatissement.
+      La couverture conserve son ratio natif via object-fit: cover.
+      Le lettrage est l’image validée, indépendante du fond, sans recréation CSS.
     */
     .book-cover-screen {
       position: fixed;
@@ -90,261 +80,89 @@
     }
 
     /*
-      Lettrage indépendant de l'image : glyphes pleins, relief à arêtes nettes,
-      balayage métallique et éclats ponctuels. Aucun blur ni filter.
+      Cible mesurée sur l’encadré rouge de la maquette :
+      centre (806,9 ; 691,2) et largeur 341,8 dans l’image source 1536 × 1024.
+      Ces formules suivent exactement le même zoom object-fit: cover que le grimoire :
+      le lettrage reste donc dans l’encadré sur ordinateur, tablette et mobile.
+      Aucun filtre, aucune ombre et aucune déformation ne sont appliqués.
     */
-    .cover-inscription {
+    .cover-inscription,
+    .cover-inscription-localized {
       position: absolute;
       z-index: 2;
-      left: 50%;
-      top: 77.2%;
-      width: min(94vw, 1040px);
+      left: calc(50vw + 3.80vh);
+      left: calc(50vw + 3.80svh);
+      top: 67.50vh;
+      top: 67.50svh;
+      display: block;
+      width: 33.38vh;
+      width: 33.38svh;
       transform: translate(-50%, -50%);
       margin: 0;
-      padding: .28em .4em .38em;
+      padding: 0;
+      pointer-events: none;
+    }
+
+    .cover-inscription img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      object-fit: contain;
+      filter: none;
+      transform: none;
+    }
+
+
+
+    /*
+      Le visuel validé n’existe qu’en français. Pour ne pas casser la traduction
+      déjà en production, les versions IT/ES conservent un texte HTML localisé,
+      net et sans flou, exactement au même emplacement.
+    */
+    .cover-inscription-localized {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
       white-space: nowrap;
       text-align: center;
-      pointer-events: none;
-      isolation: isolate;
-    }
-
-    .cover-title-text {
-      position: relative;
-      z-index: 1;
-      display: inline-block;
-      max-width: 100%;
-      font-family: "Broceliande Title", "Cinzel Decorative", "Cinzel", Georgia, serif;
-      font-size: clamp(1.9rem, 3.55vw, 3.9rem);
-      font-weight: 400;
-      line-height: 1.08;
-      letter-spacing: .018em;
+      font-family: "Cinzel Decorative", "Cinzel", Georgia, serif;
+      font-size: clamp(.72rem, 2.2vw, 1.2rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: .01em;
       text-transform: uppercase;
-      color: #d6a742;
-      -webkit-text-fill-color: transparent;
-      -webkit-text-stroke: .7px #4c2a05;
-      background-image: linear-gradient(
-        104deg,
-        #72420a 0%,
-        #b87816 17%,
-        #e0ad3f 31%,
-        #fff0a3 43%,
-        #c8871d 51%,
-        #8b510c 61%,
-        #e9bd56 76%,
-        #fff2a7 82%,
-        #a46512 100%
-      );
-      background-size: 255% 100%;
-      background-position: 105% 50%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      text-shadow:
-        -1px -1px 0 #f3d579,
-         1px  0   0 #9d6413,
-         0    1px 0 #85500c,
-         1px  1px 0 #6b3d07,
-         2px  2px 0 #432405,
-         3px  3px 0 #221202;
-      animation: cover-gold-sweep 5.6s cubic-bezier(.4, 0, .2, 1) infinite;
-      will-change: background-position;
-    }
-
-    .cover-sparkle {
-      position: absolute;
-      z-index: 2;
-      width: .62em;
-      height: .62em;
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(.28) rotate(0deg);
-      background:
-        linear-gradient(90deg, transparent 43%, #fff9cf 44%, #fff9cf 56%, transparent 57%),
-        linear-gradient(0deg,  transparent 43%, #fff9cf 44%, #fff9cf 56%, transparent 57%);
+      color: #e9c66b;
+      -webkit-text-fill-color: #e9c66b;
+      -webkit-text-stroke: .25px #6b3e0d;
+      background: none;
       filter: none;
-      animation: cover-sparkle-pop 5.6s ease-in-out infinite;
+      text-shadow: none;
     }
 
-    .cover-sparkle::after {
-      content: "";
-      position: absolute;
-      inset: 19%;
-      transform: rotate(45deg);
-      background:
-        linear-gradient(90deg, transparent 42%, #e9b84a 43%, #fff8c7 57%, transparent 58%),
-        linear-gradient(0deg,  transparent 42%, #e9b84a 43%, #fff8c7 57%, transparent 58%);
+    html[lang="it"] .cover-inscription,
+    html[lang="es"] .cover-inscription {
+      display: none;
     }
 
-    .cover-sparkle--one   { left: 17%; top: 33%; animation-delay: .15s; }
-    .cover-sparkle--two   { left: 56%; top: 18%; animation-delay: 1.78s; }
-    .cover-sparkle--three { left: 88%; top: 62%; animation-delay: 3.35s; }
-
-    @keyframes cover-gold-sweep {
-      0%, 61% { background-position: 105% 50%; }
-      81%, 100% { background-position: -34% 50%; }
+    html[lang="it"] .cover-inscription-localized,
+    html[lang="es"] .cover-inscription-localized {
+      display: flex;
     }
 
-    @keyframes cover-sparkle-pop {
-      0%, 68%, 79%, 100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(.28) rotate(0deg);
-      }
-      72% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1) rotate(45deg);
-      }
-      76% {
-        opacity: .72;
-        transform: translate(-50%, -50%) scale(.62) rotate(90deg);
+        /* Lorsque la largeur pilote object-fit: cover (écran plus large que 3:2). */
+    @media (min-aspect-ratio: 3 / 2) {
+      .cover-inscription,
+      .cover-inscription-localized {
+        left: 52.54vw;
+        top: calc(50vh + 11.67vw);
+        top: calc(50svh + 11.67vw);
+        width: 22.25vw;
       }
     }
-
-    @supports not ((background-clip: text) or (-webkit-background-clip: text)) {
-      .cover-title-text {
-        color: #e0ad3f;
-        -webkit-text-fill-color: #e0ad3f;
-        background: none;
-      }
-    }
-
-    @media (max-width: 920px) {
-      .cover-inscription {
-        top: 77.8%;
-        width: 95vw;
-        padding-inline: .18em;
-      }
-
-      .cover-title-text {
-        font-size: clamp(1.35rem, 5.2vw, 2.25rem);
-        letter-spacing: .012em;
-        -webkit-text-stroke-width: .55px;
-        text-shadow:
-          -1px -1px 0 #efd078,
-           1px  0   0 #956010,
-           0    1px 0 #754608,
-           1px  1px 0 #503006,
-           2px  2px 0 #291703;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .cover-inscription {
-        top: 78.1%;
-        width: 97vw;
-        padding-inline: .08em;
-      }
-
-      .cover-title-text {
-        font-size: clamp(1.15rem, 5.95vw, 1.52rem);
-        letter-spacing: .004em;
-        -webkit-text-stroke-width: .45px;
-      }
-
-      .cover-sparkle { width: .54em; height: .54em; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cover-title-text {
-        animation: none;
-        background-position: 46% 50%;
-      }
-
-      .cover-sparkle { display: none; }
-    }
-    /*
-Copyright 2022 The Gloock Project Authors (https://github.com/duartp/gloock)
-
-This Font Software is licensed under the SIL Open Font License, Version 1.1.
-This license is copied below, and is also available with a FAQ at:
-https://openfontlicense.org
-
-
------------------------------------------------------------
-SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
------------------------------------------------------------
-
-PREAMBLE
-The goals of the Open Font License (OFL) are to stimulate worldwide
-development of collaborative font projects, to support the font creation
-efforts of academic and linguistic communities, and to provide a free and
-open framework in which fonts may be shared and improved in partnership
-with others.
-
-The OFL allows the licensed fonts to be used, studied, modified and
-redistributed freely as long as they are not sold by themselves. The
-fonts, including any derivative works, can be bundled, embedded, 
-redistributed and/or sold with any software provided that any reserved
-names are not used by derivative works. The fonts and derivatives,
-however, cannot be released under any other type of license. The
-requirement for fonts to remain under this license does not apply
-to any document created using the fonts or their derivatives.
-
-DEFINITIONS
-"Font Software" refers to the set of files released by the Copyright
-Holder(s) under this license and clearly marked as such. This may
-include source files, build scripts and documentation.
-
-"Reserved Font Name" refers to any names specified as such after the
-copyright statement(s).
-
-"Original Version" refers to the collection of Font Software components as
-distributed by the Copyright Holder(s).
-
-"Modified Version" refers to any derivative made by adding to, deleting,
-or substituting -- in part or in whole -- any of the components of the
-Original Version, by changing formats or by porting the Font Software to a
-new environment.
-
-"Author" refers to any designer, engineer, programmer, technical
-writer or other person who contributed to the Font Software.
-
-PERMISSION & CONDITIONS
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of the Font Software, to use, study, copy, merge, embed, modify,
-redistribute, and sell modified and unmodified copies of the Font
-Software, subject to the following conditions:
-
-1) Neither the Font Software nor any of its individual components,
-in Original or Modified Versions, may be sold by itself.
-
-2) Original or Modified Versions of the Font Software may be bundled,
-redistributed and/or sold with any software, provided that each copy
-contains the above copyright notice and this license. These can be
-included either as stand-alone text files, human-readable headers or
-in the appropriate machine-readable metadata fields within text or
-binary files as long as those fields can be easily viewed by the user.
-
-3) No Modified Version of the Font Software may use the Reserved Font
-Name(s) unless explicit written permission is granted by the corresponding
-Copyright Holder. This restriction only applies to the primary font name as
-presented to the users.
-
-4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
-Software shall not be used to promote, endorse or advertise any
-Modified Version, except to acknowledge the contribution(s) of the
-Copyright Holder(s) and the Author(s) or with their explicit written
-permission.
-
-5) The Font Software, modified or unmodified, in part or in whole,
-must be distributed entirely under this license, and must not be
-distributed under any other license. The requirement for fonts to
-remain under this license does not apply to any document created
-using the Font Software.
-
-TERMINATION
-This license becomes null and void if any of the above conditions are
-not met.
-
-DISCLAIMER
-THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
-COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
-DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
-OTHER DEALINGS IN THE FONT SOFTWARE.
-
-    */
   </style>
 </head>
 <body class="chargement book-closed">
@@ -379,20 +197,18 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     </div>
   </header>
 
-  <!-- Couverture photoréaliste : visuel sans texte incrusté ni zone floutée.
-       L'inscription reste du vrai texte HTML pour FR / IT / ES. -->
+  <!-- Couverture photoréaliste : image de fond inchangée.
+       Le lettrage FR validé est utilisé directement, sans le recréer en CSS. -->
   <section class="book-cover-screen" id="bookCover" aria-label="Couverture du grimoire BROCÉLIANDE">
     <button type="button" class="book-cover-hit" id="bookCoverOpen" aria-controls="top" data-i18n-aria="cover_aria">
       <span class="book-cover-art">
         <picture class="book-cover-picture" aria-hidden="true">
-          <img src="assets/cover/cover-main-v333.png" width="1839" height="820" alt="" decoding="sync" fetchpriority="high">
+          <img src="assets/cover/cover-main-v332.png" width="1536" height="974" alt="" decoding="sync" fetchpriority="high">
         </picture>
-        <span class="cover-inscription">
-          <span class="cover-title-text" data-i18n="cover_enter">ENTREZ DANS LA LÉGENDE</span>
-          <span class="cover-sparkle cover-sparkle--one" aria-hidden="true"></span>
-          <span class="cover-sparkle cover-sparkle--two" aria-hidden="true"></span>
-          <span class="cover-sparkle cover-sparkle--three" aria-hidden="true"></span>
+        <span class="cover-inscription" aria-hidden="true">
+          <img src="assets/cover/title-entrez-dans-la-legende-v334.png?v=3.3.4" width="1510" height="277" alt="" decoding="sync">
         </span>
+        <span class="cover-inscription-localized" data-i18n="cover_enter">ENTREZ DANS LA LÉGENDE</span>
         <span class="sr-only" data-i18n="cover_hint">Ouvrir le grimoire</span>
       </span>
     </button>
