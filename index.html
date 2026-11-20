@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
-  <link rel="stylesheet" href="style.css?v=3.3.1">
+  <link rel="stylesheet" href="style.css?v=3.4.0">
 
-  <!-- V3.3.4 — couverture unique + lettrage graphique validé -->
+  <!-- V3.4.0 — couverture verrouillée + prototype Parcours -->
   <style id="cover-v334">
     /*
       La couverture conserve son ratio natif via object-fit: cover.
@@ -271,26 +271,50 @@
     <div class="strip" id="strip" hidden><div class="strip-track" id="stripTrack"></div></div>
   </section>
 
-  <!-- Parcours 3D / 2D -->
-  <section class="parcours" id="parcours">
-    <div class="section-head">
-      <span class="eyebrow" data-i18n="parcours_eyebrow">Le parcours</span>
-      <h2 data-i18n="parcours_titre">Carnet de course</h2>
-      <div class="progress">
-        <div class="progress-bar"><span id="progressFill"></span></div>
-        <p id="progressText"></p>
-      </div>
-    </div>
-    <div class="map-wrap">
-      <div class="map-edition" aria-hidden="true"><span>BROCÉLIANDE</span><small>SATELLITE 3D · RELIEF DEM</small></div>
-      <div id="map" class="map" role="region" aria-label="Carte satellite 3D de Brocéliande"></div>
-      <div id="map2d" class="map map2d" role="region" aria-label="Carte satellite 2D de Brocéliande" hidden></div>
-      <div class="map-tools">
-        <button type="button" class="chip" id="btnTour" data-i18n="survol">⟳ Survol</button>
-        <button type="button" class="chip" id="btnReset" data-i18n="ensemble">⌂ Vue d'ensemble</button>
-        <button type="button" class="chip" id="btnMode">🗺️ 2D</button>
-      </div>
-      <aside class="cp-panel" id="cpPanel"></aside>
+  <!-- Prototype Parcours — double page de grimoire + carte fictive interactive -->
+  <section class="parcours parcours-grimoire" id="parcours">
+    <div class="parcours-book" role="region" aria-labelledby="parcoursTitle">
+      <article class="book-page parcours-folio parcours-folio-index">
+        <div class="folio-ornament folio-ornament-tl" aria-hidden="true"></div>
+        <div class="folio-ornament folio-ornament-br" aria-hidden="true"></div>
+        <header class="parcours-heading">
+          <span class="eyebrow" data-i18n="parcours_chapter">Chapitre I</span>
+          <h2 id="parcoursTitle" data-i18n="parcours_titre">Le Parcours</h2>
+          <p class="parcours-lead" data-i18n="parcours_intro">Choisissez une étape sur la carte pour consulter ses informations.</p>
+        </header>
+        <div class="progress parcours-progress">
+          <div class="progress-bar"><span id="progressFill"></span></div>
+          <p id="progressText"></p>
+        </div>
+        <h3 class="stage-index-title" data-i18n="parcours_legend">Les cinq haltes du parcours</h3>
+        <nav class="cp-panel stage-index" id="cpPanel" aria-label="Étapes du parcours"></nav>
+        <aside class="map-stage-detail" id="mapStageDetail" aria-live="polite"></aside>
+        <span class="folio-number" aria-hidden="true">I</span>
+      </article>
+
+      <article class="book-page parcours-folio parcours-folio-map">
+        <div class="folio-ornament folio-ornament-tr" aria-hidden="true"></div>
+        <div class="folio-ornament folio-ornament-bl" aria-hidden="true"></div>
+        <header class="parchment-map-heading">
+          <span class="map-kicker">BROCÉLIANDE</span>
+          <h3>Terres de légendes</h3>
+        </header>
+        <div class="parchment-map-figure" id="parchmentMap" role="group" aria-label="Carte fictive interactive du parcours de Brocéliande">
+          <picture>
+            <source srcset="assets/map/carte-terres-de-legendes.webp" type="image/webp">
+            <img src="assets/map/carte-terres-de-legendes.jpg" alt="Carte parchemin des Terres de légendes" width="1536" height="1024" loading="lazy" decoding="async">
+          </picture>
+          <span class="map-place place-druides" aria-hidden="true">Cercle des druides</span>
+          <span class="map-place place-merlin" aria-hidden="true">Tour de Merlin</span>
+          <span class="map-place place-excalibur" aria-hidden="true">Monts d’Excalibur</span>
+          <span class="map-place place-avalon" aria-hidden="true">Lac d’Avalon</span>
+          <span class="map-place place-morgane" aria-hidden="true">Val de Morgane</span>
+          <span class="map-place place-barenton" aria-hidden="true">Fontaine de Barenton</span>
+          <div class="map-markers" id="mapMarkers"></div>
+        </div>
+        <p class="map-hint" data-i18n="map_hint">Sélectionnez une pastille pour ouvrir la fiche de l’étape.</p>
+        <span class="folio-number" aria-hidden="true">II</span>
+      </article>
     </div>
   </section>
 
@@ -337,10 +361,10 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="cles.js?v=3.3.1"></script>
-  <script src="config.js?v=3.3.1"></script>
-  <script src="i18n.js?v=3.3.1"></script>
-  <script src="cover.js?v=3.3.1"></script>
-  <script src="app.js?v=3.3.1"></script>
+  <script src="cles.js?v=3.4.0"></script>
+  <script src="config.js?v=3.4.0"></script>
+  <script src="i18n.js?v=3.4.0"></script>
+  <script src="cover.js?v=3.4.0"></script>
+  <script src="app.js?v=3.4.0"></script>
 </body>
 </html>

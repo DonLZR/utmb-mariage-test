@@ -1,15 +1,13 @@
-/* UTMB — moteur du site V3.3.1 (socle V2.4.2, contenu géré dans le Google Sheet) */
+/* BROCÉLIANDE — moteur du site V3.4.0 (socle fonctionnel préservé, prototype Parcours) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
   const $ = (s, r = document) => r.querySelector(s);
   const SEEN_KEY = 'utmb_seen', DOSSARD_KEY = 'utmb_dossard', GATE_KEY = 'utmb_ok', LANG_KEY = 'utmb_lang',
-        SCROLL_KEY = 'utmb_scroll', MODE_KEY = 'utmb_mode', FORMS_KEY = 'utmb_forms', UNLOCK_KEY = 'utmb_unlock',
-        MAP_INTRO_KEY = 'utmb_map_intro_v32';
+        SCROLL_KEY = 'utmb_scroll', FORMS_KEY = 'utmb_forms', UNLOCK_KEY = 'utmb_unlock';
   const NOUVEAU_PERSO_H = 48;                     // durée (heures) du badge « Nouveau » après un déblocage personnel
-let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {}, touring = false, tourRaf = null, MODE = '3d', deferredInstall = null;
-  let chronoTarget = null, chronoTimer = null, slideTimer = null, pendingFly = null, mapWanted = false, mapLibPromise = null;
-  let mapIntroVisible = false, mapIntroPending = false, mapIntroStarted = false;
+  let DATA = null, DATA_SIG = '', RAW = null, deferredInstall = null, selectedMapStage = null;
+  let chronoTarget = null, chronoTimer = null, slideTimer = null;
 
   /* ---------- Langue ---------- */
   const LANGS = (C.langues || ['fr']).filter(l => I18N[l]);
@@ -143,36 +141,6 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     const d = new Date(s); return isNaN(d) ? null : d;
   }
 
-  /* Étapes au même point : seuil volontairement serré (~15 m), puis décalage symétrique.
-     Le départ et l'arrivée du Domaine des Hayes restent ainsi tous les deux lisibles. */
-  const close = (a, b) => Number.isFinite(a?.lat) && Number.isFinite(a?.lng) &&
-    Number.isFinite(b?.lat) && Number.isFinite(b?.lng) &&
-    Math.abs(a.lat - b.lat) < 0.00015 && Math.abs(a.lng - b.lng) < 0.00015;
-  function markerOffsets() {
-    const out = new Map(), valid = DATA.etapes.filter(e => Number.isFinite(e.lat) && Number.isFinite(e.lng));
-    const used = new Set();
-    valid.forEach(e => {
-      if (used.has(e.id)) return;
-      const group = valid.filter(p => close(p, e));
-      group.forEach(p => used.add(p.id));
-      if (group.length < 2) return;
-      group.forEach((p, i) => out.set(p.id, [(i - (group.length - 1) / 2) * 28, -4]));
-    });
-    return out;
-  }
-
-  /* Boucle calculée exclusivement selon l'ordre des coordonnées lat/lng du Sheet.
-     Si l'arrivée n'est pas encore remise sur le départ, la ligne est refermée automatiquement. */
-  function routeFromStages() {
-    const pts = DATA.etapes
-      .filter(e => Number.isFinite(e.lat) && Number.isFinite(e.lng))
-      .map(e => [e.lng, e.lat]);
-    if (pts.length < 2) return Array.isArray(C.route) ? C.route.slice() : [];
-    const first = pts[0], last = pts[pts.length - 1];
-    if (Math.abs(first[0] - last[0]) > 1e-7 || Math.abs(first[1] - last[1]) > 1e-7) pts.push(first.slice());
-    return pts;
-  }
-
   /* ---------- Mémoire de l'appareil : formulaires envoyés ---------- */
   const lireJSON = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || 'null') ?? d; } catch (e) { return d; } };
   const formsFaits = () => lireJSON(FORMS_KEY, {});
@@ -277,22 +245,6 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
       }
     d.hebergements = d.hebergements || []; d.programme = d.programme || []; d.photos = d.photos || {};
     return d;
-  }
-
-  function computeView() {
-    const p = DATA.parametres, v = { ...C.map };
-    const b = num(p.carte_orientation), z = num(p.carte_zoom), pi = num(p.carte_inclinaison), r = num(p.carte_relief);
-    if (b !== null) v.bearing = b;
-    if (z !== null) v.zoom = Math.min(16, Math.max(6, z));
-    if (!matchMedia('(min-width:821px)').matches) {          // téléphone : écran étroit → on prend plus de hauteur
-      const zm = num(p.carte_zoom_mobile);
-      v.zoom = zm !== null ? Math.min(16, Math.max(6, zm)) : v.zoom - 0.6;
-    }
-    if (pi !== null) v.pitch = Math.min(80, Math.max(0, pi));
-    if (r !== null) v.exaggeration = Math.min(3, Math.max(0.5, r));
-    const c = String(p.carte_centre || '').split(/[;\s]+|,\s+/).map(num).filter(x => x !== null);
-    if (c.length === 2) v.center = [c[1], c[0]];
-    return v;
   }
 
   /* ---------- Accueil : compte à rebours + altimètre ---------- */
@@ -492,263 +444,64 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
   }
 
   /* ---------- Progression ---------- */
+  const mapStages = () => DATA ? DATA.etapes.slice(0, Math.max(1, Number(C.parchmentMap?.limit) || 5)) : [];
   function renderProgress() {
-    const total = DATA.etapes.length, open = DATA.etapes.filter(isOpen);
+    const stages = mapStages(), total = stages.length, open = stages.filter(isOpen);
     const last = open[open.length - 1];
-    const maxKm = Math.max(...DATA.etapes.map(e => Number(e.km) || 0), 1);
+    const maxKm = Math.max(...stages.map(e => Number(e.km) || 0), 1);
     const pct = total ? Math.round(((last ? Number(last.km) || 0 : 0) / maxKm) * 100) : 0;
     setTimeout(() => $('#progressFill').style.width = Math.max(pct, open.length ? 6 : 0) + '%', 300);
     $('#progressText').textContent = t('progress', { n: open.length, t: total }) + (last && last.km !== '' ? ` · km ${last.km}` : '');
   }
 
-  /* ---------- Panneau des points de passage ---------- */
+  /* ---------- Carte parchemin : cinq étapes issues du Sheet ---------- */
+  function parchmentPosition(e, i) {
+    const fallback = C.parchmentMap?.positions?.[i] || { x: 50, y: 50 };
+    const clamp = (v, def) => Math.min(96, Math.max(4, num(v) ?? def));
+    return { x: clamp(e.carte_x, fallback.x), y: clamp(e.carte_y, fallback.y) };
+  }
+
   function renderPanel() {
-    $('#cpPanel').innerHTML = DATA.etapes.map((e, i) => {
+    $('#cpPanel').innerHTML = mapStages().map((e, i) => {
       const st = statut(e);
-      return `<button type="button" class="cp ${st === 'verrouille' ? 'locked' : ''}${st === 'nouveau' ? ' is-new' : ''}" data-id="${esc(e.id)}">
-        <span class="cp-num">${st === 'verrouille' ? '🔒' : i + 1}</span>${st === 'nouveau' ? `<span class="badge badge-coin" aria-hidden="true">${esc(t('nouveau'))}</span>` : ''}
+      return `<button type="button" class="cp ${st === 'verrouille' ? 'locked' : ''}${st === 'nouveau' ? ' is-new' : ''}" data-map-stage="${esc(e.id)}">
+        <span class="cp-num">${i + 1}</span>${st === 'nouveau' ? `<span class="badge badge-coin" aria-hidden="true">${esc(t('nouveau'))}</span>` : ''}
         <span><span class="cp-title">${esc(e.titre)} ${st === 'nouveau' ? `<span class="badge badge-inline">${esc(t('nouveau'))}</span>` : ''}</span>
         <span class="cp-meta">${esc(e.cp || '')} · ${esc(e.lieu || '')}${e.km !== '' && e.km != null ? ' · km ' + esc(e.km) : ''}</span></span>
       </button>`;
     }).join('');
   }
+
+  function renderParchmentMap() {
+    const stages = mapStages();
+    $('#mapMarkers').innerHTML = stages.map((e, i) => {
+      const st = statut(e), locked = st === 'verrouille', p = parchmentPosition(e, i);
+      return `<button type="button" class="map-pin ${locked ? 'locked' : st}" style="--map-x:${p.x}%;--map-y:${p.y}%" data-map-stage="${esc(e.id)}" aria-label="${i + 1}. ${esc(e.titre)} — ${esc(e.lieu || '')}">
+        <span class="map-pin-core" aria-hidden="true">${i + 1}</span>
+        <span class="map-pin-label">${esc(e.titre)}</span>
+      </button>`;
+    }).join('');
+    const selected = stages.find(e => e.id === selectedMapStage) || stages[0];
+    if (selected) selectStage(selected.id, false, true);
+  }
+
+  function renderStageDetail(e) {
+    const box = $('#mapStageDetail'); if (!box || !e) return;
+    const st = statut(e), locked = st === 'verrouille';
+    const meta = [e.cp, e.lieu, e.km !== '' && e.km != null ? `km ${e.km}` : '', e.altitude ? `${e.altitude} m` : ''].filter(Boolean).map(esc).join(' · ');
+    box.innerHTML = `<span class="map-detail-status">${locked ? '🔒 ' + esc(t('verrouille')) : esc(t('map_selected'))}</span>
+      <h4>${esc(e.titre)}</h4><p class="map-detail-meta">${meta}</p>
+      ${e.sous_titre ? `<p>${esc(e.sous_titre)}</p>` : ''}
+      ${locked ? `<p class="map-detail-lock">${esc(e.indice || t('bientot'))}</p>` : `<button type="button" class="btn btn-gold map-detail-open" data-map-go="${esc(e.id)}">${esc(t('map_open_stage'))} →</button>`}`;
+  }
+
   function selectStage(id, fly, silent) {
     const e = DATA.etapes.find(x => x.id === id); if (!e) return;
-    document.querySelectorAll('.cp').forEach(b => b.classList.toggle('active', b.dataset.id === id));
-    document.querySelectorAll('.m2-mk').forEach(g => g.classList.toggle('active', g.dataset.id === id));
-    if (fly && MODE === '3d' && map && !isNaN(e.lat)) {
-      stopTour();
-      const zEtape = Math.min(16, Math.max(6, num(DATA.parametres.carte_zoom_etape) ?? 10.8));
-      map.flyTo({ center: [e.lng, e.lat], zoom: zEtape, pitch: Math.min(60, VIEW.pitch + 3), bearing: VIEW.bearing + 20, duration: 2400, essential: true });
-    }
+    selectedMapStage = id;
+    document.querySelectorAll('[data-map-stage]').forEach(b => b.classList.toggle('active', b.dataset.mapStage === id));
+    renderStageDetail(e);
     if (silent) return;
     if (!isOpen(e)) toast(`🔒 ${e.titre} — ${e.indice || t('bientot')}`);
-    else toast(`📍 ${e.cp || ''} ${e.lieu || ''} — ${e.titre} · ${t('toast_tap')}`, 3000);
-    const btn = document.querySelector(`.cp[data-id="${CSS.escape(id)}"]`);
-    if (btn && btn.dataset.armed) { goTo(id); delete btn.dataset.armed; }
-    else if (btn) { document.querySelectorAll('.cp').forEach(b => delete b.dataset.armed); btn.dataset.armed = '1'; }
-  }
-
-  /* ---------- Mode carte 2D / 3D ---------- */
-  const WEBGL = (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; } })();
-  const LOW_END = (navigator.deviceMemory && navigator.deviceMemory <= 2) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2);
-  let CAN_3D = WEBGL;
-  const MAPLIBRE = 'https://unpkg.com/maplibre-gl@4.7.1/dist/';
-  function loadMaplibre() {
-    if (window.maplibregl) return Promise.resolve();
-    if (mapLibPromise) return mapLibPromise;
-    mapLibPromise = new Promise((ok, ko) => {
-      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = MAPLIBRE + 'maplibre-gl.css'; document.head.appendChild(css);
-      const s = document.createElement('script'); s.src = MAPLIBRE + 'maplibre-gl.js'; s.async = true;
-      s.onload = () => window.maplibregl ? ok() : ko(); s.onerror = ko; document.head.appendChild(s);
-    });
-    return mapLibPromise;
-  }
-  function ensure3D() {
-    if (MODE !== '3d' || map || !mapWanted || !DATA) return;
-    $('#map').classList.add('loading');
-    loadMaplibre().then(() => { $('#map').classList.remove('loading'); if (MODE === '3d' && !map) initMap(); })
-      .catch(() => { CAN_3D = false; $('#map').classList.remove('loading'); setMode('2d', true); });
-  }
-
-  function setMode(m, info) {
-    MODE = (m === '3d' && CAN_3D) ? '3d' : '2d';
-    const is3d = MODE === '3d';
-    $('#map').hidden = !is3d; $('#map2d').hidden = is3d;
-    $('#btnTour').hidden = !is3d; $('#btnReset').hidden = !is3d;
-    $('#btnMode').hidden = !CAN_3D;
-    $('#btnMode').textContent = is3d ? t('mode2d') : t('mode3d');
-    if (is3d) { stopTour(); if (!map) ensure3D(); else map.resize(); }
-    else { stopTour(); if (DATA) render2D(); if (info) toast(t('info2d'), 3500); }
-  }
-  function initModes() {
-    const saved = localStorage.getItem(MODE_KEY);
-    const start = !CAN_3D ? '2d' : (saved || (LOW_END ? '2d' : '3d'));
-    setMode(start, !CAN_3D);
-    let rz, lastW = innerWidth;
-    addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => {
-      if (MODE === '2d' && DATA && innerWidth !== lastW) { delete $('#map2d').dataset.ok; render2D(); } lastW = innerWidth; }, 250); });
-    /* La carte n'est préparée que lorsqu'on s'en approche (gain de plusieurs secondes au lancement) */
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(en => { if (en.some(x => x.isIntersecting)) { mapWanted = true; io.disconnect(); ensure3D(); } }, { rootMargin: '400px 0px' });
-      io.observe($('#parcours'));
-    } else { mapWanted = true; ensure3D(); }
-    if ('IntersectionObserver' in window) {
-      const introIo = new IntersectionObserver(en => {
-        mapIntroVisible = en.some(x => x.isIntersecting && x.intersectionRatio >= .18);
-        if (mapIntroVisible) maybeStartMapIntro();
-      }, { threshold: [.18] });
-      introIo.observe($('#map'));
-    } else { mapIntroVisible = true; }
-    $('#btnMode').addEventListener('click', () => {
-      const next = MODE === '3d' ? '2d' : '3d';
-      localStorage.setItem(MODE_KEY, next); setMode(next);
-    });
-  }
-
-  /* ---------- Carte 2D (secours, sans WebGL) : photo aérienne + parcours ---------- */
-  const TUILE = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/';
-  function render2D() {
-    const box = $('#map2d');
-    if (box.dataset.ok) return;
-    const route = routeFromStages();
-    const Z = 11, W = 256 * Math.pow(2, Z);                       // coordonnées « pixels » Web Mercator au zoom 11
-    const X = lng => (lng + 180) / 360 * W;
-    const Y = lat => { const r = lat * Math.PI / 180; return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * W; };
-    const pts = route.concat(DATA.etapes.filter(e => Number.isFinite(e.lat) && Number.isFinite(e.lng)).map(e => [e.lng, e.lat]));
-    const xs = pts.map(p => X(p[0])), ys = pts.map(p => Y(p[1]));
-    let x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
-    const span = Math.max(x1 - x0, y1 - y0), pad = span * 0.12;
-    const wide = matchMedia('(min-width:821px)').matches;
-    x0 -= pad; y0 -= pad; y1 += pad; x1 += wide ? span * 0.62 : pad;   // place pour le panneau des étapes (ordinateur)
-    /* Cadre ajusté aux proportions de l'écran : la photo remplit tout, sans bande vide */
-    const bw = Math.max(280, box.clientWidth || 360), bh = Math.max(300, box.clientHeight || 460);
-    let vw = x1 - x0, vh = y1 - y0;
-    if (vw / vh < bw / bh) { const n = vh * bw / bh; x0 -= (n - vw) / 2; vw = n; } else { const n = vw * bh / bw; y0 -= (n - vh) / 2; vh = n; }
-    const u = vw / bw, fs = px => (px * u).toFixed(2);           // 1 px écran en unités de la carte
-    /* Tuiles satellite couvrant le cadre */
-    /* Niveau de détail adapté à l'écran (moins de tuiles = chargement plus léger) */
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
-    const dz = Math.max(0, Math.min(2, Math.floor(Math.log2(Math.max(1, 1.5 * u / dpr)))));
-    const tz = Z - dz, ts = 256 * Math.pow(2, dz);                // taille d'une tuile en unités de la carte
-    const t0x = Math.floor(x0 / ts), t1x = Math.floor((x0 + vw) / ts), t0y = Math.floor(y0 / ts), t1y = Math.floor((y0 + vh) / ts);
-    let tiles = '';
-    for (let tx = t0x; tx <= t1x; tx++) for (let ty = t0y; ty <= t1y; ty++)
-      tiles += `<image href="${TUILE}${tz}/${ty}/${tx}" x="${tx * ts}" y="${ty * ts}" width="${ts + 0.6}" height="${ts + 0.6}" preserveAspectRatio="none"/>`;
-    const line = arr => arr.map((p, i) => (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ',' + Y(p[1]).toFixed(1)).join(' ');
-    const open = DATA.etapes.filter(isOpen), last = open[open.length - 1];
-    let cut = 0;
-    if (last && !isNaN(last.lat)) {
-      let best = Infinity;
-      route.forEach((p, i) => { const d = (p[0] - last.lng) ** 2 + (p[1] - last.lat) ** 2; if (d < best) { best = d; cut = i; } });
-      if (last === DATA.etapes[DATA.etapes.length - 1]) cut = route.length - 1;
-    }
-    const mbx = X(-2.1728), mby = Y(48.0186);
-    const offsets = markerOffsets();
-    const order = DATA.etapes.map((e, i) => ({ e, i })).filter(o => !isNaN(o.e.lat))
-      .sort((a, b) => (isOpen(a.e) - isOpen(b.e)) || (b.i - a.i)); // verrouillées dessous, étape 1 au-dessus
-    const mk = order.map(({ e, i }) => {
-      const st = statut(e), locked = st === 'verrouille';
-      const off = offsets.get(e.id) || [0, 0];
-      const dx = off[0] * u, dy = off[1] * u;
-      const x = X(e.lng) + dx, y = Y(e.lat) + dy, r = (locked ? 13 : 16) * u;
-      return `<g class="m2-mk ${locked ? 'locked' : st}" data-id="${esc(e.id)}" tabindex="0" role="button" aria-label="${esc(e.titre)}">
-        <circle cx="${x}" cy="${y}" r="${r}"/><text x="${x}" y="${y}" font-size="${fs(locked ? 11 : 14)}">${locked ? '🔒' : i + 1}</text>
-        <text class="m2-lbl" x="${x}" y="${locked ? y - r - 6 * u : y + r + 12 * u}" font-size="${fs(11)}" stroke-width="${fs(3)}">${esc(e.lieu || e.titre)}</text></g>`;
-    }).join('');
-    box.innerHTML = `<svg viewBox="${x0.toFixed(1)} ${y0.toFixed(1)} ${vw.toFixed(1)} ${vh.toFixed(1)}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Map 2D">
-      <g class="m2-photo">${tiles}</g>
-      <rect class="m2-voile" x="${x0}" y="${y0}" width="${vw}" height="${vh}"/>
-      <path d="M${mbx - 9 * u},${mby + 6 * u} L${mbx},${mby - 8 * u} L${mbx + 9 * u},${mby + 6 * u} Z" fill="rgba(255,255,255,.9)"/>
-      <text class="m2-summit" x="${mbx + 13 * u}" y="${mby + 4 * u}" font-size="${fs(11)}" stroke-width="${fs(3)}">Brocéliande</text>
-      <path class="m2-glow" d="${line(route)}"/>
-      <path class="m2-route" d="${line(route)}"/>
-      ${cut > 0 ? `<path class="m2-done" d="${line(route.slice(0, cut + 1))}"/>` : ''}
-      ${mk}</svg><span class="m2-credit">${esc(t('imagerie'))}</span>`;
-    box.dataset.ok = '1';
-    if (box.dataset.ev) return;
-    box.dataset.ev = '1';
-    box.addEventListener('click', ev => { const g = ev.target.closest('.m2-mk'); if (g) selectStage(g.dataset.id, false); });
-    box.addEventListener('keydown', ev => {
-      const g = ev.target.closest('.m2-mk');
-      if (g && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); selectStage(g.dataset.id, false); }
-    });
-  }
-
-  /* ---------- Carte 3D ---------- */
-  function canPlayMapIntro() {
-    if (mapIntroStarted || matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
-    try { return !localStorage.getItem(MAP_INTRO_KEY); } catch (e) { return true; }
-  }
-  function markMapIntroSeen() {
-    try { localStorage.setItem(MAP_INTRO_KEY, '1'); } catch (e) {}
-  }
-  function maybeStartMapIntro() {
-    if (!map || !mapIntroPending || mapIntroStarted || !mapIntroVisible || !map.loaded()) return;
-    mapIntroPending = false; mapIntroStarted = true; markMapIntroSeen();
-    map.flyTo({ center: VIEW.center, zoom: VIEW.zoom, pitch: VIEW.pitch, bearing: VIEW.bearing,
-      duration: 4800, curve: 1.12, speed: .75, essential: false });
-  }
-  function initMap() {
-    VIEW = computeView();
-    const playIntro = canPlayMapIntro();
-    const opening = playIntro ? { center: [-2.65, 48.10], zoom: 6.35, pitch: 18, bearing: 0 } : VIEW;
-    try {
-      map = new maplibregl.Map({
-        container: 'map',
-        center: opening.center, zoom: opening.zoom, pitch: opening.pitch, bearing: opening.bearing,
-        maxPitch: 80, attributionControl: { compact: true }, cooperativeGestures: matchMedia('(pointer:coarse)').matches,
-        style: {
-          version: 8,
-          sources: {
-            sat: { type: 'raster', tileSize: 256, maxzoom: 17,
-              tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
-              attribution: 'Imagerie © Esri, Maxar, Earthstar Geographics' },
-            dem: { type: 'raster-dem', encoding: 'terrarium', tileSize: 256, maxzoom: 14,
-              tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
-              attribution: 'Relief © Mapzen / AWS Terrain Tiles' },
-            hs: { type: 'raster-dem', encoding: 'terrarium', tileSize: 256, maxzoom: 14,
-              tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'] }
-          },
-          layers: [
-            { id: 'bg', type: 'background', paint: { 'background-color': '#2b3a31' } },
-            { id: 'sat', type: 'raster', source: 'sat', paint: { 'raster-saturation': -0.06, 'raster-contrast': 0.12 } },
-            { id: 'hillshade', type: 'hillshade', source: 'hs', paint: { 'hillshade-exaggeration': 0.62, 'hillshade-shadow-color': '#09271f', 'hillshade-highlight-color': '#f5efe4', 'hillshade-accent-color': '#cc9790' } }
-          ],
-          terrain: { source: 'dem', exaggeration: VIEW.exaggeration }
-        }
-      });
-    } catch (e) { map = null; return setMode('2d', true); }
-    map.on('error', ev => { if (String(ev?.error?.message || '').includes('WebGL')) setMode('2d', true); });
-    map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'bottom-left');
-
-    map.on('load', () => {
-      if (!playIntro) map.jumpTo({ center: VIEW.center, zoom: VIEW.zoom, pitch: VIEW.pitch, bearing: VIEW.bearing });
-
-      const route = routeFromStages();
-      const open = DATA.etapes.filter(isOpen), last = open[open.length - 1];
-      let cut = 0;
-      if (last && !isNaN(last.lat)) {
-        let best = Infinity;
-        route.forEach((p, i) => { const d = (p[0] - last.lng) ** 2 + (p[1] - last.lat) ** 2; if (d < best) { best = d; cut = i; } });
-        if (last === DATA.etapes[DATA.etapes.length - 1]) cut = route.length - 1;
-      }
-      map.addSource('route', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'LineString', coordinates: route } } });
-      map.addSource('done', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'LineString', coordinates: route.slice(0, cut + 1) } } });
-      map.addLayer({ id: 'route-glow', type: 'line', source: 'route', paint: { 'line-color': '#f5efe4', 'line-width': 8, 'line-opacity': 0.22, 'line-blur': 2 } });
-      map.addLayer({ id: 'route', type: 'line', source: 'route', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#f5efe4', 'line-width': 2.8, 'line-dasharray': [1.5, 2] } });
-      if (cut > 0) map.addLayer({ id: 'done', type: 'line', source: 'done', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#cc9790', 'line-width': 5 } });
-
-      const s = document.createElement('div'); s.className = 'summit broceliande-label'; s.innerHTML = '◆ <span>Brocéliande</span>';
-      new maplibregl.Marker({ element: s }).setLngLat([-2.1728, 48.0186]).addTo(map);
-
-      /* Ordre d'empilement : verrouillées d'abord (dessous), puis ouvertes, étape 1 en dernier (dessus) */
-      const offsets = markerOffsets();
-      DATA.etapes.map((e, i) => ({ e, i })).filter(o => !isNaN(o.e.lat) && !isNaN(o.e.lng))
-        .sort((a, b) => (isOpen(a.e) - isOpen(b.e)) || (b.i - a.i))
-        .forEach(({ e, i }) => {
-          const st = statut(e), locked = st === 'verrouille';
-          const el = document.createElement('div');
-          el.style.zIndex = String((locked ? 100 : 1000) - i);
-          const pin = document.createElement('div');
-          pin.className = 'marker ' + (locked ? 'locked' : st);
-          pin.innerHTML = `${locked ? '🔒' : i + 1}<span class="marker-label">${esc(e.lieu || e.titre)}</span>`;
-          pin.setAttribute('role', 'button'); pin.setAttribute('aria-label', e.titre); pin.tabIndex = 0;
-          el.appendChild(pin);
-          el.addEventListener('click', ev => { ev.stopPropagation(); selectStage(e.id, true); });
-          const opts = { element: el };
-          if (offsets.has(e.id)) opts.offset = offsets.get(e.id); // départ/arrivée : décalage symétrique, quelle que soit l'orientation
-          markers[e.id] = new maplibregl.Marker(opts).setLngLat([e.lng, e.lat]).addTo(map);
-        });
-      if (pendingFly) {
-        const id = pendingFly; pendingFly = null;
-        setTimeout(() => selectStage(id, true, true), 900);
-      } else {
-        mapIntroPending = playIntro;
-        maybeStartMapIntro();
-      }
-    });
-    ['mousedown', 'touchstart', 'wheel'].forEach(ev => map.getCanvas().addEventListener(ev, stopTour, { passive: true }));
   }
 
   function announceNew() {
@@ -758,18 +511,10 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
       const e = fresh[fresh.length - 1];
       setTimeout(() => toast(t('toast_new', { t: e.titre }), 5000), 1200);
       coachEvent('deblocage', { id: e.id, t: e.titre });
-      selectStage(e.id, false, true);
-      if (MODE === '3d') { if (map && map.loaded()) selectStage(e.id, true, true); else pendingFly = e.id; }
+      if (mapStages().some(x => x.id === e.id)) selectStage(e.id, false, true);
     }
     localStorage.setItem(SEEN_KEY, JSON.stringify(DATA.etapes.filter(isOpen).map(e => e.id)));
   }
-  function startTour() {
-    if (!map || MODE !== '3d') return; touring = true; $('#btnTour').classList.add('on');
-    const step = () => { if (!touring) return; map.setBearing(map.getBearing() + 0.08); tourRaf = requestAnimationFrame(step); };
-    step();
-  }
-  function stopTour() { touring = false; cancelAnimationFrame(tourRaf); $('#btnTour')?.classList.remove('on'); }
-
   /* ---------- Sections ---------- */
   function photosHtml(key) { const p = photos(key); return p.length ? `<div class="stage-photos">${p.map(u => imgTag(u)).join('')}</div>` : ''; }
   function linkHtml(e) { return e.lien_url ? `<p><a class="btn btn-ghost" href="${esc(e.lien_url)}" target="_blank" rel="noopener">${esc(e.lien_libelle || t('en_savoir'))} →</a></p>` : ''; }
@@ -1047,12 +792,8 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
       if (sig === DATA_SIG && !force) return false;
       if (maj && formulaireEnCours()) return false;    // l'invité remplit un formulaire : on ne touche à rien
       RAW = d; DATA_SIG = sig; DATA = prepare(JSON.parse(sig));
-    renderHero(); renderNav(); renderProgress(); renderPanel(); renderSections(); renderGalerie(); initScrollSpy(); initStrips();
+    renderHero(); renderNav(); renderProgress(); renderPanel(); renderParchmentMap(); renderSections(); renderGalerie(); initScrollSpy(); initStrips();
     appliquerCorrectionsPage(false);
-    delete $('#map2d').dataset.ok;
-    if (MODE === '2d') render2D();
-    if (map) { map.remove(); map = null; markers = {}; }
-    ensure3D();
     document.body.classList.remove('chargement');
     return true;
   }
@@ -1187,10 +928,12 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     initInstall(); initLightbox(); initAnchors(); initCoachToggle();
     const nav = $('#nav'), upd = () => nav.classList.toggle('scrolled', scrollY > 60);
     addEventListener('scroll', upd, { passive: true }); upd();
-    $('#cpPanel').addEventListener('click', ev => { const b = ev.target.closest('.cp'); if (b) selectStage(b.dataset.id, true); });
-    $('#btnTour').addEventListener('click', () => touring ? stopTour() : startTour());
-    $('#btnReset').addEventListener('click', () => { stopTour(); map && VIEW && map.flyTo({ center: VIEW.center, zoom: VIEW.zoom, pitch: VIEW.pitch, bearing: VIEW.bearing, duration: 2200 }); });
-    initModes();
+    $('#parcours').addEventListener('click', ev => {
+      const stage = ev.target.closest('[data-map-stage]');
+      if (stage) return selectStage(stage.dataset.mapStage, false);
+      const open = ev.target.closest('[data-map-go]');
+      if (open) goTo(open.dataset.mapGo);
+    });
 
     const cache = readCache();                         // permet aussi de corriger immédiatement l'écran d'accès
     if (cache) activerCorrections(cache.corrections || []);

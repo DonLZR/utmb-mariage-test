@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## V3.4.0 — prototype Parcours « Terres de légendes »
+- Couverture et autres sections conservées sans modification.
+- Section Parcours transformée en double page de grimoire responsive.
+- Nouvelle carte fictive sur parchemin, sans texte ni numéro incrusté.
+- Titre exact « Terres de légendes » et toponymes arthuriens superposés en HTML.
+- Cinq pastilles interactives alimentées par les données réelles du Sheet.
+- Positions réglables dans `config.js` ou via les colonnes facultatives `carte_x` / `carte_y`.
+- Ancienne carte MapLibre/DEM retirée du chargement de cette section.
+- FR / IT / ES, formulaires, déblocages, PWA, Coach, galerie et dossard préservés.
+- `Code.gs` inchangé ; aucun redéploiement Apps Script requis.
+
 ## V3.3.1 — inscription nette et mobile non déformé
 - Couverture photoréaliste V3.3.0 conservée.
 - Suppression dans les visuels de la phrase incrustée, de son halo et de la bande floutée.

@@ -698,3 +698,162 @@ body.book-closed .toast,body.book-closed [class^="coach-"]{display:none!importan
 @media (max-width:370px){.cover-inscription{left:55.5%;width:88%}}
 
 @media (max-width:520px){.book-cover-hit{place-items:start center}}
+
+
+/* =====================================================================
+   V3.4.0 — prototype Parcours : grimoire + carte « Terres de légendes »
+   Périmètre volontairement limité à #parcours. La couverture reste intacte.
+   ===================================================================== */
+.parcours-grimoire{
+  --parchment:#eadbb6;
+  --parchment-light:#f5e9ca;
+  --parchment-dark:#c5a66b;
+  --ink-old:#3d2c1c;
+  --forest-old:#173a2b;
+  --gold-old:#9f7938;
+  position:relative;
+  padding:clamp(2.5rem,6vw,5.5rem) clamp(.65rem,2vw,1.5rem);
+  background:
+    radial-gradient(circle at 50% 0,rgba(151,112,56,.18),transparent 38%),
+    linear-gradient(160deg,#061810 0%,#0d2a1f 52%,#06150f 100%);
+  overflow:hidden;
+}
+.parcours-grimoire::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;
+  background-image:repeating-linear-gradient(112deg,transparent 0 13px,rgba(255,255,255,.025) 14px,transparent 15px 31px);
+}
+.parcours-book{
+  position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(300px,.78fr) minmax(0,1.22fr);
+  width:min(1500px,100%);margin:0 auto;padding:clamp(.55rem,1.2vw,1rem);
+  border:1px solid rgba(200,157,83,.72);border-radius:18px;
+  background:linear-gradient(145deg,#4b321f,#25180f 45%,#382319 100%);
+  box-shadow:0 34px 80px rgba(0,0,0,.55),inset 0 0 0 4px rgba(117,79,41,.5),inset 0 0 26px rgba(0,0,0,.72);
+}
+.parcours-book::before{
+  content:"";position:absolute;z-index:4;top:1rem;bottom:1rem;left:39.1%;width:30px;transform:translateX(-50%);pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(61,40,21,.26) 20%,rgba(32,18,9,.42) 48%,rgba(255,244,209,.16) 72%,transparent);
+  filter:blur(3px);
+}
+.parcours-folio{
+  position:relative;min-width:0;padding:clamp(1.5rem,3vw,3.2rem) clamp(1.25rem,3vw,3.2rem) clamp(2rem,3vw,3rem);
+  color:var(--ink-old);
+  background:
+    radial-gradient(circle at 14% 18%,rgba(255,255,255,.38),transparent 28%),
+    radial-gradient(circle at 86% 78%,rgba(113,72,31,.13),transparent 31%),
+    repeating-linear-gradient(7deg,rgba(73,47,21,.025) 0 1px,transparent 1px 6px),
+    linear-gradient(103deg,var(--parchment-light),var(--parchment) 62%,#d8c18d);
+  box-shadow:inset 0 0 42px rgba(89,56,25,.2),inset 0 0 0 1px rgba(105,73,34,.26);
+  overflow:hidden;
+}
+.parcours-folio-index{border-radius:10px 2px 2px 10px}
+.parcours-folio-map{border-radius:2px 10px 10px 2px}
+.parcours-folio::after{
+  content:"";position:absolute;inset:9px;pointer-events:none;border:1px solid rgba(112,78,35,.28);border-radius:4px;
+}
+.folio-ornament{position:absolute;z-index:1;width:74px;height:74px;opacity:.48;pointer-events:none}
+.folio-ornament::before,.folio-ornament::after{content:"";position:absolute;border-color:var(--gold-old);border-style:solid}
+.folio-ornament::before{inset:7px;border-width:2px 0 0 2px;border-radius:22px 0 0}
+.folio-ornament::after{inset:18px;border-width:1px 0 0 1px;transform:rotate(45deg);transform-origin:top left}
+.folio-ornament-tl{top:8px;left:8px}.folio-ornament-tr{top:8px;right:8px;transform:scaleX(-1)}
+.folio-ornament-bl{bottom:8px;left:8px;transform:scaleY(-1)}.folio-ornament-br{right:8px;bottom:8px;transform:scale(-1)}
+.folio-number{position:absolute;z-index:2;bottom:.65rem;left:50%;transform:translateX(-50%);font:600 .75rem 'Cormorant Garamond',serif;color:#72542b}
+.parcours-heading{position:relative;z-index:2;text-align:center;padding:.2rem .7rem .75rem}
+.parcours-heading .eyebrow{color:var(--gold-old);font-family:'Cormorant Garamond',serif;font-size:.9rem;letter-spacing:.24em}
+.parcours-heading h2{margin:.28rem 0 .55rem;color:var(--forest-old);font-family:'Cinzel Decorative','Cormorant Garamond',serif;font-size:clamp(2rem,3.7vw,3.4rem);line-height:1.05;text-wrap:balance}
+.parcours-heading h2::after{content:"";display:block;width:84px;height:1px;margin:.75rem auto 0;background:linear-gradient(90deg,transparent,var(--gold-old),transparent)}
+.parcours-lead{max-width:34rem;margin:0 auto;font:italic 600 clamp(1rem,1.4vw,1.15rem)/1.45 'Cormorant Garamond',serif;color:#5a4329}
+.parcours-progress{position:relative;z-index:2;margin:1rem auto 1.35rem}
+.parcours-progress .progress-bar{height:8px;background:rgba(102,73,36,.18);border-color:rgba(118,83,39,.38)}
+.parcours-progress .progress-bar span{background:linear-gradient(90deg,var(--forest-old),var(--gold-old))}
+.parcours-progress p{font-family:'Cormorant Garamond',serif;color:#72542b}
+.stage-index-title{position:relative;z-index:2;margin:.2rem 0 .65rem;text-align:center;color:var(--forest-old);font:700 1.08rem 'Cinzel Decorative','Cormorant Garamond',serif}
+.parcours-book .cp-panel{position:relative;inset:auto;width:auto;max-width:none;overflow:visible;display:grid;gap:.32rem;padding:0;z-index:2}
+.parcours-book .cp{
+  position:relative;grid-template-columns:38px 1fr;gap:.65rem;min-height:50px;padding:.48rem .55rem;
+  border:1px solid transparent;border-radius:7px;background:rgba(255,249,230,.28);box-shadow:none;backdrop-filter:none;
+  color:var(--ink-old);transition:background .2s,border-color .2s,transform .2s;
+}
+.parcours-book .cp:hover{transform:translateX(3px);background:rgba(255,249,230,.65);border-color:rgba(159,121,56,.35)}
+.parcours-book .cp.active{background:var(--forest-old);border-color:var(--gold-old);color:#fff7df;box-shadow:0 7px 18px rgba(42,30,17,.17)}
+.parcours-book .cp.active .cp-meta{color:#e6d7b4}
+.parcours-book .cp-num{width:36px;height:36px;background:var(--gold-old);font-family:'Cinzel Decorative','Cormorant Garamond',serif;font-size:.82rem}
+.parcours-book .cp.locked{opacity:.68}
+.parcours-book .cp.locked .cp-num{background:#716b60;font-size:.72rem}
+.parcours-book .cp-title{font-family:'Cormorant Garamond',serif;font-size:1.02rem;line-height:1.05}
+.parcours-book .cp-meta{margin-top:.15rem;color:#755c39;font-size:.69rem}
+.parcours-book .badge{font-size:.5rem}
+.map-stage-detail{position:relative;z-index:2;margin-top:1rem;padding:1rem 1.1rem 1.05rem;border:1px solid rgba(122,86,38,.33);border-radius:9px;background:rgba(255,250,231,.5);box-shadow:inset 0 0 24px rgba(115,78,34,.08)}
+.map-stage-detail::before{content:"✦";position:absolute;right:.8rem;top:.5rem;color:var(--gold-old);opacity:.6}
+.map-detail-status{color:var(--gold-old);font:700 .64rem var(--sans);letter-spacing:.13em;text-transform:uppercase}
+.map-stage-detail h4{margin:.3rem 0 .15rem;color:var(--forest-old);font:700 1.28rem 'Cinzel Decorative','Cormorant Garamond',serif}
+.map-stage-detail p{margin:.3rem 0;font-family:'Cormorant Garamond',serif;line-height:1.3}
+.map-detail-meta{color:#765c37;font-size:.82rem}
+.map-detail-lock{color:#6a6257;font-style:italic}
+.map-detail-open{margin-top:.55rem;padding:.55rem .8rem;font-size:.72rem}
+.parchment-map-heading{position:relative;z-index:2;text-align:center;margin:-.3rem 0 1rem}
+.map-kicker{display:block;color:var(--gold-old);font:700 .68rem var(--sans);letter-spacing:.32em}
+.parchment-map-heading h3{margin:.25rem 0 0;color:var(--forest-old);font:700 clamp(1.7rem,3vw,2.8rem)/1.05 'Cinzel Decorative','Cormorant Garamond',serif;letter-spacing:.025em;text-wrap:balance}
+.parchment-map-figure{position:relative;z-index:2;width:100%;aspect-ratio:3/2;border:1px solid rgba(91,61,28,.5);box-shadow:0 14px 30px rgba(64,39,17,.22);background:#d6bd83;overflow:hidden;clip-path:polygon(.8% 1%,6% .4%,12% 1%,19% .2%,27% .8%,35% .2%,43% .9%,51% .1%,60% .7%,68% .2%,76% .8%,84% .3%,93% .9%,99.2% .3%,99.6% 10%,99% 22%,99.7% 35%,99.1% 48%,99.8% 61%,99.1% 75%,99.7% 88%,99.1% 99%,91% 99.5%,82% 99%,73% 99.7%,63% 99%,53% 99.7%,43% 99%,33% 99.6%,23% 99%,13% 99.7%,.8% 99%,.2% 88%,.8% 75%,.2% 62%,.8% 48%,.2% 34%,.8% 20%)}
+.parchment-map-figure picture,.parchment-map-figure img{display:block;width:100%;height:100%}
+.parchment-map-figure img{object-fit:cover;filter:saturate(.92) contrast(1.03)}
+.map-markers{position:absolute;inset:0;z-index:6;pointer-events:none}
+.map-pin{position:absolute;left:var(--map-x);top:var(--map-y);transform:translate(-50%,-50%);display:grid;place-items:center;width:clamp(31px,4.2vw,50px);height:clamp(31px,4.2vw,50px);padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer;pointer-events:auto;color:#fff;-webkit-tap-highlight-color:transparent;z-index:7}
+.map-pin-core{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;border:clamp(2px,.25vw,4px) solid #fff2cc;background:radial-gradient(circle at 35% 28%,#d4ad62,#906727 68%);box-shadow:0 4px 11px rgba(33,24,12,.5),0 0 0 2px rgba(61,44,24,.72);font:700 clamp(.72rem,1.25vw,1.08rem) 'Cinzel Decorative','Cormorant Garamond',serif;transition:transform .2s,box-shadow .2s}
+.map-pin:hover .map-pin-core,.map-pin:focus-visible .map-pin-core,.map-pin.active .map-pin-core{transform:scale(1.14);box-shadow:0 6px 15px rgba(33,24,12,.55),0 0 0 3px #173a2b,0 0 0 6px rgba(239,218,169,.82)}
+.map-pin:focus{outline:none}.map-pin:focus-visible{outline:2px dashed var(--forest-old);outline-offset:8px}
+.map-pin.locked .map-pin-core{background:radial-gradient(circle at 35% 28%,#999383,#5d5a52 70%);font-size:clamp(.62rem,1vw,.9rem)}
+.map-pin.nouveau .map-pin-core{background:radial-gradient(circle at 35% 28%,#d77758,#8c3b2e 70%)}
+.map-pin.nouveau::after{content:"";position:absolute;inset:-6px;border:2px solid #9e4332;border-radius:50%;animation:ring 1.8s infinite}
+.map-pin-label{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%) translateY(3px);min-width:max-content;max-width:150px;padding:.28rem .45rem;border:1px solid rgba(87,58,26,.42);border-radius:4px;background:rgba(242,226,186,.94);box-shadow:0 4px 10px rgba(52,34,15,.24);color:var(--ink-old);font:700 .68rem 'Cormorant Garamond',serif;line-height:1;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+.map-pin:hover .map-pin-label,.map-pin:focus-visible .map-pin-label,.map-pin.active .map-pin-label{opacity:1;transform:translateX(-50%) translateY(0)}
+.map-place{position:absolute;z-index:3;color:#594125;font:italic 700 clamp(.48rem,.78vw,.75rem) 'Cormorant Garamond',serif;letter-spacing:.025em;text-shadow:0 1px rgba(255,245,214,.7);pointer-events:none;white-space:nowrap}
+.place-druides{left:9%;top:7%;transform:rotate(-4deg)}.place-merlin{left:53%;top:5%;transform:rotate(2deg)}
+.place-excalibur{right:4.5%;top:12%;transform:rotate(6deg)}.place-avalon{left:42%;top:42%;transform:rotate(-3deg)}
+.place-morgane{right:10%;top:65%;transform:rotate(5deg)}.place-barenton{left:47%;bottom:5%;transform:rotate(-2deg)}
+.map-hint{position:relative;z-index:2;margin:.8rem 0 0;text-align:center;color:#654c2e;font:italic 600 .88rem 'Cormorant Garamond',serif}
+
+@media (max-width:1080px){
+  .parcours-book{grid-template-columns:minmax(285px,.72fr) minmax(0,1.28fr)}
+  .parcours-folio{padding-inline:clamp(1rem,2vw,1.8rem)}
+  .parcours-book::before{left:36.3%}
+  .map-place{display:none}
+}
+@media (max-width:880px){
+  .parcours-grimoire{padding-inline:.45rem}
+  .parcours-book{display:block;padding:.45rem;max-width:760px}
+  .parcours-book::before{display:none}
+  .parcours-folio-index{border-radius:9px 9px 2px 2px;padding-bottom:2.5rem}
+  .parcours-folio-map{border-radius:2px 2px 9px 9px;padding-top:2.1rem}
+  .parcours-folio-map::before{content:"";position:absolute;z-index:4;left:1rem;right:1rem;top:-12px;height:24px;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(42,25,12,.32) 48%,rgba(255,244,211,.16) 68%,transparent);filter:blur(3px)}
+  .parcours-book .cp-panel{grid-template-columns:1fr 1fr}
+  .map-stage-detail{min-height:145px}
+  .parchment-map-figure{clip-path:none;border-radius:5px}
+}
+@media (max-width:560px){
+  .parcours-grimoire{padding-top:2.2rem;padding-bottom:2.6rem}
+  .parcours-book{padding:.32rem;border-radius:12px}
+  .parcours-folio{padding:1.65rem .85rem 2.2rem}
+  .folio-ornament{width:58px;height:58px}
+  .parcours-heading{padding-inline:.3rem}
+  .parcours-heading h2{font-size:clamp(1.85rem,10vw,2.55rem)}
+  .parcours-book .cp-panel{grid-template-columns:1fr}
+  .parcours-book .cp{min-height:46px;grid-template-columns:34px 1fr;padding:.42rem}
+  .parcours-book .cp-num{width:32px;height:32px}
+  .map-stage-detail{padding:.85rem;min-height:0}
+  .parchment-map-heading h3{font-size:clamp(1.45rem,8vw,2rem)}
+  .map-pin{width:clamp(28px,9vw,38px);height:clamp(28px,9vw,38px)}
+  .map-pin-label{font-size:.62rem;max-width:105px;white-space:normal;text-align:center}
+  .map-pin:not(.active) .map-pin-label{display:none}
+  .map-hint{font-size:.78rem}
+}
+@media (prefers-reduced-motion:reduce){.map-pin-core,.map-pin-label{transition:none}.map-pin.nouveau::after{animation:none}}
+
+/* Lisibilité de progression et numérotation constante des étapes verrouillées. */
+.parcours-grimoire .parcours-progress p{color:#72542b}
+.parcours-book .cp-num,.map-pin-core{position:relative}
+.parcours-book .cp.locked .cp-num::before,.map-pin.locked .map-pin-core::before{
+  content:"";position:absolute;right:-2px;bottom:-2px;width:9px;height:7px;border-radius:2px;background:#f2dfb0;border:1px solid #5d574f;box-sizing:border-box
+}
+.parcours-book .cp.locked .cp-num::after,.map-pin.locked .map-pin-core::after{
+  content:"";position:absolute;right:0;bottom:4px;width:5px;height:5px;border:1px solid #5d574f;border-bottom:0;border-radius:5px 5px 0 0;box-sizing:border-box
+}

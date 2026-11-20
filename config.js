@@ -4,7 +4,7 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.3.1",
+  version: "3.4.0",
 
   /* Secours local haute qualité : les photos du Sheet restent prioritaires. */
   heroFallback: "assets/images/hero-couple-original.jpg",
@@ -32,26 +32,20 @@ window.UTMB_CONFIG = {
     maxVisite: 3,                            // apparitions aléatoires max par visite
     taillePc: 230, tailleMobile: 160         // hauteur de Coach (px)
   },
-  /* Carte 3D — Brocéliande. Valeurs de secours ; le Sheet reste prioritaire. */
-  map: {
-    center: [-2.17, 48.035], // [longitude, latitude]
-    zoom: 10.55,
-    pitch: 64,
-    bearing: -18,
-    exaggeration: 1.9
+  /* Carte parchemin du prototype Parcours.
+     Les positions sont des pourcentages de la largeur/hauteur de l'image.
+     Elles peuvent aussi être définies directement dans le Sheet avec deux
+     colonnes facultatives carte_x et carte_y (aucun changement Apps Script). */
+  parchmentMap: {
+    limit: 5,
+    positions: [
+      { x: 15.45, y: 20.40 },
+      { x: 26.50, y: 43.20 },
+      { x: 61.40, y: 80.50 },
+      { x: 80.70, y: 43.50 },
+      { x: 59.80, y: 17.70 }
+    ]
   },
-
-  /* Secours uniquement si aucune coordonnée d'étape n'est disponible.
-     En fonctionnement normal, app.js construit automatiquement la boucle selon
-     l'ordre des colonnes Etapes › lat / lng et la referme sur le départ. */
-  route: [
-    [-2.0500,47.9820],[-2.1900,48.0140],[-2.2200,48.0070],[-2.2500,48.0020],
-    [-2.2833,48.0000],[-2.2750,48.0150],[-2.2610,48.0280],[-2.2469,48.0389],
-    [-2.2210,48.0490],[-2.1960,48.0600],[-2.1728,48.0700],[-2.1450,48.0740],
-    [-2.1175,48.0778],[-2.1050,48.0610],[-2.0940,48.0400],[-2.0830,48.0180],
-    [-2.0700,48.0000],[-2.0500,47.9820]
-  ],
-
   /* Données de démonstration (utilisées tant que apiUrl est vide) */
   demo: {
     parametres: {
