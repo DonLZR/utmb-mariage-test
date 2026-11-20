@@ -1,15 +1,22 @@
-# Rapport qualité — V3.2.0 BROCÉLIANDE
+# Rapport qualité — V3.2.1 BROCÉLIANDE
 
 ## Conclusion
-La V3.2.0 conserve le socle V3.1 et applique uniquement les évolutions demandées sur l’accueil, la première arrivée carte et les titres des grandes cartes d’étape. Les formulaires, traductions, PWA, Coach, boucle pilotée par le Sheet et mécanismes V2.4.2 restent en place.
+La V3.2.1 conserve le socle fonctionnel V3.2.0 et remplace uniquement l’habillage de l’accueil et de la bannière supérieure. Les formulaires, traductions existantes, PWA, Coach, carte, boucle pilotée par le Sheet, accès et mécanismes V2.4.2 restent en place.
+
+## Contrôles de la couverture
+- Couverture responsive en cuir vert sapin, cadre et angles celtiques dorés, sceau central or ancien.
+- Asset `assets/brand/seal-broceliande-or.webp` dérivé du logo maître joint : les éléments demandés sont conservés et l’ancienne signature est absente.
+- Une seule inscription visible sous le sceau ; clés FR/IT/ES vérifiées avec les libellés exacts validés.
+- Toute la couverture est un bouton clavier/souris/tactile ; réduction des animations respectée.
+- Les anciens nœuds dynamiques de l’accueil sont conservés hors affichage pour ne pas rompre le chrono, l’altimètre ou le dossard.
+- Bannière supérieure sans « UTMB WEDDING SERIES », mais navigation, langues et bouton PWA conservés.
 
 ## Contrôles de conception
-- Logo maître et chemins d’assets inchangés ; proportions 1536×1024 préservées.
-- Masque CSS organique et asymétrique ajouté au conteneur du logo, avec variantes PC, tablette et mobile ; le centre reste opaque.
-- Accroche et sous-phrase retirées du HTML et du rendu JavaScript ; les clés de données historiques ne sont pas supprimées.
-- La date `heroDate` est placée dans le DOM immédiatement après `heroPrenoms`, avant les panneaux ; `startChrono()` conserve la source dynamique et `toLocaleDateString()` conserve la locale FR/IT/ES.
-- `WEDDING SERIES` reste un élément HTML accessible, mais il est désormais sous `UTMB`, plus petit et déporté à droite sur les deux lockups.
-- Variables éditables : `--font-hero-details` et `--font-intro-message`.
+- Source maître archivée à l’identique : SHA-256 `6ca9ed9b1cbcf1695f448dc60b7b889cdc0635e7b1119aac08ab8f6de20473c7`.
+- Sceau dérivé : SHA-256 `3c6418db63c6739372e448718a974f344a3d9456907fabf5148a00a313b9f829` ; cadrage arrêté avant l’ancienne signature, sans étirement de la composition restante.
+- Accroche, sous-phrase, prénoms, date, chrono, altimètre et dossard ne sont pas rendus sur la couverture ; leurs identifiants et leur logique restent présents pour compatibilité.
+- La traduction repose sur le même `data-i18n` et le même changement de langue/rechargement que le reste du site.
+- La police celtique dispose d’un repli local ; la couverture reste lisible si Google Fonts est indisponible.
 - Titres des grandes cartes d’étape : `--map-surround-blue: #0f2b46`.
 
 ## Carte et parcours
@@ -20,13 +27,14 @@ La V3.2.0 conserve le socle V3.1 et applique uniquement les évolutions demandé
 
 ## Contrôles techniques réalisés
 - Syntaxe validée pour `app.js`, `config.js`, `i18n.js`, `sw.js`, `assets/coach/coach.js` et `Apps_Script/Code.gs`.
-- HTML analysé, accolades CSS équilibrées et ordre DOM vérifié : prénoms → date → panneaux.
-- Absence confirmée des identifiants actifs `heroTagline` et `heroPunchline`.
-- Cohérence des versions 3.2.0 vérifiée dans Apps Script, configuration, HTML, PWA et cache.
-- Contrôle statique WeasyPrint réussi en 1440×900, 768×1024, 390×844, 390×600 et 844×500 : date après les prénoms, panneaux après la date en mode compact et réserve conservée avant le CTA.
+- HTML analysé : aucun identifiant dupliqué et tous les identifiants attendus par le moteur V3.2.0 sont présents.
+- CSS analysé sans erreur de syntaxe ; clés FR/IT/ES et libellés exacts vérifiés automatiquement.
+- `Apps_Script/Code.gs` est bit à bit identique au fichier V3.2.0 fourni.
+- Cohérence de la version web/cache 3.2.1 vérifiée dans `index.html`, `config.js` et `sw.js` ; le backend reste volontairement en 3.2.0.
+- Rendus statiques contrôlés aux formats 1440×900, 768×1024 et 390×844 : couverture contenue, sceau et phrase visibles, aucun débordement de la couverture.
 
 ## Réserves après publication
-1. Tester la vraie animation MapLibre, les tuiles Esri, le DEM et le hillshade dans Chrome et Safari sur le dépôt de test.
-2. Tester le fondu sur la photo d’accueil réellement chargée depuis Drive, notamment sur Safari iOS.
-3. Tester les envois Apps Script avec le vrai `cles.js`, volontairement absent du code consolidé.
-4. Conserver le binaire Coach existant lors de la copie du dossier GitHub.
+1. Valider le rendu final de la texture cuir, du filtre WebP et de l’ouverture 3D dans Chrome, Safari et Safari iOS sur de vrais appareils.
+2. Tester la vraie animation MapLibre, les tuiles Esri, le DEM et le hillshade sur le dépôt de test : ces fonctions n’ont pas été modifiées, mais nécessitent le réseau et WebGL.
+3. Tester un envoi réel Apps Script avec le `cles.js` privé, volontairement absent de la livraison.
+4. Conserver impérativement `cles.js`, le dossier `icons/` et `assets/coach/coach.webp` lors de la copie dans le dépôt.

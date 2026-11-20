@@ -602,3 +602,245 @@ h1,h2,h3,.cp-title,.tl-title,.stage-num,.section-head h2{font-family:var(--race)
   .hero-date{font-size:.62rem;line-height:1.15;letter-spacing:.1em;margin-bottom:.08rem}
   .hero-panels{margin:.3rem auto .15rem;gap:.3rem}
 }
+
+
+/* =====================================================================
+   V3.2.1 — COUVERTURE DU GRIMOIRE BROCÉLIANDE
+   Couche strictement limitée à l'accueil et à la bannière supérieure.
+   ===================================================================== */
+:root{
+  --grimoire-green:#071710;
+  --grimoire-green-2:#0d2a1d;
+  --grimoire-green-3:#16402c;
+  --old-gold:#c6a34f;
+  --old-gold-light:#f0d887;
+  --old-gold-dark:#6f4d19;
+  --font-celtic:'Uncial Antiqua','Cormorant Garamond',Georgia,serif;
+}
+.nav{
+  background:linear-gradient(180deg,rgba(5,21,14,.97),rgba(9,35,24,.94));
+  border-bottom:1px solid rgba(210,177,91,.42);
+  box-shadow:0 8px 28px -18px rgba(0,0,0,.95);
+}
+.nav.scrolled{background:rgba(5,24,16,.96);border-bottom-color:rgba(210,177,91,.58)}
+.nav-logo{display:block;line-height:1;text-shadow:0 1px 0 #261706,0 0 16px rgba(224,190,103,.22)}
+.nav-logo-main{
+  font:700 clamp(.83rem,1.25vw,1.15rem)/1 var(--font-celtic);
+  letter-spacing:.105em;
+  color:var(--old-gold-light);
+  transform:none;
+}
+.lang button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--old-gold-light)}
+.nav-links a.current{background:rgba(198,163,79,.28)}
+
+.hero-grimoire{
+  min-height:100svh;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  isolation:isolate;
+  perspective:1800px;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(41,92,62,.48),transparent 38%),
+    radial-gradient(circle at 20% 18%,rgba(190,151,65,.08),transparent 25%),
+    linear-gradient(150deg,#020805 0%,#071810 54%,#020805 100%);
+}
+.hero-grimoire::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  opacity:.35;
+  background:
+    repeating-radial-gradient(ellipse at 50% 110%,transparent 0 19px,rgba(157,126,57,.05) 20px 21px),
+    linear-gradient(90deg,rgba(0,0,0,.34),transparent 22% 78%,rgba(0,0,0,.34));
+}
+.hero-runtime-data,.hero-grimoire>.dossard{display:none!important}
+.grimoire-stage{
+  position:relative;
+  width:min(94vw,calc((100svh - 5.2rem) * 1.43),1180px);
+  aspect-ratio:10/7;
+  margin-top:max(3.8rem,env(safe-area-inset-top));
+  transform-style:preserve-3d;
+  filter:drop-shadow(0 28px 34px rgba(0,0,0,.66));
+}
+.grimoire-stage::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:2.1% 1.2% -1.2% 2.4%;
+  border-radius:2.2% 3.2% 3.5% 2.2%;
+  background:
+    repeating-linear-gradient(0deg,rgba(70,48,22,.20) 0 1px,transparent 1px 5px),
+    linear-gradient(90deg,#8f774f,#e4d0a0 4%,#b39a6b 98%,#725b37);
+  box-shadow:inset 0 0 0 1px rgba(255,246,208,.45),8px 12px 24px rgba(0,0,0,.48);
+}
+.grimoire-cover{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:2.2% 3.2% 3.2% 2.2%;
+  overflow:hidden;
+  appearance:none;
+  color:inherit;
+  cursor:pointer;
+  transform:rotateX(.6deg) rotateY(-.35deg);
+  transform-origin:1.8% 50%;
+  transform-style:preserve-3d;
+  backface-visibility:hidden;
+  transition:transform 1.05s cubic-bezier(.68,.02,.22,1),filter .35s ease,opacity .25s .78s;
+  box-shadow:
+    inset 0 0 0 2px rgba(239,211,134,.28),
+    inset 0 0 55px rgba(0,0,0,.86),
+    inset 24px 0 38px rgba(0,0,0,.48),
+    0 26px 58px -18px rgba(0,0,0,.92);
+  background:var(--grimoire-green-2);
+  -webkit-tap-highlight-color:transparent;
+}
+.grimoire-cover:hover{filter:brightness(1.035) saturate(1.04);transform:translateY(-3px) rotateX(.6deg) rotateY(-.35deg)}
+.grimoire-cover:active{transform:translateY(0) scale(.997)}
+.grimoire-cover:focus-visible{outline:3px solid var(--old-gold-light);outline-offset:6px}
+.grimoire-leather{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 12% 20%,rgba(64,119,82,.23),transparent 29%),
+    radial-gradient(ellipse at 74% 18%,rgba(255,255,255,.035),transparent 32%),
+    radial-gradient(ellipse at 56% 83%,rgba(1,8,5,.62),transparent 42%),
+    repeating-linear-gradient(17deg,transparent 0 5px,rgba(255,255,255,.012) 6px,transparent 7px 13px),
+    repeating-linear-gradient(103deg,rgba(0,0,0,.025) 0 2px,transparent 3px 9px),
+    linear-gradient(140deg,#153d2b 0%,#0a2619 42%,#06170f 100%);
+}
+.grimoire-leather::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.34;
+  mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+}
+.grimoire-ornaments{position:absolute;z-index:2;inset:1.5%;width:97%;height:97%;filter:drop-shadow(0 2px 0 #241503) drop-shadow(0 0 5px rgba(241,213,132,.17))}
+.grimoire-spine{
+  position:absolute;
+  z-index:3;
+  inset:0 auto 0 0;
+  width:4.5%;
+  background:linear-gradient(90deg,rgba(0,0,0,.88),rgba(134,100,40,.26) 35%,rgba(240,210,129,.20) 53%,rgba(0,0,0,.42) 82%,transparent);
+  box-shadow:10px 0 20px rgba(0,0,0,.28);
+}
+.grimoire-seal{
+  position:absolute;
+  z-index:4;
+  left:50%;
+  top:45.2%;
+  width:min(72%,780px);
+  height:61%;
+  transform:translate(-50%,-50%);
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:
+    url("assets/brand/seal-broceliande-or.webp") center/91% auto no-repeat,
+    radial-gradient(ellipse at 42% 34%,rgba(243,218,149,.20),transparent 24%),
+    radial-gradient(ellipse,#355036 0%,#15281b 58%,#07110a 73%,#020604 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(245,219,141,.42),
+    inset 0 0 24px rgba(0,0,0,.95),
+    0 5px 0 #2f1c08,
+    0 13px 28px rgba(0,0,0,.62);
+}
+.grimoire-seal::before{
+  content:"";
+  position:absolute;
+  inset:4.2%;
+  border-radius:50%;
+  border:2px solid rgba(218,182,88,.55);
+  box-shadow:inset 0 0 18px rgba(231,199,116,.14),0 0 0 5px rgba(64,40,11,.74);
+}
+.grimoire-seal img{position:absolute;z-index:2;left:4.5%;top:7%;width:91%;height:86%;object-fit:contain;opacity:0}
+.seal-ring{position:absolute;border-radius:50%;pointer-events:none}
+.seal-ring-outer{inset:-2.2%;border:clamp(5px,.65vw,10px) ridge #b38c3b;box-shadow:0 0 0 3px #42290d,0 0 0 5px rgba(221,184,91,.55),inset 0 0 0 2px #40270c}
+.seal-ring-inner{inset:8%;border:1px solid rgba(241,213,133,.55);box-shadow:0 0 0 3px rgba(65,39,10,.8)}
+.grimoire-legend{
+  position:absolute;
+  z-index:5;
+  left:10%;
+  right:10%;
+  bottom:7.2%;
+  display:block;
+  font:400 clamp(1.05rem,2.25vw,2rem)/1.15 var(--font-celtic);
+  letter-spacing:.08em;
+  text-align:center;
+  white-space:nowrap;
+  color:var(--old-gold-light);
+  text-shadow:0 2px 0 rgba(28,15,3,.88),0 0 12px rgba(238,207,121,.12);
+  filter:drop-shadow(0 1px 0 #281603);
+  animation:legendShimmer 6.8s ease-in-out infinite;
+}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .grimoire-legend{
+    color:transparent;
+    background:linear-gradient(105deg,#76521b 0%,#d9b75f 34%,#fff0b1 48%,#bd923d 60%,#ebcf7c 76%,#76521b 100%);
+    background-size:260% 100%;
+    background-position:100% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
+  }
+}
+.grimoire-sheen{
+  position:absolute;
+  z-index:6;
+  inset:-40% auto -40% -30%;
+  width:17%;
+  opacity:0;
+  pointer-events:none;
+  transform:rotate(14deg);
+  background:linear-gradient(90deg,transparent,rgba(255,239,190,.14),transparent);
+  animation:coverSheen 9s ease-in-out infinite;
+}
+@keyframes legendShimmer{
+  0%,72%,100%{background-position:100% 0;filter:drop-shadow(0 1px 0 #281603)}
+  82%{background-position:0 0;filter:drop-shadow(0 1px 0 #281603) drop-shadow(0 0 6px rgba(255,231,160,.35))}
+}
+@keyframes coverSheen{0%,76%{left:-30%;opacity:0}80%{opacity:.22}92%{left:118%;opacity:0}100%{left:118%;opacity:0}}
+.grimoire-opening .grimoire-cover{
+  transform:perspective(1800px) translateX(-1.8%) rotateY(-103deg);
+  filter:brightness(.78);
+  opacity:.08;
+  pointer-events:none;
+}
+
+@media (max-width:900px){
+  .grimoire-stage{width:90vw;height:min(calc(100svh - 5.2rem),860px);aspect-ratio:auto;margin-top:max(4rem,env(safe-area-inset-top))}
+  .grimoire-seal{top:45%;width:82%;height:57%}
+  .grimoire-legend{left:7%;right:7%;bottom:8.4%;font-size:clamp(1rem,3.5vw,1.72rem);letter-spacing:.06em}
+  .grimoire-ornaments{inset:1%;width:98%;height:98%}
+  .nav-logo-main{font-size:clamp(.68rem,2.25vw,.95rem);letter-spacing:.07em}
+}
+@media (max-width:520px){
+  .hero-grimoire{place-items:start center}
+  .grimoire-stage{width:92vw;height:calc(100svh - 5.05rem);max-height:760px;margin-top:max(4.25rem,env(safe-area-inset-top))}
+  .grimoire-cover{border-radius:13px 18px 18px 13px}
+  .grimoire-stage::before{border-radius:12px 18px 20px 12px}
+  .grimoire-seal{top:44.5%;width:87%;height:55%}
+  .grimoire-legend{left:5%;right:5%;bottom:9.5%;white-space:normal;font-size:clamp(.86rem,4.2vw,1.18rem);line-height:1.28;letter-spacing:.045em}
+  .grimoire-spine{width:7%}
+  .nav-row{gap:.38rem}
+  .nav-logo-main{font-size:.52rem;letter-spacing:.035em}
+  .nav-links a{width:24px;height:24px;font-size:.72rem}
+  .btn-install{width:24px;height:24px}
+}
+@media (max-width:360px){.nav-logo{display:none}.grimoire-legend{font-size:.82rem}}
+@media (max-height:560px) and (orientation:landscape){
+  .grimoire-stage{width:min(88vw,calc((100svh - 4rem) * 1.6));height:calc(100svh - 4rem);aspect-ratio:auto;margin-top:3.5rem}
+  .grimoire-seal{top:46%;width:68%;height:63%}
+  .grimoire-legend{bottom:5%;font-size:clamp(.8rem,2.4vw,1.15rem)}
+}
+@media (prefers-reduced-motion:reduce){
+  .grimoire-legend,.grimoire-sheen{animation:none!important}
+  .grimoire-cover{transition:none!important}
+}

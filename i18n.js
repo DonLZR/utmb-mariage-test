@@ -3,6 +3,7 @@
 window.UTMB_I18N = {
   fr: {
     _nom: "Français", _locale: "fr-FR",
+    grimoire_entree: "ENTREZ DANS LA LÉGENDE", grimoire_ouvrir: "Ouvrir le grimoire",
     gate_titre: "Zone d'accès coureurs", gate_texte: "Saisissez le code figurant sur votre faire-part.",
     gate_ph: "Code d'accès", gate_btn: "Entrer sur le parcours", gate_err: "Code incorrect — vérifiez votre faire-part.",
     jours: "jours", heures: "heures", min: "min", sec: "sec",
@@ -37,6 +38,7 @@ installer: "📲 Installer l'appli", installer_court: "Installer l'appli", insta
   },
   it: {
     _nom: "Italiano", _locale: "it-IT",
+    grimoire_entree: "ENTRATE NELLA LEGGENDA", grimoire_ouvrir: "Aprire il grimorio",
     gate_titre: "Area riservata ai corridori", gate_texte: "Inserite il codice indicato sulla partecipazione.",
     gate_ph: "Codice di accesso", gate_btn: "Entra nel percorso", gate_err: "Codice errato — controllate la partecipazione.",
     jours: "giorni", heures: "ore", min: "min", sec: "sec",
@@ -71,6 +73,7 @@ installer: "📲 Installa l'app", installer_court: "Installa l'app", installe: "
   },
   es: {
     _nom: "Español", _locale: "es-CL",
+    grimoire_entree: "ENTRAD EN LA LEYENDA", grimoire_ouvrir: "Abrir el grimorio",
     gate_titre: "Zona de acceso de corredores", gate_texte: "Ingresen el código que aparece en la invitación.",
     gate_ph: "Código de acceso", gate_btn: "Entrar al recorrido", gate_err: "Código incorrecto — revisen la invitación.",
     jours: "días", heures: "horas", min: "min", sec: "seg",
