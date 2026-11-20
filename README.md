@@ -1,29 +1,20 @@
-# Prototype visuel — Rééquilibrage Bretagne / trail
+# BROCÉLIANDE V3.3.1 — couverture photoréaliste nette
 
-## Ouvrir le prototype
+Mise à jour complète du site GitHub Pages, fondée sur le socle fonctionnel V3.2.0 et la couverture photoréaliste validée en V3.3.0.
 
-1. Décompresser le ZIP.
-2. Ouvrir `index.html` dans Chrome, Edge, Safari ou Firefox.
-3. Tester la carte : cliquer sur les marqueurs ou les cartes de points utiles.
-4. Réduire la fenêtre pour vérifier le comportement mobile.
-
-Le prototype est autonome ; seule l’ouverture du lien d’itinéraire nécessite Internet.
+## Correctifs V3.3.1
+- inscription FR / IT / ES rendue en vrai texte HTML, et non incrustée dans l’image ;
+- suppression du texte, du halo et de la zone floutée dans les trois visuels de couverture ;
+- `text-shadow`, `filter` et `backdrop-filter` explicitement neutralisés sur l’inscription ;
+- trois cadrages distincts desktop, tablette et mobile, sans étirement ;
+- ouverture de la couverture conservée, y compris au clavier et avec réduction des animations ;
+- logique Apps Script, Google Sheet, formulaires, carte, PWA, Coach et déblocages préservée.
 
 ## Contenu
+- `Structure_GitHub/` : mise à jour à copier dans le dépôt actif ;
+- `Apps_Script/Code.gs` : backend fourni à titre de référence, strictement identique au fichier reçu ;
+- `APERCUS_QA/` : rendus de contrôle FR / IT / ES aux trois formats ;
+- `codecomplet_V3.3.1.txt` : code texte consolidé ;
+- `SHA256SUMS.txt` : empreintes du livrable.
 
-- `index.html` — prototype interactif responsive ;
-- `prototype.css` — direction visuelle ;
-- `prototype.js` — interactions de démonstration ;
-- `CONCEPTION.md` — proposition structurée et plan d’intégration ;
-- `previews/desktop.png` — aperçu desktop ;
-- `previews/mobile.png` — aperçu mobile ;
-- `assets/hero-montagne.jpg` — photo fournie ;
-- `assets/coach.webp` — asset Coach fourni.
-
-## Statut
-
-- Prototype de conception uniquement.
-- Aucun fichier V2.4.2 de production modifié.
-- Aucun Google Sheet ni Apps Script modifié.
-- Les emplacements sur le plan et les horaires sont des exemples à valider.
-- L’illustration du domaine est volontairement conceptuelle ; elle sera remplacée par une photo autorisée.
+`cles.js`, les icônes personnelles, l’image Coach et la photo de secours existante restent à conserver depuis le dépôt actif.

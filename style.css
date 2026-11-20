@@ -605,128 +605,96 @@ h1,h2,h3,.cp-title,.tl-title,.stage-num,.section-head h2{font-family:var(--race)
 
 
 /* =====================================================================
-   V3.3.0 — COUVERTURE PHOTORÉALISTE DU GRIMOIRE
-   Le décor est un asset photographique responsive dérivé de la maquette
-   validée. Le CSS ne reconstruit pas le livre : il gère uniquement le
-   cadrage, la traduction, les reflets et l'ouverture accessible.
+   V3.3.1 — couverture photoréaliste validée, texte 100 % net, responsive
+   Règle impérative : aucun flou, halo, ombre ou filtre sur l'inscription.
    ===================================================================== */
 :root{
-  --grimoire-gold:#d8ae61;
-  --grimoire-gold-light:#ffe4a0;
-  --grimoire-ink:#03100c;
-  --grimoire-font:'Cinzel Decorative','Cormorant Garamond',Georgia,serif;
+  --cover-green:#04140e;
+  --cover-gold:#d7aa5b;
+  --cover-font:'Cinzel Decorative','Cormorant Garamond',Georgia,serif;
 }
-.nav{
-  min-height:58px;
-  padding:.52rem clamp(.75rem,2.5vw,2.2rem);
-  background:linear-gradient(180deg,rgba(2,20,14,.97),rgba(3,27,19,.92));
-  border-bottom:1px solid rgba(213,170,90,.45);
-  box-shadow:0 12px 30px -20px #000;
-  backdrop-filter:blur(12px) saturate(115%);
-  -webkit-backdrop-filter:blur(12px) saturate(115%);
-}
-.nav-logo{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:.55rem;justify-items:start;align-items:center;color:#dec17b;text-shadow:0 1px 10px rgba(221,181,102,.2)}
-.nav-emblem{grid-row:1/3;font-size:1.4rem;color:#cfa55b;transform:scaleX(.8)}
-.nav-logo-main{font:700 clamp(.82rem,1.15vw,1.05rem)/1 var(--grimoire-font);letter-spacing:.11em;transform:none}
-.nav-logo-stack{grid-column:2;transform:none;text-align:left}
-.nav-logo-stack strong{font:600 .42rem/1.1 'Montserrat',sans-serif;letter-spacing:.18em;color:#b89d67}
-.nav-links a{font-family:'Cormorant Garamond',Georgia,serif;letter-spacing:.035em;color:#ead9ae}
-.btn-install{border-color:rgba(215,177,102,.45);color:#e6cf98;background:rgba(0,0,0,.2)}
-.grimoire-hero{
-  min-height:100svh;
-  display:block;
-  overflow:hidden;
-  background:#020806;
-  perspective:1800px;
-  isolation:isolate;
-}
-.grimoire-open{
-  position:absolute;
-  inset:0;
-  display:block;
-  width:100%;
-  height:100%;
-  padding:0;
-  border:0;
-  color:inherit;
-  background:#020806;
-  cursor:pointer;
-  transform:translateZ(0);
-  transform-origin:7% 50%;
-  -webkit-tap-highlight-color:transparent;
-  overflow:hidden;
-}
-.grimoire-open:focus-visible{outline:3px solid var(--grimoire-gold-light);outline-offset:-7px}
-.grimoire-visual,.grimoire-visual img{position:absolute;inset:0;width:100%;height:100%;display:block}
-.grimoire-visual img{object-fit:cover;object-position:center center;filter:saturate(1.03) contrast(1.025)}
-.grimoire-open::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:2;
-  pointer-events:none;
+body.book-closed{overflow:hidden;background:var(--cover-green)}
+.book-cover-screen{
+  position:fixed;inset:0;z-index:40;display:grid;place-items:center;overflow:hidden;
+  padding-top:max(3.9rem,calc(3rem + env(safe-area-inset-top)));
   background:
-    radial-gradient(ellipse at 50% 44%,transparent 36%,rgba(0,0,0,.05) 62%,rgba(0,0,0,.38) 100%),
-    linear-gradient(180deg,rgba(0,9,6,.10),transparent 20%,transparent 82%,rgba(0,0,0,.22));
-  box-shadow:inset 0 0 100px rgba(0,0,0,.35);
+    radial-gradient(circle at 50% 44%,rgba(23,70,49,.30),transparent 58%),
+    linear-gradient(135deg,#020a07,#061a12 52%,#020b08);
+  perspective:1800px;
 }
-.grimoire-open::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:3;
-  pointer-events:none;
-  opacity:.26;
-  mix-blend-mode:screen;
-  background:linear-gradient(112deg,transparent 25%,rgba(255,222,151,.12) 43%,transparent 58%);
-  transform:translateX(-100%);
-  animation:coverLight 9s ease-in-out 1.2s infinite;
+.book-cover-hit{
+  display:grid;place-items:center;width:100%;height:100%;margin:0;padding:0;border:0;
+  color:inherit;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
 }
-.grimoire-title{
-  position:absolute;
-  z-index:4;
-  left:52%;
-  top:73.2%;
-  width:min(58vw,840px);
+.book-cover-hit:focus-visible{outline:2px solid var(--cover-gold);outline-offset:-5px}
+.book-cover-art{
+  position:relative;display:block;container-type:inline-size;isolation:isolate;
+  width:min(100vw,calc((100svh - 3.9rem) * 1.5770));
+  aspect-ratio:1536 / 974;max-height:calc(100svh - 3.9rem);
+  transform-origin:8% 50%;transform-style:preserve-3d;
+  transition:transform .72s cubic-bezier(.6,.02,.25,1),opacity .56s ease;
+  box-shadow:0 24px 70px rgba(0,0,0,.48);
+}
+.book-cover-picture,.book-cover-picture img{display:block;width:100%;height:100%}
+.book-cover-picture img{
+  object-fit:contain;object-position:center;
+  filter:none!important;-webkit-filter:none!important;
+  transform:none!important;image-rendering:auto;
+}
+.cover-inscription{
+  position:absolute;z-index:2;left:53.1%;top:71.45%;width:72%;
   transform:translate(-50%,-50%);
-  font:700 clamp(1.55rem,3vw,3.15rem)/1.16 var(--grimoire-font);
-  letter-spacing:.055em;
-  text-align:center;
-  text-transform:uppercase;
-  white-space:normal;
-  color:var(--grimoire-gold-light);
-  background:linear-gradient(100deg,#a9772e 0%,#f1cf7c 28%,#fff2b7 47%,#cf9843 70%,#ffe6a4 100%);
-  background-size:230% 100%;
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  text-shadow:0 2px 0 rgba(59,34,6,.82),0 0 10px rgba(246,199,101,.46),0 7px 18px rgba(0,0,0,.72);
-  filter:drop-shadow(0 0 7px rgba(255,207,105,.2));
-  animation:titleGold 6.8s ease-in-out infinite;
+  color:var(--cover-gold);font-family:var(--cover-font);font-size:3.05cqw;
+  font-weight:400;font-style:normal;font-synthesis:none;line-height:1.08;
+  letter-spacing:.005em;text-align:center;text-transform:uppercase;white-space:nowrap;
+  /* Netteté non négociable : pas de cache flouté, pas de halo, pas d'ombre. */
+  background:none!important;box-shadow:none!important;text-shadow:none!important;
+  filter:none!important;-webkit-filter:none!important;backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;-webkit-text-stroke:0 transparent;
+  opacity:1;mix-blend-mode:normal;text-rendering:geometricPrecision;
+  -webkit-font-smoothing:auto;
 }
-.hero-runtime{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;pointer-events:none!important;opacity:0!important}
-.grimoire-is-opening .grimoire-open{animation:openCover .92s cubic-bezier(.64,.02,.22,.99) forwards;will-change:transform,filter,opacity}
-.grimoire-is-opening .grimoire-title{animation:none}
-@keyframes titleGold{0%,70%,100%{background-position:100% 50%}82%{background-position:0 50%}}
-@keyframes coverLight{0%,72%,100%{transform:translateX(-110%);opacity:0}82%{opacity:.32}94%{transform:translateX(110%);opacity:0}}
-@keyframes openCover{0%{transform:rotateY(0) scale(1);filter:brightness(1);opacity:1}65%{filter:brightness(.72);opacity:1}100%{transform:rotateY(-78deg) scale(.94);filter:brightness(.42);opacity:0}}
-@media (max-width:1024px){
-  .grimoire-title{left:50%;top:71%;width:min(72vw,760px);font-size:clamp(1.35rem,4vw,2.6rem);letter-spacing:.04em}
+.book-cover-screen.is-opening{pointer-events:none}
+.book-cover-screen.is-opening .book-cover-art{transform:rotateY(-86deg) translateX(-4%);opacity:0}
+
+/* La bannière reste fonctionnelle et lisible au-dessus de la couverture. */
+.nav{z-index:60;background:linear-gradient(90deg,rgba(3,20,14,.98),rgba(5,35,25,.96));border-bottom:1px solid rgba(215,170,91,.30)}
+.nav-logo-broceliande{display:grid;justify-items:start;gap:.08rem;line-height:1;color:#e4bc73}
+.nav-logo-broceliande .nav-logo-main{font:700 1.08rem/1 var(--cover-font);letter-spacing:.035em;transform:none}
+.nav-logo-broceliande .nav-logo-stack{display:flex;align-items:center;gap:.42rem;border:0;padding:0;transform:none}
+.nav-logo-broceliande .nav-logo-stack strong{font:600 .40rem/1 var(--sans);letter-spacing:.13em;color:#dfc491}
+.nav-logo-broceliande .nav-logo-stack em{font:700 .40rem/1 var(--sans);font-style:normal;letter-spacing:.05em;color:#e8d4ac}
+
+@media (max-width:920px){
+  .book-cover-art{width:min(100vw,calc((100svh - 4.2rem) * 1.2895));aspect-ratio:1256 / 974;max-height:calc(100svh - 4.2rem)}
+  .cover-inscription{left:53.7%;top:71.45%;width:78%;font-size:3.45cqw}
 }
-@media (max-width:640px){
-  .nav{min-height:52px;padding:.42rem .55rem}
-  .nav-emblem{display:none}
-  .nav-logo{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto;gap:.12rem}
-  .nav-logo-main{font-size:.7rem;letter-spacing:.075em}
-  .nav-logo-stack{grid-column:1}.nav-logo-stack strong{font-size:.31rem;letter-spacing:.09em}
-  .grimoire-visual img{object-position:center center}
-  .grimoire-title{top:69.6%;width:76vw;font-size:clamp(1.05rem,5.5vw,1.6rem);line-height:1.24;letter-spacing:.035em;text-shadow:0 1px 0 rgba(59,34,6,.9),0 0 8px rgba(246,199,101,.42),0 5px 14px rgba(0,0,0,.8)}
+@media (max-width:520px){
+  .book-cover-screen{padding-top:max(4.35rem,calc(3.5rem + env(safe-area-inset-top)));align-items:center}
+  .book-cover-art{width:min(100vw,calc((100svh - 4.35rem) * .7187));aspect-ratio:700 / 974;max-height:calc(100svh - 4.35rem);box-shadow:0 20px 52px rgba(0,0,0,.54)}
+  .cover-inscription{left:56.4%;top:71.45%;width:92%;font-size:5.05cqw;letter-spacing:0}
+  .nav{gap:.45rem;padding-inline:.45rem}
+  .nav-row{gap:.35rem}
+  .nav-logo-broceliande .nav-logo-main{font-size:.78rem;letter-spacing:.025em}
+  .nav-logo-broceliande .nav-logo-stack strong{font-size:.30rem;letter-spacing:.08em}
+  .nav-logo-broceliande .nav-logo-stack em{font-size:.30rem}
 }
-@media (max-width:380px){
-  .nav-logo-stack{display:none}
-  .grimoire-title{width:80vw;font-size:clamp(.98rem,5.2vw,1.3rem)}
+@media (max-width:370px){
+  .cover-inscription{font-size:5.15cqw;width:94%}
+  .nav-logo-broceliande .nav-logo-stack{display:none}
 }
 @media (prefers-reduced-motion:reduce){
-  .grimoire-open::after,.grimoire-title{animation:none!important}
-  .grimoire-is-opening .grimoire-open{animation:none!important;opacity:.35}
+  .book-cover-art{transition:none}
+  .book-cover-screen.is-opening .book-cover-art{transform:none;opacity:1}
 }
+
+/* Correctif smartphone QA : couverture immédiatement sous la bannière, sans débordement. */
+body.book-closed .toast,body.book-closed [class^="coach-"]{display:none!important}
+@media (max-width:520px){
+  .book-cover-screen{place-items:start center}
+  .book-cover-art{width:min(calc(100vw - 1.25rem),calc((100svh - 4.35rem) * .7187))}
+  .cover-inscription{left:56.4%;width:86%}
+}
+@media (max-width:370px){.cover-inscription{left:55.5%;width:88%}}
+
+@media (max-width:520px){.book-cover-hit{place-items:start center}}

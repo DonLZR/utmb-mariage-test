@@ -1,8 +1,9 @@
 /* UTMB — service worker (appli installable + secours hors ligne)
    Stratégie « réseau d'abord » : les mises à jour du site sont toujours prises en compte. */
-const CACHE = 'utmb-broceliande-v3.3.0';
-const BASE = ['./', 'index.html', 'style.css?v=3.3.0', 'app.js?v=3.3.0', 'i18n.js?v=3.3.0', 'config.js?v=3.3.0',
-  'manifest.webmanifest', 'icons/icon-192.png', 'assets/grimoire/cover-desktop.webp', 'assets/grimoire/cover-tablet.webp', 'assets/grimoire/cover-mobile.webp'];
+const CACHE = 'utmb-broceliande-v3.3.1';
+const BASE = ['./', 'index.html', 'style.css?v=3.3.1', 'app.js?v=3.3.1', 'i18n.js?v=3.3.1', 'config.js?v=3.3.1', 'cover.js?v=3.3.1',
+  'manifest.webmanifest', 'icons/icon-192.png', 'assets/brand/logo-broceliande-nature.webp',
+  'assets/cover/cover-desktop.webp', 'assets/cover/cover-tablet.webp', 'assets/cover/cover-mobile.webp'];
 
 self.addEventListener('install', e => {
   self.skipWaiting();

@@ -1,4 +1,4 @@
-/* UTMB — moteur du site V2.4.2 (le contenu se gère dans le Google Sheet) */
+/* UTMB — moteur du site V3.3.1 (socle V2.4.2, contenu géré dans le Google Sheet) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
@@ -104,6 +104,7 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     document.documentElement.lang = LANG;
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
     document.querySelectorAll('[data-lang-switch]').forEach(box => {
       box.innerHTML = LANGS.map(l => `<button type="button" data-lang="${l}" aria-pressed="${l === LANG}" title="${I18N[l]._nom}" aria-label="${I18N[l]._nom}">${FLAGS[l] || l.toUpperCase()}</button>`).join('');
       box.addEventListener('click', ev => {
@@ -439,26 +440,6 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
       $('#dossard').hidden = false;
     $('#dossardNum').textContent = String(d.num).padStart(3, '0');
     $('#dossardName').textContent = d.nom;
-  }
-
-  /* ---------- Couverture du grimoire ---------- */
-  function initGrimoireCover() {
-    const cover = $('#grimoireOpen'), target = $('#intro');
-    if (!cover || !target) return;
-    let opening = false;
-    cover.addEventListener('click', () => {
-      if (opening) return;
-      opening = true;
-      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      document.body.classList.add('grimoire-is-opening');
-      cover.setAttribute('aria-expanded', 'true');
-      setTimeout(() => target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), reduce ? 0 : 760);
-      setTimeout(() => {
-        document.body.classList.remove('grimoire-is-opening');
-        cover.removeAttribute('aria-expanded');
-        opening = false;
-      }, reduce ? 50 : 1800);
-    });
   }
 
   /* ---------- Installation en appli ---------- */
@@ -1203,7 +1184,7 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     }
     applyStaticI18n();
     renderHeroInstant();                              // titres + compte à rebours tout de suite
-    initGrimoireCover(); initInstall(); initLightbox(); initAnchors(); initCoachToggle();
+    initInstall(); initLightbox(); initAnchors(); initCoachToggle();
     const nav = $('#nav'), upd = () => nav.classList.toggle('scrolled', scrollY > 60);
     addEventListener('scroll', upd, { passive: true }); upd();
     $('#cpPanel').addEventListener('click', ev => { const b = ev.target.closest('.cp'); if (b) selectStage(b.dataset.id, true); });

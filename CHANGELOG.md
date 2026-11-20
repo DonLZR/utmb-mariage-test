@@ -1,14 +1,14 @@
 # CHANGELOG
 
-## V3.3.0 — couverture photoréaliste fidèle à la maquette validée
-
-- Remplacement de la construction CSS simplifiée par trois plaques photographiques haute définition dérivées directement de la maquette validée : ordinateur, tablette et téléphone.
-- Conservation du sceau complet (cerf, arbres, sapins, menhirs, chemin, soleil, BROCÉLIANDE, sous-titre et BY UTMB) ; suppression visuelle de la signature « DES LÉGENDES PLEIN LES JAMBES ».
-- Accroche HTML traduite : FR « ENTREZ DANS LA LÉGENDE », IT « ENTRATE NELLA LEGGENDA », ES « ENTRAD EN LA LEYENDA ».
-- Toute la couverture est cliquable et accessible au clavier ; ouverture 3D puis défilement vers le contenu.
-- Navigation restylée dans l'esprit de la référence sans modifier son moteur dynamique.
-- Backend Apps Script, données Sheet, formulaires, cartes, déblocages, dossard, galerie, Coach et PWA préservés.
-- Cache web porté à 3.3.0 ; aucun redéploiement Apps Script requis.
+## V3.3.1 — inscription nette et mobile non déformé
+- Couverture photoréaliste V3.3.0 conservée.
+- Suppression dans les visuels de la phrase incrustée, de son halo et de la bande floutée.
+- Phrase rendue en texte HTML avec la police validée, sans ombre ni filtre.
+- Traductions exactes FR / IT / ES.
+- Assets distincts desktop, tablette et mobile, affichés à leur ratio natif.
+- Bannière, ouverture du grimoire et socle fonctionnel conservés.
+- Cache PWA porté à 3.3.1.
+- `Code.gs` inchangé.
 
 ## V3.2.0 — accueil allégé et arrivée carte cinématique
 

@@ -3,11 +3,11 @@
 window.UTMB_I18N = {
   fr: {
     _nom: "Français", _locale: "fr-FR",
+    cover_enter: "ENTREZ DANS LA LÉGENDE", cover_hint: "Ouvrir le grimoire", cover_aria: "Ouvrir le grimoire BROCÉLIANDE",
     gate_titre: "Zone d'accès coureurs", gate_texte: "Saisissez le code figurant sur votre faire-part.",
     gate_ph: "Code d'accès", gate_btn: "Entrer sur le parcours", gate_err: "Code incorrect — vérifiez votre faire-part.",
     jours: "jours", heures: "heures", min: "min", sec: "sec",
     chargement: "Chargement du parcours…",
-    grimoire_enter: "ENTREZ DANS LA LÉGENDE",
     imagerie: "Imagerie © Esri",
     alti_label: "Altitude du jour", alti_max: "sommet à {a} m", alti_top: "🏔️ Sommet atteint !",
     cta: "Prendre le départ ↓", dossard_top: "UTMB WEDDING SERIES · Finisher en devenir",
@@ -38,11 +38,11 @@ installer: "📲 Installer l'appli", installer_court: "Installer l'appli", insta
   },
   it: {
     _nom: "Italiano", _locale: "it-IT",
+    cover_enter: "ENTRATE NELLA LEGGENDA", cover_hint: "Aprire il grimorio", cover_aria: "Aprire il grimorio BROCÉLIANDE",
     gate_titre: "Area riservata ai corridori", gate_texte: "Inserite il codice indicato sulla partecipazione.",
     gate_ph: "Codice di accesso", gate_btn: "Entra nel percorso", gate_err: "Codice errato — controllate la partecipazione.",
     jours: "giorni", heures: "ore", min: "min", sec: "sec",
     chargement: "Caricamento del percorso…",
-    grimoire_enter: "ENTRATE NELLA LEGGENDA",
     imagerie: "Immagini © Esri",
     alti_label: "Altitudine di oggi", alti_max: "vetta a {a} m", alti_top: "🏔️ Vetta raggiunta!",
     cta: "Al via! ↓", dossard_top: "UTMB WEDDING SERIES · Futuro finisher",
@@ -73,11 +73,11 @@ installer: "📲 Installa l'app", installer_court: "Installa l'app", installe: "
   },
   es: {
     _nom: "Español", _locale: "es-CL",
+    cover_enter: "ENTRAD EN LA LEYENDA", cover_hint: "Abrir el grimorio", cover_aria: "Abrir el grimorio BROCÉLIANDE",
     gate_titre: "Zona de acceso de corredores", gate_texte: "Ingresen el código que aparece en la invitación.",
     gate_ph: "Código de acceso", gate_btn: "Entrar al recorrido", gate_err: "Código incorrecto — revisen la invitación.",
     jours: "días", heures: "horas", min: "min", sec: "seg",
     chargement: "Cargando el recorrido…",
-    grimoire_enter: "ENTRAD EN LA LEYENDA",
     imagerie: "Imágenes © Esri",
     alti_label: "Altitud de hoy", alti_max: "cumbre a {a} m", alti_top: "🏔️ ¡Cumbre alcanzada!",
     cta: "¡A la largada! ↓", dossard_top: "UTMB WEDDING SERIES · Futuro finisher",

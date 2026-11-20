@@ -1,25 +1,22 @@
-# RAPPORT QUALITÉ — BROCÉLIANDE V3.3.0
+# Rapport qualité — BROCÉLIANDE V3.3.1
 
-## Résultat visuel
-La couverture n’est plus une imitation CSS : elle dérive directement de la maquette photoréaliste validée. Trois compositions haute définition protègent le cadrage du livre et du sceau selon le format d’écran. Les rendus réels sont archivés dans `APERCUS_QA/`.
+## Conclusion
+La couverture photoréaliste validée est conservée. L’inscription est désormais indépendante du visuel et nette dans les trois langues. Les variantes d’image ont des proportions natives propres à chaque famille d’écran ; aucune mise à l’échelle non proportionnelle n’est utilisée.
 
-## Contrôles réalisés
-- Rendu Chromium réel en 1440 × 900, 768 × 1024 et 390 × 844.
-- Contrôle visuel du livre, du sceau, des dorures, de la patine, de la navigation et de l’accroche.
-- Traductions exactes vérifiées :
-  - FR : `ENTREZ DANS LA LÉGENDE` ;
-  - IT : `ENTRATE NELLA LEGGENDA` ;
-  - ES : `ENTRAD EN LA LEYENDA`.
-- Accroche contenue dans la largeur de l’écran aux trois formats.
-- Clic sur toute la couverture vérifié : animation puis défilement vers le contenu.
-- Aucune erreur JavaScript en console pendant les trois scénarios de rendu.
-- Syntaxe validée pour `app.js`, `i18n.js`, `config.js`, `sw.js` et `Code.gs`.
-- HTML validé : aucun identifiant dupliqué et tous les identifiants attendus par le moteur sont présents.
-- Backend `Code.gs` comparé au fichier V3.2.0 fourni : identique.
-- Cache PWA porté à V3.3.0 et nouvelles images ajoutées au pré-cache.
+## Contrôles automatisés réalisés
+- rendus Chromium : 1440×900, 768×1024 et 390×844 ;
+- trois langues sur chaque format, soit neuf scénarios ;
+- textes exacts FR / IT / ES ;
+- inscription contenue dans la couverture sans débordement ;
+- ratios rendus strictement égaux aux ratios des sources : desktop 1,5770, tablette 1,2895, mobile 0,7187 ;
+- styles calculés de l’inscription : `text-shadow: none`, `filter: none`, `backdrop-filter: none` ;
+- ouverture tactile/cliquable : couverture masquée, défilement rétabli et accueil intérieur visible ;
+- syntaxe de tous les fichiers JavaScript ;
+- absence d’identifiants HTML dupliqués ;
+- `Code.gs` comparé par SHA-256 au fichier reçu : strictement identique.
 
-## Éléments préservés
-Google Apps Script, Google Sheets, formulaires, déblocages, carte MapLibre 3D/2D, DEM, dossard, galerie, Coach, langues, PWA et structure des sections.
+## Contrôle visuel
+Les neuf captures sont fournies dans `APERCUS_QA/`. Les variantes mobile utilisent un recadrage portrait dédié : le sceau et la composition restent proportionnés, sans écrasement. La zone d’inscription du visuel a été reconstruite sans texte ni bande floutée avant superposition du texte HTML.
 
-## Réserves
-Les appels réels au Google Sheet, l’envoi d’un formulaire, les tuiles MapLibre en production, Safari/iOS physique et la migration depuis un ancien cache PWA devront être vérifiés après publication sur la branche de test. Ils ne peuvent pas être simulés complètement sans le `cles.js` privé et l’environnement de production.
+## Réserves de test
+Le bac à sable de contrôle bloque certains CDN externes et ne contient pas les médias privés volontairement préservés (`cles.js`, icônes, image Coach, photo de secours). Après copie dans le dépôt actif, restent à tester avec les ressources réelles : Apps Script, tuiles MapLibre/DEM, envoi de formulaire, PWA installée et Safari iOS.
