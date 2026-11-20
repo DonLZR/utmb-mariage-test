@@ -1,17 +1,14 @@
 # CHANGELOG
 
-## V3.2.1 — couverture grimoire BROCÉLIANDE
+## V3.3.0 — couverture photoréaliste fidèle à la maquette validée
 
-### Accueil
-- Remplacement visuel ciblé de l’accueil par une couverture de grimoire en cuir vert sapin, dorures celtiques et sceau central or ancien.
-- Le sceau conserve le cerf, les arbres, les sapins, les menhirs, le chemin, le soleil, BROCÉLIANDE, ULTRA TRAIL DU MARIAGE BOSSI et BY UTMB ; seule la signature « DES LÉGENDES PLEIN LES JAMBES » est retirée conformément à la validation.
-- Toute la couverture est un bouton accessible qui déclenche une ouverture 3D raffinée puis rejoint le contenu existant.
-- L’inscription dorée et scintillante est traduite avec le sélecteur existant : « ENTREZ DANS LA LÉGENDE », « ENTRATE NELLA LEGGENDA », « ENTRAD EN LA LEYENDA ».
-- La bannière supérieure conserve sa navigation, ses langues et l’installation PWA, avec un habillage vert sombre/or et la marque BROCÉLIANDE à la place de « UTMB WEDDING SERIES ».
-
-### Continuité
-- Aucune modification de `Code.gs`, des données Sheet, des formulaires, de la carte, du Coach, des accès ou de la logique de déblocage.
-- Cache PWA et ressources web portés en 3.2.1 ; `cles.js`, les icônes et le binaire Coach restent à préserver dans le dépôt actif.
+- Remplacement de la construction CSS simplifiée par trois plaques photographiques haute définition dérivées directement de la maquette validée : ordinateur, tablette et téléphone.
+- Conservation du sceau complet (cerf, arbres, sapins, menhirs, chemin, soleil, BROCÉLIANDE, sous-titre et BY UTMB) ; suppression visuelle de la signature « DES LÉGENDES PLEIN LES JAMBES ».
+- Accroche HTML traduite : FR « ENTREZ DANS LA LÉGENDE », IT « ENTRATE NELLA LEGGENDA », ES « ENTRAD EN LA LEYENDA ».
+- Toute la couverture est cliquable et accessible au clavier ; ouverture 3D puis défilement vers le contenu.
+- Navigation restylée dans l'esprit de la référence sans modifier son moteur dynamique.
+- Backend Apps Script, données Sheet, formulaires, cartes, déblocages, dossard, galerie, Coach et PWA préservés.
+- Cache web porté à 3.3.0 ; aucun redéploiement Apps Script requis.
 
 ## V3.2.0 — accueil allégé et arrivée carte cinématique
 

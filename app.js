@@ -441,6 +441,26 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     $('#dossardName').textContent = d.nom;
   }
 
+  /* ---------- Couverture du grimoire ---------- */
+  function initGrimoireCover() {
+    const cover = $('#grimoireOpen'), target = $('#intro');
+    if (!cover || !target) return;
+    let opening = false;
+    cover.addEventListener('click', () => {
+      if (opening) return;
+      opening = true;
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.body.classList.add('grimoire-is-opening');
+      cover.setAttribute('aria-expanded', 'true');
+      setTimeout(() => target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }), reduce ? 0 : 760);
+      setTimeout(() => {
+        document.body.classList.remove('grimoire-is-opening');
+        cover.removeAttribute('aria-expanded');
+        opening = false;
+      }, reduce ? 50 : 1800);
+    });
+  }
+
   /* ---------- Installation en appli ---------- */
   function initInstall() {
     const btn = $('#btnInstall');
@@ -1037,31 +1057,6 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     });
   }
 
-  /* ---------- Couverture du grimoire : ouverture puis accès au contenu ---------- */
-  function initGrimoire() {
-    const cover = $('#grimoireCover'), firstPage = document.querySelector('.intro');
-    if (!cover || !firstPage) return;
-    let opening = false;
-    cover.addEventListener('click', () => {
-      if (opening) return;
-      opening = true;
-      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      cover.disabled = true;
-      cover.setAttribute('aria-busy', 'true');
-      document.body.classList.add('grimoire-opening');
-      setTimeout(() => {
-        firstPage.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-        cover.blur();
-      }, reduce ? 0 : 760);
-      setTimeout(() => {
-        document.body.classList.remove('grimoire-opening');
-        cover.disabled = false;
-        cover.removeAttribute('aria-busy');
-        opening = false;
-      }, reduce ? 80 : 1750);
-    });
-  }
-
   /* ---------- Rendu complet (rejouable sans doublon) ---------- */
   const formulaireEnCours = () => [...document.querySelectorAll('form.form')].some(f =>
     [...f.elements].some(el => (el.type === 'radio' || el.type === 'checkbox') ? el.checked !== el.defaultChecked
@@ -1208,7 +1203,7 @@ let DATA = null, DATA_SIG = '', RAW = null, map = null, VIEW = null, markers = {
     }
     applyStaticI18n();
     renderHeroInstant();                              // titres + compte à rebours tout de suite
-    initInstall(); initLightbox(); initAnchors(); initGrimoire(); initCoachToggle();
+    initGrimoireCover(); initInstall(); initLightbox(); initAnchors(); initCoachToggle();
     const nav = $('#nav'), upd = () => nav.classList.toggle('scrolled', scrollY > 60);
     addEventListener('scroll', upd, { passive: true }); upd();
     $('#cpPanel').addEventListener('click', ev => { const b = ev.target.closest('.cp'); if (b) selectStage(b.dataset.id, true); });

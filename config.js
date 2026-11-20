@@ -4,7 +4,7 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.2.1",
+  version: "3.3.0",
 
   /* Secours local haute qualité : les photos du Sheet restent prioritaires. */
   heroFallback: "assets/images/hero-couple-original.jpg",
