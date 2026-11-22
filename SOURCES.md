@@ -1,23 +1,15 @@
-# Sources et statut des contenus
+# Sources visuelles — BROCÉLIANDE V3.5.0
 
-## Sources projet
+## Fichiers fournis par l’utilisateur
 
-- `codecomplet_v2.4.2.txt` : architecture et comportements existants.
-- `891c436a-8c44-4ac9-b392-97a069685ecd.jpg` : photo d’accueil fournie.
-- `coach_reference.webp` : asset Coach fourni et conservé sans altération.
+- `cover-main-v333.png` — couverture du grimoire, 1536×1024, ratio 3:2 ;
+- `Reference-Page-vierge.png` — référentiel réaliste de page intérieure, 1536×1024, ratio 3:2 ;
+- `Reference-Carte-Brocéliande.png` — carte validée, 1536×1024, ratio 3:2.
 
-## Source publique utilisée pour le cadrage
+## Dérivés techniques
 
-- Site officiel du Domaine des Hayes : https://www.domaine-des-hayes.fr/
-  - localisation publique : 35380 Maxent ;
-  - domaine au cœur de la forêt de Brocéliande ;
-  - présence de salles de réception et d’hébergements.
+- `assets/book/page-vierge.webp` — conversion WebP qualité 90 ;
+- `assets/book/page-vierge-gauche.webp` — même page miroir pour le folio gauche ;
+- `assets/map/carte-broceliande.webp` — conversion WebP qualité 90.
 
-## Contenus conceptuels à valider
-
-- positions du parking, de l’accueil, de la cérémonie, de la soirée et des hébergements ;
-- horaires et conseils pratiques ;
-- photo finale du domaine ;
-- traductions italiennes et espagnoles des nouveaux libellés.
-
-L’illustration du Domaine des Hayes dans le prototype n’est pas une reproduction du bâtiment réel ; elle sert uniquement à valider la composition visuelle.
+Les conversions ne modifient pas les dimensions ni les proportions. Les PNG source sont conservés dans les sous-dossiers `assets/book/` et `assets/map/` à des fins de référence.

@@ -1,4 +1,4 @@
-/* BROCÉLIANDE V3.3.1 — ouverture de la couverture photoréaliste.
+/* BROCÉLIANDE V3.5.0 — ouverture de la couverture photoréaliste.
    Module volontairement isolé : aucun impact sur les formulaires, la carte ou Apps Script. */
 (() => {
   'use strict';
@@ -30,10 +30,10 @@
     opening = true;
     document.body.classList.add('book-opening');
     cover.classList.add('is-opening');
-    window.setTimeout(() => finish(target || '#top'), reduced.matches ? 0 : 720);
+    window.setTimeout(() => finish(target || '#parcours'), reduced.matches ? 0 : 720);
   }
 
-  trigger.addEventListener('click', () => openCover('#top'));
+  trigger.addEventListener('click', () => openCover('#parcours'));
 
   /* Les liens de la bannière restent utilisables même lorsque la couverture est fermée. */
   document.addEventListener('click', event => {

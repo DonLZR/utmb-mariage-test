@@ -857,3 +857,127 @@ body.book-closed .toast,body.book-closed [class^="coach-"]{display:none!importan
 .parcours-book .cp.locked .cp-num::after,.map-pin.locked .map-pin-core::after{
   content:"";position:absolute;right:0;bottom:4px;width:5px;height:5px;border:1px solid #5d574f;border-bottom:0;border-radius:5px 5px 0 0;box-sizing:border-box
 }
+
+
+/* =====================================================================
+   V3.5.0 — pages intérieures issues du visuel validé + responsive mobile
+   Modifications ciblées : le socle fonctionnel V3.4.0 reste inchangé.
+   ===================================================================== */
+:root{
+  --book-page-image:url("assets/book/page-vierge.webp");
+  --book-page-left-image:url("assets/book/page-vierge-gauche.webp");
+}
+body{
+  background-color:#071910;
+  background-image:
+    radial-gradient(circle at 50% 0,rgba(159,121,56,.12),transparent 36rem),
+    linear-gradient(155deg,#06130d,#0b2419 58%,#06140e);
+  background-attachment:fixed;
+}
+
+/* Le visuel de référence devient la matière réelle des deux pages du carnet. */
+.parcours-folio{
+  background-color:#eadbb6;
+  background-image:var(--book-page-image);
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  box-shadow:inset 0 0 26px rgba(52,30,12,.12),inset 0 0 0 1px rgba(105,73,34,.26);
+}
+.parcours-folio-index{background-image:var(--book-page-left-image)}
+.parcours-folio::after{inset:13px;border-color:rgba(92,61,29,.18)}
+.folio-ornament{display:none}
+
+/* La carte fournie contient déjà ses lieux, sa légende et son cadre. */
+.parchment-map-figure{
+  clip-path:none;
+  border:0;
+  border-radius:4px;
+  background:#d6bd83;
+  box-shadow:0 13px 28px rgba(55,33,14,.24);
+}
+.parchment-map-figure img{object-fit:contain;filter:none}
+.map-place{display:none!important}
+
+/* Toutes les étapes conservent leur logique mais prennent l'apparence de pages du même carnet. */
+.sections{max-width:1080px;gap:2rem;padding-top:2.6rem}
+.stage{
+  border:1px solid rgba(113,77,35,.5);
+  border-radius:12px;
+  color:#3d2c1c;
+  background-color:#eadbb6;
+  background-image:var(--book-page-image);
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  box-shadow:0 22px 52px -22px rgba(0,0,0,.7),inset 0 0 24px rgba(69,42,18,.08);
+}
+.stage-head{
+  border-bottom-color:rgba(126,88,42,.42);
+  background:linear-gradient(90deg,rgba(225,205,161,.72),rgba(249,237,204,.38));
+}
+.stage-body{background:rgba(255,248,224,.18)}
+.stage:not(.locked) h2,.stage h2{color:#173a2b}
+.stage-cp{color:#8d682f}
+.stage-sub,.stage-body,.stage-body p{color:#4b3823}
+.form,.row,.modal-card{background:rgba(255,250,234,.82);border-color:rgba(126,88,42,.32)}
+.galerie{
+  margin-bottom:3rem;
+  padding:clamp(2rem,4vw,3.5rem);
+  border:1px solid rgba(113,77,35,.5);
+  border-radius:12px;
+  background:#eadbb6 var(--book-page-image) center/100% 100% no-repeat;
+  box-shadow:0 22px 52px -22px rgba(0,0,0,.7);
+}
+
+/* Tablette et mobile : une vraie page à la fois, carte d'abord, puis Parcours. */
+@media (max-width:880px){
+  .parcours-grimoire{padding:1.2rem .45rem 2.6rem}
+  .parcours-book{
+    display:flex;
+    flex-direction:column;
+    gap:.85rem;
+    width:min(760px,100%);
+    padding:0;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    box-shadow:none;
+  }
+  .parcours-book::before{display:none}
+  .parcours-folio-map{
+    order:1;
+    border-radius:10px;
+    padding-top:clamp(1.6rem,5vw,2.4rem);
+    background-image:var(--book-page-image);
+  }
+  .parcours-folio-index{
+    order:2;
+    border-radius:10px;
+    padding-bottom:2.7rem;
+    background-image:var(--book-page-image);
+  }
+  .parcours-folio-map::before{display:none}
+  .parchment-map-heading{margin-bottom:.7rem}
+  .parchment-map-figure{width:100%;aspect-ratio:3/2}
+}
+@media (max-width:560px){
+  .parcours-grimoire{padding-inline:.3rem}
+  .parcours-folio{padding:1.55rem .78rem 2.15rem;background-size:100% 100%}
+  .parcours-folio::after{inset:8px}
+  .parcours-folio-map{padding-top:1.45rem}
+  .parchment-map-heading .map-kicker{font-size:.58rem}
+  .parchment-map-heading h3{font-size:clamp(1.35rem,7vw,1.8rem)}
+  .map-pin{width:clamp(25px,8vw,34px);height:clamp(25px,8vw,34px)}
+  .map-pin-core{border-width:2px;font-size:clamp(.6rem,2.8vw,.82rem)}
+  .map-hint{margin:.55rem .35rem 0;line-height:1.25}
+  .sections{gap:1.25rem;padding:1.4rem .35rem 2.5rem}
+  .stage{border-radius:8px;background-size:100% 100%}
+  .stage-head{padding:.95rem .85rem .85rem}
+  .stage-body{padding:1rem .85rem 1.35rem}
+  .stage-num{width:44px;height:44px;font-size:1rem}
+  .galerie{margin:0 .35rem 2rem;padding:1.4rem .8rem 1.8rem}
+}
+
+.stage.locked .stage-head{background:rgba(218,207,181,.62)}
+.stage.locked .stage-body{background:rgba(230,220,196,.45)}

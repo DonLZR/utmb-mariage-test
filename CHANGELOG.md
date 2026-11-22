@@ -1,232 +1,30 @@
 # CHANGELOG
 
-## V3.4.0 — prototype Parcours « Terres de légendes »
-- Couverture et autres sections conservées sans modification.
-- Section Parcours transformée en double page de grimoire responsive.
-- Nouvelle carte fictive sur parchemin, sans texte ni numéro incrusté.
-- Titre exact « Terres de légendes » et toponymes arthuriens superposés en HTML.
-- Cinq pastilles interactives alimentées par les données réelles du Sheet.
-- Positions réglables dans `config.js` ou via les colonnes facultatives `carte_x` / `carte_y`.
-- Ancienne carte MapLibre/DEM retirée du chargement de cette section.
-- FR / IT / ES, formulaires, déblocages, PWA, Coach, galerie et dossard préservés.
-- `Code.gs` inchangé ; aucun redéploiement Apps Script requis.
+## V3.5.0 — transition directe, carnet réaliste et zoom de couverture
 
-## V3.3.1 — inscription nette et mobile non déformé
-- Couverture photoréaliste V3.3.0 conservée.
-- Suppression dans les visuels de la phrase incrustée, de son halo et de la bande floutée.
-- Phrase rendue en texte HTML avec la police validée, sans ombre ni filtre.
-- Traductions exactes FR / IT / ES.
-- Assets distincts desktop, tablette et mobile, affichés à leur ratio natif.
-- Bannière, ouverture du grimoire et socle fonctionnel conservés.
-- Cache PWA porté à 3.3.1.
-- `Code.gs` inchangé.
+### Couverture
+- L’ouverture mène directement à la section Parcours.
+- L’ancien hero devient invisible tout en restant présent pour la compatibilité des fonctions historiques.
+- L’inscription FR utilise désormais la même police HTML que les versions IT et ES.
+- La taille des trois inscriptions est légèrement augmentée.
+- Le mobile affiche une couverture plus petite, centrée et au ratio 3:2.
+- Ajout des paramètres Sheet `couverture_zoom` et `couverture_zoom_mobile` (0,75 à 1,35 ; défaut 1).
 
-## V3.2.0 — accueil allégé et arrivée carte cinématique
-
-### Accueil et identité
-- `WEDDING SERIES` est placé sous `UTMB`, plus petit et légèrement déporté à droite, dans l’accueil et la bannière.
-- Le logo maître complet reste intact ; son intégration utilise un masque alpha plus large, asymétrique et organique afin d’effacer toute lecture carrée.
-- L’accroche et la sous-phrase historiques sont retirées de l’accueil sans supprimer leurs clés Sheet, conservées pour compatibilité.
-- `Marie & Lorenzo`, la date et le message d’introduction utilisent des variables typographiques V3.2 basées sur Montserrat, modifiables en tête de la couche CSS V3.2.
-- La date dynamique est remontée immédiatement sous les prénoms ; son format localisé FR/IT/ES et sa source `Parametres › date_mariage` sont inchangés.
-- Le titre noir des grandes cartes d’étape adopte le bleu `#0f2b46` qui entoure la carte 3D.
+### Pages intérieures
+- Utilisation du référentiel de page vierge fourni comme texture réelle.
+- Variante miroir pour le folio gauche.
+- Habillage cohérent des étapes et de la galerie.
+- Sur mobile, pages séparées plus lisibles et carte affichée avant Parcours.
 
 ### Carte
-- Lors de la première arrivée sur la carte par appareil, la vue part d’un cadrage Bretagne large puis rejoint exactement la vue d’ensemble configurée, sans dépasser son niveau de zoom.
-- L’animation ne se rejoue pas après stockage de `utmb_map_intro_v32`, respecte `prefers-reduced-motion` et ne modifie ni le clic sur les étapes ni le bouton de réinitialisation.
+- Remplacement par la carte Brocéliande fournie.
+- Suppression des toponymes HTML redondants.
+- Recalage des cinq pastilles sur les numéros imprimés.
+- Conservation des surcharges facultatives `carte_x` / `carte_y`.
 
 ### Continuité
-- Versions web, PWA, configuration et Apps Script portées à 3.2.0.
-- Formulaires, FR/IT/ES, Coach, dossard, galerie, boucle Sheet, relief DEM, mode 2D et assets validés préservés.
-
-## V3.1.0 — identité officielle, boucle Sheet et relief renforcé
-
-### Identité visuelle
-- Le fichier complet `Logo_BROCELIANDE - by UTMB.webp` devient le logo maître indissociable. Aucun élément, décor ou texte n’est extrait, redessiné, recomposé, recoloré ou recadré.
-- Accueil : activation de `assets/brand/logo-broceliande-nature.webp`, qui conserve l’intégralité 1536×1024 et applique uniquement un fondu alpha progressif aux quatre bords. Le cœur et les textes restent intacts.
-- Variante `logo-broceliande-transparent.webp` livrée mais non activée ; procédure d’activation documentée dans le guide et le code consolidé.
-- Palette officielle extraite : forêt `#0c1f1b`, crème `#f4f0e9`, rose granit `#cc9790`, ardoise `#303930`. Les accents et icônes PWA utilisent désormais le rose du logo.
-- Montserrat devient la police d’affichage des titres sportifs ; les polices lisibles existantes restent en place pour les formulaires et les textes longs.
-- Suppression de `WORLD SERIES` sous `WEDDING SERIES`.
-- Accroche et sous-phrase inchangées, présentées sans carte, pictogramme, badge ou symbole.
-
-### Carte
-- Boucle générée automatiquement selon `Etapes › ordre`, `lat`, `lng`, puis refermée vers le premier point.
-- Départ et arrivée de démonstration placés aux mêmes coordonnées du Domaine des Hayes.
-- Pastilles rondes numérotées maintenues en 3D/2D ; superpositions décalées symétriquement.
-- DEM Terrarium, hillshade, inclinaison 64° et exagération 1,9 conservés pour un relief visible mais raisonnable.
-
-### Continuité
-- Versions web, PWA et Apps Script portées à 3.1.0.
-- Formulaires, FR/IT/ES, Coach différé, PWA, dossard, galerie, déblocages et édition Sheet préservés.
-- `INSTRUCTIONS.md` et `.github/copilot-instructions.md` désignent l’identité V3.1 comme invariant durable.
-
-# Journal des versions — UTMB WEDDING SERIES
-
-## V3.0.0 — BROCÉLIANDE (chirurgie ciblée de la V2.4.2)
-- Socle fonctionnel V2.4.2 conservé : composants, formulaires, navigation, déblocages, dossard, galerie, PWA, traductions, Coach et chargement différé.
-- Nouvelle identité superposée : palette vert sapin / bleu ardoise / rose granit / crème, Barlow Condensed pour l’affichage sportif, motifs angulaires et lockup parodique « UTMB WEDDING SERIES ».
-- Accueil : course « BROCÉLIANDE », accroche et sous-phrase validées ; photo source conservée sans recompression.
-- Carte : toujours MapLibre 4.7.1, tuiles satellite Esri haute définition, relief DEM Terrarium, hillshade et modes 3D/2D ; vue recentrée sur Brocéliande.
-- Parcours fictif cohérent couvrant Paimpont, l’Étang de Paimpont, le Tombeau de Merlin, la Fontaine de Barenton, le Château de Comper, le Val sans Retour et une arrivée de démonstration au Domaine des Hayes.
-- Coordonnées de toutes les étapes toujours modifiables dans `Etapes › lat / lng`. L’arrivée est explicitement marquée à valider.
-- Apps Script V3 : nouvelles clés éditables, étapes 6/7, dossiers photo associés et preset volontaire `Appliquer le preset BROCÉLIANDE`.
-- PWA : nom, couleurs, cache et icônes mis à jour.
-- Mention explicite d’absence d’affiliation officielle dans le pied de page.
-- `coach.js` et sa référence sont conservés ; les binaires Coach validés doivent être repris à l’identique depuis le dépôt V2.4.2 existant.
-
-## V2.4.2 — Bouton de départ à cheval sur l’accueil
-- Le bouton « Prendre le départ » chevauche désormais la limite entre la photo d’accueil et la section suivante sur ordinateur, tablette et mobile.
-- La disposition latérale du compte à rebours et du profil altimétrique de la V2.4.1 est conservée.
-- Les espacements existants maintiennent le CTA à distance du chrono, de l’altimètre, du dossard et du contenu suivant.
-- L’emoji calendrier de l’encart « Date limite de réponse » est remplacé par une icône SVG intégrée neutre, décorative et masquée aux technologies d’assistance avec `aria-hidden`.
-- Aucun changement de données ni d’Apps Script : `Code.gs` V2.4.0 reste compatible et ne doit pas être redéployé.
-
-## V2.4.1 — Accueil latéral responsive
-- Ordinateur et tablette : compte à rebours à gauche et profil altimétrique à droite, dans deux panneaux symétriques.
-- Panneaux plus transparents, avec flou léger et contour discret pour mieux préserver la photo d’accueil.
-- Téléphone : empilement vertical central compact ; altimètre simplifié sans la ligne secondaire.
-- Le bloc mobile reste dans le flux : aucun débordement ni chevauchement avec « Prendre le départ ».
-- Aucun changement de données ni d’Apps Script : `Code.gs` V2.4.0 reste compatible et ne doit pas être redéployé.
-
-## V2.4.0 — Tous les textes de la page sont modifiables depuis le Sheet
-- `Corrections_traduction` agit désormais sur **tous les textes visibles** : interface fixe, sections, formulaires, carte, messages, Coach, boutons, attributs accessibles et contenus issus du Sheet
-- Fonctionnement identique en `fr`, `it` et `es`
-- Les textes ajoutés après le chargement sont corrigés automatiquement, sans double remplacement
-- Les libellés techniques, URLs et valeurs enregistrées dans les réponses restent intacts : seule la couche affichée est modifiée
-- Les expressions longues sont appliquées avant les mots courts ; recherche insensible aux majuscules/minuscules
-- ⚠️ `Code.gs`, `app.js`, `i18n.js`, `style.css` et les numéros de version ont changé
-
-## V2.3.0 — Date limite lisible et corrections en français
-- Nouvel encart responsive pour la date limite de réponse, lisible sur ordinateur et téléphone
-- La langue `fr` est acceptée dans `Corrections_traduction`
-- L’outil `outils/hash.html` explique et simplifie le changement du code d’accès
-
-## V2.2.0 — Sélections par pastilles pilotées depuis le Sheet
-- Nouveau type de question `pastilles` dans l’onglet `Questions`
-- Nouvelle colonne `mode_selection` : `unique` (une réponse) ou `multiple` (plusieurs réponses)
-- Options toujours définies dans la colonne `options`, séparées par `;`, avec le format facultatif `valeur=libellé`
-- Formulaire Présence : la question « Serez-vous sur la ligne de départ ? » utilise désormais des pastilles en choix unique
-- Migration sûre : `🏔️ UTMB › Mettre à jour la structure` ajoute la colonne sans déplacer les données et convertit uniquement le choix Présence d’origine
-- Choix multiples enregistrés dans `Reponses_…` sous forme de valeurs séparées par `; `
-- Compatibilité conservée avec les types historiques `choix`, `cases`, `ouinon` et `liste`
-- Accessibilité : sélection utilisable au clavier, focus visible et contrôles natifs conservés pour les lecteurs d’écran
-- ⚠️ `Code.gs` modifié → coller + enregistrer + créer une nouvelle version du déploiement Apps Script, puis mettre à jour la structure
-
-## V2.1.0 — Coach épuré, carte aérienne, badges séquentiels, lexique de traduction
-- Coach : accessoires emoji et animations associées retirés ; bulles conservées avec leurs emojis
-- Coach : « M&L » remplacé par « Marie et Lorenzo » dans les trois langues
-- Carte 3D : clic sur une étape moins rapproché et plus aérien ; nouveau réglage Sheet `carte_zoom_etape` (10,8 par défaut)
-- Badge « Nouveau » : une seule étape à la fois ; l'ancienne perd son badge dès qu'une nouvelle devient disponible
-- Si l'étape suivante reste bloquée, le badge de l'étape courante disparaît dès que son formulaire est envoyé
-- Traduction : nouvel onglet `Corrections_traduction` pour remplacer globalement un mot ou une expression en IT/ES, sans modifier le code
-- Déploiement : `Code.gs` modifié → coller + enregistrer + **Nouveau déploiement / nouvelle version**, puis `🏔️ UTMB › Mettre à jour la structure`
-
-## V2.0.0 — Coach la marmotte
-- Coach (assets/coach/) : 7 animations — coucou, jumelles, montre, ravito (aléatoires) ; dossard, déblocage, matos (événements)
-- 0 fichier Coach au démarrage : module + image (~85 Ko) chargés à la 1re apparition (25–50 s, navigateur au repos)
-  ou après une action de l'invité ; animations transform/opacity uniquement
-- Coach se perche sur un titre visible (le titre se décale légèrement), passe par-dessus le texte, suit le défilement
-- Fuite immédiate si l'invité touche / remplit un formulaire (silence 90 s) ; jamais pendant le code d'accès,
-  la visionneuse, la modale iPhone, un onglet en arrière-plan ou avec « Réduire les animations »
-- Max 3 apparitions aléatoires par visite ; pancartes FR / IT / ES ; bouton ✕ et bouton pied de page « Masquer / Faire revenir Coach »
-- Contrôle qualité : ajouter ?coach=demo à l'adresse → les 7 animations à la suite
-- Réglages Sheet (Parametres) : coach_active, coach_mobile, coach_evenements, coach_delai_min/max,
-  coach_intervalle_min/max, coach_max_visite, coach_taille_pc, coach_taille_mobile
-- Code.gs : nouvelles lignes Parametres uniquement → coller + 💾 + 🏔️ UTMB › Mettre à jour la structure (pas de New version)
-
-## V1.9.0 — Déblocage personnel, dossard vérifié, message matos
-- Nouvelle colonne Etapes « debloquer_si » : section verrouillée pour chaque invité tant qu'il n'a pas répondu au formulaire
-  indiqué (ex. « presence » ou « presence=Oui ») ; débloquée instantanément après l'envoi, badge « Nouveau » 48 h
-- Dossard et déblocages vérifiés auprès du Sheet à chaque visite : réponse effacée dans le Sheet → dossard retiré de l'appareil
-- Chaque envoi porte un jeton d'appareil (colonne « jeton » des onglets Reponses_…) ; renvoi depuis le même appareil = même dossard
-- Réponse « Non » à la présence : pas de dossard affiché
-- Hébergement : « Merci, c'est bien reçu ! N'oublie pas de vérifier ton matos ! 🎒👟🔦⛰️ » (FR/IT/ES)
-- ⚠️ Code.gs modifié → coller + 💾 + New version + 🏔️ UTMB › Mettre à jour la structure
-
-## V1.8.0 — Bandeaux iOS, carte plus haute, pastilles « Nouveau »
-- Bandeaux photos : défilement piloté en JavaScript (les animations CSS se figeaient sur iPhone/iPad) ;
-  pause au survol ou au toucher, arrêt automatique hors écran
-- Téléphone : pastille « Nouveau » en bas à droite de l'en-tête d'étape et des cartes du panneau, dans une zone sans texte
-- Carte 3D : vue d'ouverture plus haute et plus large (zoom 9.4, inclinaison 55) ; téléphone automatiquement encore plus large
-  (nouvelle ligne Parametres « carte_zoom_mobile » pour un réglage précis)
-- Départ / arrivée : chevauchement plus serré (3D et 2D)
-- Code.gs : migration automatique de carte_zoom 10.1 → 9.4 et carte_inclinaison 62 → 55 (si valeurs d'origine) + ligne carte_zoom_mobile
-  → coller + 💾 + 🏔️ UTMB › Mettre à jour la structure
-
-## V1.7.0 — Cadrage de l'accueil, pastilles « Nouveau », appli M&L
-- Photo d'accueil : cadrage réglable depuis le Sheet (Parametres : accueil_position_h, accueil_position_v, accueil_zoom,
-  + accueil_position_h_mobile / accueil_position_v_mobile pour un cadrage différent sur téléphone)
-- Carte 3D et 2D : départ et arrivée qui se chevauchent, arrivée légèrement à gauche, départ devant
-- Pastille « Nouveau » aussi dans le bandeau du haut (texte sur ordinateur, point rouge sur les pastilles téléphone)
-- Téléphone : la pastille « Nouveau » se pose en bas à droite de la pastille numérotée (étapes + panneau de la carte),
-  plus de chevauchement avec le texte ; ordinateur : réserve de place à droite du titre de l'étape
-- Nom de l'appli installée : « M&L »
-- Code.gs : nouvelles lignes Parametres (cadrage) + étape Hébergement « nouveau » par défaut
-  → coller + 💾 + 🏔️ UTMB › Mettre à jour la structure (pas de nouveau déploiement nécessaire)
-
-## V1.6.0 — Accueil plein écran, visionneuse, carte
-- Accueil : photo de nouveau en plein écran (recadrée), avec le léger zoom lent d'origine
-- Bouton « Installer l'appli » déplacé dans le bandeau supérieur, à gauche des étapes (icône 📲 seule sur téléphone)
-- Carte 3D et 2D : l'arrivée (marqueur superposé au départ) est toujours affichée à gauche du départ, quelle que soit l'orientation
-- Visionneuse photo : flèches ‹ › pour passer d'une photo à l'autre (bandeaux, photos d'étapes, galerie), compteur « 3 / 7 »,
-  flèches du clavier, glisser du doigt sur téléphone ; photos des bandeaux dédoublonnées
-- Code.gs inchangé (pas de redéploiement)
-
-## V1.5.1 — Renommage
-- « Ultra Trail du Mariage Bossi » partout (titre d'onglet, accueil, pied de page, données de démo, Code.gs)
-- ⚠️ Le sous-titre affiché vient du Sheet : Parametres › sous_titre à modifier à la main
-
-## V1.5.0 — Accueil, 2D aérienne, hébergements
-- Accueil : photo affichée en entier (plus de recadrage ni d'effet zoom), bords comblés par la même photo floutée
-- Bouton « Prendre le départ » : en bas de la fenêtre (ordinateur), à cheval entre la photo et le site (téléphone)
-- Bouton « Installer l'appli » : discret, en haut à gauche sous U·T·M·B et les drapeaux
-- Carte 2D : photo aérienne du massif (tuiles satellite Esri, sans WebGL), niveau de détail adapté à l'écran
-- Hébergements : une ligne par hébergement ; bandeau photo défilant entre la liste et le formulaire (dossier Drive « hebergement »)
-- Bandeaux défilants : photos répétées pour toujours remplir la largeur, vitesse adaptée au nombre de photos
-- Nom de l'appli installée : « Wedding L&M »
-- Données de démonstration : étapes 4 et 5 inversées (Programme puis Plan du site)
-- Livraison sans dossier icons ni cles.exemple.js
-- Code.gs inchangé (pas de redéploiement)
-
-## V1.4.1 — Performance & corrections
-- Chargement : accueil (titres, compte à rebours, altimètre) affiché immédiatement, sans attendre les données
-- Visites suivantes instantanées : affichage depuis la mémoire du téléphone, mise à jour en arrière-plan
-- Carte 3D (MapLibre ~800 Ko + tuiles) chargée seulement à l'approche de la section Parcours
-- Polices non bloquantes, photos Drive téléchargées à la taille de l'écran
-- Plus de « #parcours » collé à l'adresse : le site s'ouvre toujours sur l'accueil
-- Requête de données lancée pendant la saisie du code d'accès
-- Apps Script : cache 6 h vidé automatiquement à chaque modification du Sheet, liste des photos en cache,
-  plus de contrôle de partage photo par photo à chaque visite, préchauffage toutes les 10 min
-- Corrections mobile : options de choix qui débordaient, pastilles (anneau coupé), compte à rebours et
-  accueil qui dépassaient sur petits écrans (320 px), dossard qui chevauchait les boutons
-- Corrections : écouteurs/minuteurs dupliqués lors d'un nouveau rendu, message « touchez à nouveau » parasite
-  au lancement, données conservées si l'invité est en train de remplir un formulaire
-- ⚠️ Code.gs modifié → coller + New version + 🏔️ UTMB › Mettre à jour la structure (active le préchauffage)
-
-## V1.4.0 — Formulaires pilotés par le Sheet
-- Nouvel onglet « Questions » : ajouter / modifier / masquer / réordonner les questions sans toucher au code
-- 10 types : texte, texte_long, email, telephone, nombre (min;max), date, ouinon, choix, cases, liste
-- Questions obligatoires (astérisque, envoi bloqué, contrôle aussi côté serveur), valeurs par défaut, textes d'aide
-- Questions conditionnelles (afficher_si : presence=Oui, id!=valeur, A|B)
-- Nouveaux formulaires sans code : type « formulaire:nom » dans l'onglet Etapes → réponses dans « Reponses_Nom »
-- Colonnes de réponses ajoutées automatiquement ; aucune colonne ni réponse supprimée
-- Questions, aides et options traduites automatiquement (corrections : question_it, aide_es, options_it…)
-- « Ultra Trail des Mariés Bossi » n'est plus traduit (identique en FR / IT / ES)
-- ⚠️ Code.gs modifié → coller + New version + 🏔️ UTMB › Mettre à jour la structure
-
-## V1.3.0 — Compte à rebours altimétrique, 2D, appli, mobile
-- « Ultra Trail des Mariés Bossi » partout (titre d'onglet, accueil, pied de page, démo, appli)
-- Compte à rebours vers le 24/07/2027 (date du Sheet prioritaire) + altimètre : l'altitude monte de Chamonix (1 035 m) au sommet du Mont Blanc au fil des jours
-- Carte 2D de secours : automatique sur les appareils sans 3D ou peu puissants, + bouton 2D / 3D
-- Site installable en appli (bouton « Installer l'appli » ; instructions dédiées sur iPhone)
-- Drapeau chilien pour l'espagnol ; textes d'interface en espagnol d'Amérique latine (ustedes)
-- Carte : l'étape 1 passe devant l'arrivée verrouillée (marqueurs superposés décalés)
-- Mobile : étapes en pastilles numérotées dans le bandeau du haut, toutes visibles d'un coup, avec suivi de la section en cours
-- Code.gs : textes par défaut uniquement (redéploiement facultatif)
-
-## V1.2.0 — Process allégé + correctifs
-- Drapeaux réparés, réglages de carte dans le Sheet, cles.js, anti-cache, correctifs de traduction
-
-## V1.1.0 — Vue Chamonix & multilingue
-## V1.0.0 — Lancement
+- Sources V3.4.0 fournies utilisées comme base directe.
+- `i18n.js` fonctionnellement inchangé.
+- Formulaires, déblocages, dossard, galerie et Coach non réécrits.
+- Cache PWA porté à V3.5.0.
+- `Code.gs` conserve sa logique ; seules deux lignes de paramètres et la version sont ajoutées.

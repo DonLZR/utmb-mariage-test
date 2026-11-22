@@ -23,51 +23,73 @@
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
-  <link rel="stylesheet" href="style.css?v=3.4.0">
+  <link rel="stylesheet" href="style.css?v=3.5.0">
 
-  <!-- V3.4.0 — couverture verrouillée + prototype Parcours -->
-  <style id="cover-v334">
-    /*
-      La couverture conserve son ratio natif via object-fit: cover.
-      Le lettrage est l’image validée, indépendante du fond, sans recréation CSS.
-    */
+  <!-- V3.5.0 — couverture responsive, inscription unifiée et zoom pilotable -->
+  <style id="cover-v350">
     .book-cover-screen {
+      --cover-zoom: 1;
+      --cover-zoom-mobile: 1;
       position: fixed;
       inset: 0;
+      z-index: 40;
+      display: grid;
+      place-items: center;
       width: 100vw;
       height: 100svh;
       min-height: 100vh;
       overflow: hidden;
       margin: 0;
       padding: 0;
-      background: #030906;
+      background: radial-gradient(circle at 50% 48%, #0c2419 0, #030906 72%);
+      perspective: 1800px;
     }
-
-    .book-cover-hit,
-    .book-cover-art,
+    .book-cover-hit {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      cursor: pointer;
+      color: inherit;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .book-cover-hit:focus-visible { outline: 2px solid #d7aa5b; outline-offset: -5px; }
+    .book-cover-art {
+      position: relative;
+      display: block;
+      width: 100vw;
+      height: 100svh;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      transform-origin: 8% 50%;
+      container-type: inline-size;
+      transform-style: preserve-3d;
+      transition: transform .72s cubic-bezier(.6,.02,.25,1), opacity .56s ease;
+    }
+    .book-cover-visual,
     .book-cover-picture {
       position: absolute;
       inset: 0;
       display: block;
       width: 100%;
       height: 100%;
-      max-width: none;
-      max-height: none;
-      aspect-ratio: auto;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      box-shadow: none;
-      overflow: hidden;
     }
-
-    .book-cover-hit {
-      cursor: pointer;
-      background: transparent;
-      color: inherit;
+    .book-cover-visual {
+      transform: scale(var(--cover-zoom, 1));
+      transform-origin: 50% 50%;
+      transition: transform .3s ease;
     }
-
+    .book-cover-picture { overflow: hidden; }
     .book-cover-picture img {
       display: block;
       width: 100%;
@@ -78,59 +100,24 @@
       transform: none;
       filter: none;
     }
-
-    /*
-      Cible mesurée sur l’encadré rouge de la maquette :
-      centre (806,9 ; 691,2) et largeur 341,8 dans l’image source 1536 × 1024.
-      Ces formules suivent exactement le même zoom object-fit: cover que le grimoire :
-      le lettrage reste donc dans l’encadré sur ordinateur, tablette et mobile.
-      Aucun filtre, aucune ombre et aucune déformation ne sont appliqués.
-    */
-    .cover-inscription,
     .cover-inscription-localized {
       position: absolute;
       z-index: 2;
-      left: calc(50vw + 3.80vh);
-      left: calc(50vw + 3.80svh);
-      top: 67.50vh;
-      top: calc(67.50svh + 10px);
-      display: block;
-      width: 33.38vh;
-      width: 33.38svh;
-      transform: translate(-50%, -50%);
-      margin: 0;
-      padding: 0;
-      pointer-events: none;
-    }
-
-    .cover-inscription img {
-      display: block;
-      width: 100%;
-      height: auto;
-      max-width: none;
-      margin: 0;
-      padding: 0;
-      object-fit: contain;
-      filter: none;
-      transform: none;
-    }
-
-
-
-    /*
-      Le visuel validé n’existe qu’en français. Pour ne pas casser la traduction
-      déjà en production, les versions IT/ES conservent un texte HTML localisé,
-      net et sans flou, exactement au même emplacement.
-    */
-    .cover-inscription-localized {
-      display: none;
+      left: calc(50% + 3.80svh);
+      top: calc(67.50% + 10px);
+      display: flex;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
+      width: 39svh;
+      margin: 0;
+      padding: 0;
+      transform: translate(-50%, -50%);
       white-space: nowrap;
       text-align: center;
+      pointer-events: none;
       font-family: "Cinzel Decorative", "Cinzel", Georgia, serif;
-      font-size: clamp(.72rem, 2.2vw, 1.2rem);
+      font-size: clamp(.85rem, 1.35vw, 1.45rem);
       font-weight: 700;
       line-height: 1;
       letter-spacing: .01em;
@@ -142,26 +129,38 @@
       filter: none;
       text-shadow: none;
     }
+    .book-cover-screen.is-opening { pointer-events: none; }
+    .book-cover-screen.is-opening .book-cover-art { transform: rotateY(-86deg) translateX(-4%); opacity: 0; }
 
-    html[lang="it"] .cover-inscription,
-    html[lang="es"] .cover-inscription {
-      display: none;
-    }
-
-    html[lang="it"] .cover-inscription-localized,
-    html[lang="es"] .cover-inscription-localized {
-      display: flex;
-    }
-
-        /* Lorsque la largeur pilote object-fit: cover (écran plus large que 3:2). */
     @media (min-aspect-ratio: 3 / 2) {
-      .cover-inscription,
       .cover-inscription-localized {
-        left: 52.54vw;
-        top: calc(50vh + 11.67vw);
-        top: calc(50svh + 11.67vw);
-        width: 22.25vw;
+        left: 52.54%;
+        top: calc(50% + 11.67vw);
+        width: 27vw;
       }
+    }
+    @media (max-width: 600px) {
+      .book-cover-art {
+        width: min(90vw, calc((100svh - 5rem) * 1.5));
+        height: auto;
+        aspect-ratio: 3 / 2;
+        max-height: calc(100svh - 5rem);
+        overflow: visible;
+        box-shadow: 0 18px 48px rgba(0,0,0,.55);
+      }
+      .book-cover-visual { transform: scale(var(--cover-zoom-mobile, 1)); }
+      .book-cover-picture img { object-fit: contain; }
+      .cover-inscription-localized {
+        left: 52.5%;
+        top: 74%;
+        width: 38%;
+        font-size: clamp(.62rem, 2.5cqw, .95rem);
+        letter-spacing: 0;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .book-cover-art, .book-cover-visual { transition: none; }
+      .book-cover-screen.is-opening .book-cover-art { transform: none; opacity: 1; }
     }
   </style>
 </head>
@@ -184,7 +183,7 @@
   <header class="nav" id="nav">
     <div class="nav-brand">
       <div class="nav-row">
-        <a href="#top" class="nav-logo nav-logo-broceliande" aria-label="BROCÉLIANDE — accueil">
+        <a href="#parcours" class="nav-logo nav-logo-broceliande" aria-label="BROCÉLIANDE — accueil">
           <span class="nav-logo-main">BROCÉLIANDE</span>
           <span class="nav-logo-stack"><strong>ULTRA TRAIL DU MARIAGE BOSSI</strong><em>BY UTMB</em></span>
         </a>
@@ -197,25 +196,23 @@
     </div>
   </header>
 
-  <!-- Couverture photoréaliste : image de fond inchangée.
-       Le lettrage FR validé est utilisé directement, sans le recréer en CSS. -->
+  <!-- Couverture photoréaliste : visuel conservé, inscription HTML identique en FR/IT/ES. -->
   <section class="book-cover-screen" id="bookCover" aria-label="Couverture du grimoire BROCÉLIANDE">
-    <button type="button" class="book-cover-hit" id="bookCoverOpen" aria-controls="top" data-i18n-aria="cover_aria">
+    <button type="button" class="book-cover-hit" id="bookCoverOpen" aria-controls="parcours" data-i18n-aria="cover_aria">
       <span class="book-cover-art">
-        <picture class="book-cover-picture" aria-hidden="true">
-          <img src="assets/cover/cover-main-v333.png" width="1536" height=1024" alt="" decoding="sync" fetchpriority="high">
-        </picture>
-        <span class="cover-inscription" aria-hidden="true">
-          <img src="assets/cover/title-entrez-dans-la-legende-v334.png?v=3.3.4" width="1510" height="277" alt="" decoding="sync">
+        <span class="book-cover-visual">
+          <picture class="book-cover-picture" aria-hidden="true">
+            <img src="assets/cover/cover-main-v333.png" width="1536" height="1024" alt="" decoding="sync" fetchpriority="high">
+          </picture>
+          <span class="cover-inscription-localized" data-i18n="cover_enter">ENTREZ DANS LA LÉGENDE</span>
         </span>
-        <span class="cover-inscription-localized" data-i18n="cover_enter">ENTREZ DANS LA LÉGENDE</span>
         <span class="sr-only" data-i18n="cover_hint">Ouvrir le grimoire</span>
       </span>
     </button>
   </section>
 
   <!-- Accueil -->
-  <section class="hero" id="top">
+  <section class="hero" id="top" hidden aria-hidden="true">
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-veil"></div>
     <div class="hero-content">
@@ -266,7 +263,7 @@
   </section>
 
   <!-- Mot d'accueil + bandeau photos -->
-  <section class="intro">
+  <section class="intro" hidden aria-hidden="true">
     <p id="introMessage" class="intro-message"></p>
     <div class="strip" id="strip" hidden><div class="strip-track" id="stripTrack"></div></div>
   </section>
@@ -301,15 +298,9 @@
         </header>
         <div class="parchment-map-figure" id="parchmentMap" role="group" aria-label="Carte fictive interactive du parcours de Brocéliande">
           <picture>
-            <source srcset="assets/map/carte-terres-de-legendes.webp" type="image/webp">
-            <img src="assets/map/carte-terres-de-legendes.jpg" alt="Carte parchemin des Terres de légendes" width="1536" height="1024" loading="lazy" decoding="async">
+            <source srcset="assets/map/carte-broceliande.webp" type="image/webp">
+            <img src="assets/map/carte-broceliande-source.png" alt="Carte parchemin des Terres de légendes" width="1536" height="1024" loading="lazy" decoding="async">
           </picture>
-          <span class="map-place place-druides" aria-hidden="true">Cercle des druides</span>
-          <span class="map-place place-merlin" aria-hidden="true">Tour de Merlin</span>
-          <span class="map-place place-excalibur" aria-hidden="true">Monts d’Excalibur</span>
-          <span class="map-place place-avalon" aria-hidden="true">Lac d’Avalon</span>
-          <span class="map-place place-morgane" aria-hidden="true">Val de Morgane</span>
-          <span class="map-place place-barenton" aria-hidden="true">Fontaine de Barenton</span>
           <div class="map-markers" id="mapMarkers"></div>
         </div>
         <p class="map-hint" data-i18n="map_hint">Sélectionnez une pastille pour ouvrir la fiche de l’étape.</p>
@@ -361,10 +352,10 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="cles.js?v=3.4.0"></script>
-  <script src="config.js?v=3.4.0"></script>
-  <script src="i18n.js?v=3.4.0"></script>
-  <script src="cover.js?v=3.4.0"></script>
-  <script src="app.js?v=3.4.0"></script>
+  <script src="cles.js?v=3.5.0"></script>
+  <script src="config.js?v=3.5.0"></script>
+  <script src="i18n.js?v=3.5.0"></script>
+  <script src="cover.js?v=3.5.0"></script>
+  <script src="app.js?v=3.5.0"></script>
 </body>
 </html>

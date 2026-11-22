@@ -1,4 +1,4 @@
-/* BROCÉLIANDE — moteur du site V3.4.0 (socle fonctionnel préservé, prototype Parcours) */
+/* BROCÉLIANDE — moteur du site V3.5.0 (socle fonctionnel préservé, prototype Parcours) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
@@ -299,6 +299,18 @@
     $('#footerVersion').textContent = 'v' + C.version;
     const target = parseDate(C.dateMariage);
     if (target) startChrono(target);
+  }
+
+  function renderCoverSettings() {
+    const p = DATA.parametres || {}, cfg = C.cover || {};
+    const clampZoom = (value, fallback) => {
+      const parsed = num(value), base = num(fallback);
+      return Math.min(1.35, Math.max(.75, parsed === null ? (base === null ? 1 : base) : parsed));
+    };
+    const cover = $('#bookCover');
+    if (!cover) return;
+    cover.style.setProperty('--cover-zoom', clampZoom(p.couverture_zoom, cfg.zoom));
+    cover.style.setProperty('--cover-zoom-mobile', clampZoom(p.couverture_zoom_mobile, cfg.zoomMobile ?? cfg.zoom));
   }
 
   function renderHero() {
@@ -792,7 +804,7 @@
       if (sig === DATA_SIG && !force) return false;
       if (maj && formulaireEnCours()) return false;    // l'invité remplit un formulaire : on ne touche à rien
       RAW = d; DATA_SIG = sig; DATA = prepare(JSON.parse(sig));
-    renderHero(); renderNav(); renderProgress(); renderPanel(); renderParchmentMap(); renderSections(); renderGalerie(); initScrollSpy(); initStrips();
+    renderCoverSettings(); renderHero(); renderNav(); renderProgress(); renderPanel(); renderParchmentMap(); renderSections(); renderGalerie(); initScrollSpy(); initStrips();
     appliquerCorrectionsPage(false);
     document.body.classList.remove('chargement');
     return true;

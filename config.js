@@ -4,10 +4,14 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.4.0",
+  version: "3.5.0",
 
-  /* Secours local haute qualité : les photos du Sheet restent prioritaires. */
+  /* Secours local haute qualité : conservé pour compatibilité avec l’ancien hero masqué. */
   heroFallback: "assets/images/hero-couple-original.jpg",
+
+  /* Couverture : valeurs de repli si les clés Google Sheet sont absentes.
+     1 = rendu validé ; plages appliquées par app.js : 0.75 à 1.35. */
+  cover: { zoom: 1, zoomMobile: 1 },
 
   apiUrl: (window.UTMB_CLES && window.UTMB_CLES.apiUrl) || "",
   accessCodeHash: (window.UTMB_CLES && window.UTMB_CLES.accessCodeHash) || "",
@@ -39,11 +43,11 @@ window.UTMB_CONFIG = {
   parchmentMap: {
     limit: 5,
     positions: [
-      { x: 15.45, y: 20.40 },
-      { x: 26.50, y: 43.20 },
-      { x: 61.40, y: 80.50 },
-      { x: 80.70, y: 43.50 },
-      { x: 59.80, y: 17.70 }
+      { x: 33.46, y: 31.74 },
+      { x: 31.38, y: 47.17 },
+      { x: 66.86, y: 51.27 },
+      { x: 56.77, y: 67.48 },
+      { x: 80.14, y: 66.50 }
     ]
   },
   /* Données de démonstration (utilisées tant que apiUrl est vide) */
@@ -60,7 +64,9 @@ window.UTMB_CONFIG = {
       sous_accroche: "Bienvenue sur BROCÉLIANDE, l’ultra où le ravito final se sert en coupe de champagne.",
       message_accueil: "Des légendes de Brocéliande au Domaine des Hayes, suivez une course pas tout à fait comme les autres : les ravitos se débloquent, le dossard est personnel et l’arrivée se fête en grand.",
       date_limite_reponse: "[à compléter]",
-      carte_zoom_etape: 12.1
+      carte_zoom_etape: 12.1,
+      couverture_zoom: 1,
+      couverture_zoom_mobile: 1
     },
     etapes: [
       { id:"etape-1", ordre:1, cp:"Départ", lieu:"Domaine des Hayes", km:0, altitude:82, titre:"Le Départ", sous_titre:"Entrée dans la légende", type:"texte", statut:"ouvert", indice:"", lat:47.9820, lng:-2.0500,
