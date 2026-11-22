@@ -1,27 +1,19 @@
-# BROCÉLIANDE V3.6.0
+# BROCÉLIANDE V3.7.0
 
-Évolution ciblée de la V3.5.0, sans refonte du socle GitHub Pages / Google Apps Script.
+Mise à jour visuelle ciblée de la V3.6.0. Le fonctionnement GitHub Pages / Google Apps Script est conservé.
 
-## Nouveautés
+## À copier
 
-- **Programme** ajouté entre la couverture et le Parcours : double page sur ordinateur/tablette, page unique sur mobile.
-- Déroulé du week-end fourni intégré, avec traduction automatique FR/IT/ES via l’onglet `Programme`.
-- **Deux flèches de navigation** cohérentes en bas de chaque page/section.
-- **Bandeau photo défilant** réintégré dans l’univers du carnet ; il utilise le dossier Drive `bandeau` existant et reste masqué s’il est vide.
-- Suppression de **BY UTMB** dans la bannière supérieure uniquement.
-- Couverture mobile immersive à deux couches : ambiance plein écran et grimoire net, non déformé, presque intégralement visible.
-- Position de l’inscription de couverture pilotable depuis Google Sheets, pour les trois langues.
-- Parcours mobile : **exactement deux étapes visibles simultanément**, liste avant carte, cinq pastilles interactives conservées.
-- Lors d’un nouveau déblocage, la liste mobile roule discrètement vers le haut. L’état est mémorisé pour ne pas rejouer l’effet à chaque actualisation et `prefers-reduced-motion` est respecté.
+Copier le contenu de `A_COPIER_DANS_GITHUB/` dans le dépôt GitHub **sans supprimer les fichiers privés existants**. Remplacer le backend Apps Script par `Apps_Script/Code.gs`, puis exécuter `majStructure()` une fois.
 
-## Structure
+## À préserver impérativement
 
-- `index.html`, `style.css`, `app.js`, `config.js`, `i18n.js`, `cover.js`, `sw.js` : fichiers complets à copier dans GitHub.
-- `assets/` : visuels validés et dérivés optimisés.
-- `Apps_Script/Code.gs` : backend complet V3.6.0.
-- `QA/` : contrôles statiques reproductibles.
-- `codecomplet_V3.6.0.txt` : sources texte regroupées.
+- `cles.js` ;
+- `icons/` ;
+- `assets/coach/coach.webp` et `assets/coach/coach.js` ;
+- les photos et médias privés déjà présents ;
+- les contenus et réponses du Google Sheet.
 
-## Important
+## Contrôle visuel recommandé
 
-Ne jamais supprimer globalement le dépôt existant. Conserver impérativement `cles.js`, `icons/`, `assets/coach/coach.webp` et les médias privés déjà présents.
+Après publication, vider le cache via le menu BROCÉLIANDE du Sheet, puis contrôler la couverture et le Programme sur un téléphone réel. Le cache PWA a été porté en V3.7.0.

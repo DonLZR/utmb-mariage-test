@@ -1,8 +1,8 @@
 # Sources visuelles
 
-- Couverture : `cover-main-v333.png` fournie et validée.
-- Fond du carnet : `Reference-Page-vierge.png` fourni ; dérivés gauche/droite optimisés en WebP.
-- Carte : `Reference-Carte-Brocéliande.png` fournie ; source PNG et WebP optimisé livrés.
-- Déroulé du week-end : pièce jointe `image.png`, retranscrite dans le programme.
+- Couverture bureau : `cover-main-v333.png` fournie et validée.
+- Couverture mobile : détourage sans recompression destructive de la même source.
+- Fond de page : dérivé de `Reference-Page-vierge.png` fourni.
+- Carte : `Reference-Carte-Brocéliande.png` fournie.
 
-Aucun visuel tiers supplémentaire n’a été introduit.
+Aucun visuel tiers n’a été ajouté.

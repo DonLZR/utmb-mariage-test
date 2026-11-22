@@ -1,4 +1,4 @@
-/* BROCÉLIANDE V3.6.0 — ouverture de la couverture photoréaliste.
+/* BROCÉLIANDE V3.7.0 — ouverture de la couverture photoréaliste.
    Module volontairement isolé : aucun impact sur les formulaires, la carte ou Apps Script. */
 (() => {
   'use strict';

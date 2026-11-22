@@ -860,7 +860,7 @@ body.book-closed .toast,body.book-closed [class^="coach-"]{display:none!importan
 
 
 /* =====================================================================
-   V3.6.0 — pages intérieures issues du visuel validé + responsive mobile
+   V3.7.0 — pages intérieures issues du visuel validé + responsive mobile
    Modifications ciblées : le socle fonctionnel V3.4.0 reste inchangé.
    ===================================================================== */
 :root{
@@ -984,7 +984,7 @@ body{
 
 
 /* =====================================================================
-   V3.6.0 — Programme, navigation de pages, couverture mobile immersive
+   V3.7.0 — Programme, navigation de pages, couverture mobile immersive
    et fenêtre mobile de deux étapes avec roulement persistant.
    ===================================================================== */
 :root{
@@ -1146,3 +1146,179 @@ body{
   .parcours-book .cp-panel.is-rolling{transition:none!important}
   .memory-ribbon .strip img{transition:none}
 }
+
+
+
+/* =====================================================================
+   V3.7.0 — page ancienne complète, sections visuelles et frise Programme
+   Les sélecteurs fonctionnels V3.6 restent intacts ; ce bloc ne change
+   ni les formulaires, ni les déblocages, ni les restrictions d'accès.
+   ===================================================================== */
+:root{
+  --page-full-image:url("assets/book/parchment-full-v370.webp");
+  --v370-green:#123b2b;
+  --v370-green-deep:#08261b;
+  --v370-gold:#aa7c32;
+  --v370-gold-light:#d7b86c;
+  --v370-ink:#39291b;
+  --v370-paper:#efe1bd;
+  --v370-card:rgba(255,251,236,.90);
+  --v370-shadow:0 18px 38px rgba(54,34,17,.20);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(4.25rem + env(safe-area-inset-top))}
+body:not(.book-closed){
+  background-color:#d8c38f;
+  background-image:linear-gradient(rgba(244,231,195,.15),rgba(215,190,137,.12)),var(--page-full-image);
+  background-position:center top;
+  background-size:cover;
+  background-attachment:fixed;
+  color:var(--v370-ink);
+}
+.programme-grimoire,.parcours-grimoire,.sections{
+  position:relative;
+  width:100%;
+  max-width:none;
+  overflow:clip;
+  background:transparent;
+}
+.programme-grimoire::before,.parcours-grimoire::before,.sections::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,248,224,.34),rgba(222,199,151,.12) 50%,rgba(255,248,224,.26));
+}
+.programme-grimoire,.parcours-grimoire{scroll-margin-top:calc(4.25rem + env(safe-area-inset-top))}
+
+/* Programme : une vraie frise, pas six paragraphes déguisés. */
+.programme-grimoire{padding:clamp(5.1rem,8vw,7rem) clamp(.8rem,3vw,2rem) clamp(3.3rem,5vw,4.6rem)}
+.programme-panel{
+  position:relative;display:block;width:min(1240px,100%);min-height:0;margin:0 auto;padding:clamp(2rem,4vw,3.5rem) clamp(1rem,3.5vw,3.2rem) 5rem;
+  border:1px solid rgba(111,75,31,.42);border-top:7px solid var(--v370-green);border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,252,240,.93),rgba(239,223,182,.88));
+  box-shadow:var(--v370-shadow),inset 0 0 42px rgba(112,73,27,.08);
+  overflow:hidden;
+}
+.programme-panel::before{display:none}
+.programme-panel::after{content:"";position:absolute;inset:12px;pointer-events:none;border:1px solid rgba(158,116,53,.18);border-radius:14px}
+.programme-heading{position:relative;z-index:2;max-width:720px;margin:0 auto clamp(1.8rem,3vw,2.6rem);padding:0 1rem;text-align:center}
+.programme-heading .eyebrow{display:inline-flex;align-items:center;gap:.55rem;padding:.32rem .85rem;border:1px solid rgba(170,124,50,.35);border-radius:999px;background:rgba(255,250,232,.72);color:#805c25;font:700 .76rem var(--sans);letter-spacing:.17em}
+.programme-heading .eyebrow::before,.programme-heading .eyebrow::after{content:"✦";font-size:.65rem;color:var(--v370-gold)}
+.programme-heading h2{margin:.65rem 0 .55rem;color:var(--v370-green);font-size:clamp(2.35rem,5vw,4.3rem);text-shadow:0 1px #fff5d6}
+.programme-heading p{max-width:560px;margin:0 auto;color:#61472c;font-size:clamp(1.05rem,1.5vw,1.22rem);line-height:1.45}
+.programme-timeline{position:relative;z-index:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.1rem,2.4vw,2rem)}
+.programme-list{position:relative;display:grid;gap:clamp(1rem,1.8vw,1.4rem);padding-left:3.8rem}
+.programme-list::before{content:"";position:absolute;left:1.55rem;top:1.65rem;bottom:1.65rem;width:3px;border-radius:4px;background:linear-gradient(var(--v370-gold-light),var(--v370-green),var(--v370-gold));box-shadow:0 0 0 1px rgba(95,65,29,.12)}
+.programme-entry{
+  position:relative;display:block;min-width:0;padding:1.12rem 1.15rem 1.1rem 1.25rem;
+  border:1px solid rgba(120,84,39,.28);border-left:5px solid var(--entry-accent,var(--v370-green));border-radius:14px;
+  background:var(--v370-card);box-shadow:0 10px 24px rgba(70,44,20,.12);color:var(--v370-ink);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.programme-entry:hover{transform:translateY(-2px);box-shadow:0 15px 28px rgba(70,44,20,.18)}
+.programme-entry::before{display:none}
+.programme-entry-1,.programme-entry-4{--entry-accent:#98702e}.programme-entry-2,.programme-entry-6{--entry-accent:#396248}.programme-entry-3{--entry-accent:#a15349}.programme-entry-5{--entry-accent:#173f2e}
+.programme-marker{
+  position:absolute;left:-3.86rem;top:1.05rem;z-index:3;display:grid;place-items:center;width:3.05rem;height:3.05rem;
+  border:3px solid #f5e8c7;border-radius:50%;background:linear-gradient(145deg,var(--entry-accent),var(--v370-green-deep));
+  box-shadow:0 0 0 3px var(--v370-gold),0 7px 13px rgba(49,31,15,.22);color:#fff8df;
+}
+.programme-symbol{font:700 1.02rem/1 Georgia,serif}.programme-marker small{position:absolute;right:-.46rem;bottom:-.38rem;display:grid;place-items:center;min-width:1.25rem;height:1.25rem;padding:0 .18rem;border:1px solid #76531f;border-radius:999px;background:#efd69a;color:#463019;font:800 .58rem/1 var(--sans)}
+.programme-entry-copy{min-width:0}
+.programme-time{display:inline-flex;margin:0 0 .38rem;padding:.22rem .55rem;border-radius:999px;background:rgba(20,59,43,.10);color:var(--v370-green);font-size:.7rem;letter-spacing:.09em}
+.programme-entry h3{margin:0 0 .48rem;color:var(--v370-green-deep);font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.08rem,1.55vw,1.34rem);font-weight:700;line-height:1.23;text-decoration:none}
+.programme-description p{margin:.32rem 0;color:#483522;font-family:var(--sans);font-size:clamp(.94rem,1.08vw,1.02rem);font-weight:500;line-height:1.48}
+.programme-description p+p{margin-top:.55rem;padding:.55rem .65rem;border-left:3px solid rgba(161,83,73,.65);border-radius:0 7px 7px 0;background:rgba(161,83,73,.07);font-style:italic}
+.programme-place{font-size:.78rem}
+.programme-page-nav{bottom:1.25rem}
+
+/* Parcours : même page ancienne, grandes zones clairement séparées et carte contenue. */
+.parcours-grimoire{padding:clamp(3rem,6vw,5.5rem) clamp(.8rem,3vw,2rem) clamp(3.2rem,5vw,4.8rem)}
+.parcours-book{
+  display:grid;grid-template-columns:minmax(330px,.72fr) minmax(0,1.28fr);gap:clamp(1.1rem,2.2vw,1.8rem);
+  width:min(1320px,100%);margin:0 auto;padding:0 0 4.3rem;border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+.parcours-book::before{display:none}
+.parcours-folio{
+  min-width:0;padding:clamp(1.5rem,3vw,2.7rem);border:1px solid rgba(111,75,31,.4);border-top:6px solid var(--v370-green);border-radius:18px!important;
+  background:linear-gradient(135deg,rgba(255,252,240,.94),rgba(236,217,174,.90)),var(--book-page-image);
+  background-size:auto,cover;box-shadow:var(--v370-shadow);overflow:hidden;
+}
+.parcours-folio::after{inset:10px;border-radius:11px}
+.parcours-folio-map{align-self:start}
+.parchment-map-figure{width:100%;max-width:100%;aspect-ratio:3/2;overflow:hidden;border:1px solid rgba(65,43,20,.4);border-radius:10px;box-shadow:0 14px 30px rgba(55,33,14,.24)}
+.parchment-map-figure picture,.parchment-map-figure img{max-width:100%}
+.parcours-page-nav{bottom:.65rem}
+
+/* Étapes : cartes fortes sur le fond parchemin complet, sans bords de livre qui débordent. */
+.sections{display:grid;gap:clamp(1.4rem,3vw,2.3rem);padding:clamp(2rem,4vw,3.5rem) 0 clamp(3rem,5vw,5rem)}
+.stage{
+  width:min(1100px,calc(100% - clamp(1rem,4vw,3rem)));margin:0 auto;padding-bottom:4rem;
+  border:1px solid rgba(101,69,32,.4);border-top:6px solid var(--v370-green);border-radius:20px;
+  background:linear-gradient(135deg,rgba(255,252,240,.94),rgba(236,218,176,.90));box-shadow:var(--v370-shadow);overflow:hidden;
+  scroll-margin-top:calc(4.25rem + env(safe-area-inset-top));
+}
+.stage-head{padding:clamp(1.1rem,3vw,1.8rem);background:linear-gradient(100deg,rgba(20,59,43,.12),rgba(255,248,225,.42));border-bottom:1px solid rgba(126,88,42,.28)}
+.stage-head h2,.parcours-heading h2,.parchment-map-heading h3,.memory-ribbon-heading h2{font-family:'Cinzel Decorative','Cormorant Garamond',Georgia,serif;font-weight:700}
+.stage-sub,.stage-cp{font-family:var(--sans)}
+.stage-body{padding:clamp(1.1rem,3vw,2rem);background:rgba(255,252,241,.38);font-family:var(--sans)}
+.stage.locked{filter:saturate(.72)}
+.galerie{width:min(1100px,calc(100% - clamp(1rem,4vw,3rem)));margin:2rem auto 3rem;border-top:6px solid var(--v370-green);background:linear-gradient(135deg,rgba(255,252,240,.94),rgba(236,218,176,.90));background-size:auto;box-shadow:var(--v370-shadow)}
+
+/* Bandeau : un seul titre, même police/taille/couleur que le titre remplacé. */
+.memory-ribbon{padding:2.8rem 0 3rem;background:linear-gradient(180deg,#0d3022,#061b13)}
+.memory-ribbon-heading h2{margin:0;color:#ead39c;font-size:clamp(1.35rem,3.4vw,2.25rem);letter-spacing:.04em}
+
+/* La navigation des pages arrive sous la bannière et non derrière elle. */
+.book-arrow{width:40px;height:34px;border-color:rgba(170,124,50,.72);background:linear-gradient(145deg,#24513c,#0d2c20)}
+
+@media (max-width:880px){
+  body:not(.book-closed){background-attachment:scroll;background-size:auto 100vh}
+  .programme-panel{border-radius:17px;padding-inline:1rem}
+  .programme-timeline{gap:1rem}
+  .programme-list{padding-left:3.35rem}
+  .programme-list::before{left:1.34rem}
+  .programme-marker{left:-3.42rem;width:2.72rem;height:2.72rem}
+  .parcours-book{display:flex;flex-direction:column;gap:1.1rem;max-width:760px;padding:0 0 4rem;background:transparent;box-shadow:none}
+  .parcours-folio-index{order:1}.parcours-folio-map{order:2}
+}
+
+@media (max-width:600px){
+  html{scroll-padding-top:calc(4rem + env(safe-area-inset-top))}
+  .programme-grimoire{padding:4.65rem .55rem 2rem}
+  .programme-panel{padding:1.55rem .68rem 4.35rem;border-top-width:6px;border-radius:15px}
+  .programme-panel::after{inset:7px;border-radius:10px}
+  .programme-heading{margin-bottom:1.35rem;padding:0 .45rem}
+  .programme-heading .eyebrow{font-size:.68rem}
+  .programme-heading h2{font-size:clamp(2.15rem,12vw,3.05rem);margin:.55rem 0 .45rem}
+  .programme-heading p{font-size:1rem;line-height:1.42}
+  .programme-timeline{display:block}
+  .programme-list{gap:1rem;padding-left:3.15rem}
+  .programme-list+ .programme-list{margin-top:1rem}
+  .programme-list::before{left:1.2rem;top:1.45rem;bottom:1.45rem;width:3px}
+  .programme-list:first-child::before{bottom:-1rem}
+  .programme-list:last-child::before{top:-1rem}
+  .programme-entry{padding:.95rem .82rem .95rem .95rem;border-left-width:4px;border-radius:12px}
+  .programme-marker{left:-3.12rem;top:.92rem;width:2.55rem;height:2.55rem;border-width:2px;box-shadow:0 0 0 3px var(--v370-gold),0 5px 10px rgba(49,31,15,.2)}
+  .programme-symbol{font-size:.9rem}.programme-marker small{font-size:.54rem}
+  .programme-entry h3{font-size:1.04rem;line-height:1.25;margin-bottom:.42rem}
+  .programme-description p{font-size:.91rem;line-height:1.46;margin:.28rem 0}
+  .programme-description p+p{padding:.5rem .55rem;margin-top:.5rem}
+  .programme-page-nav{bottom:.85rem}
+
+  .parcours-grimoire{padding:1.7rem .55rem 2.3rem}
+  .parcours-book{width:100%;padding:0 0 3.8rem;border:0;background:transparent;box-shadow:none}
+  .parcours-folio{width:100%;padding:1.35rem .72rem 1.2rem!important;border:1px solid rgba(111,75,31,.4)!important;border-top:6px solid var(--v370-green)!important;border-radius:14px!important;background:linear-gradient(135deg,rgba(255,252,240,.95),rgba(236,217,174,.91)),var(--book-page-image)!important;background-size:auto,cover!important;box-shadow:0 13px 28px rgba(54,34,17,.18)!important;overflow:hidden!important}
+  .parcours-folio-index{padding-bottom:1.15rem!important}.parcours-folio-map{padding-top:1.25rem!important}
+  .mobile-stage-window{border-radius:8px;background:rgba(255,252,239,.5)}
+  .parchment-map-figure{aspect-ratio:3/2;border-radius:7px}
+  .map-stage-detail{background:rgba(255,252,239,.72)}
+  .parcours-page-nav{bottom:.45rem}
+
+  .sections{padding:1.45rem 0 2.8rem;gap:1.2rem}
+  .stage{width:calc(100% - 1.1rem);padding-bottom:3.6rem;border-top-width:5px;border-radius:14px;scroll-margin-top:calc(4rem + env(safe-area-inset-top))}
+  .stage-head{padding:1rem .85rem}.stage-body{padding:1rem .85rem 1.25rem}
+  .galerie{width:calc(100% - 1.1rem);margin:1.3rem auto 2rem;padding:1.25rem .8rem 4.1rem;border-radius:14px}
+  .memory-ribbon{padding:2.2rem 0 2.5rem}
+  .memory-ribbon-heading h2{font-size:clamp(1.35rem,7vw,1.9rem)}
+}
+
+@media (prefers-reduced-motion:reduce){.programme-entry{transition:none}}

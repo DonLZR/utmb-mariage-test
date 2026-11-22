@@ -5,7 +5,7 @@ window.UTMB_I18N = {
     _nom: "Français", _locale: "fr-FR",
     cover_enter: "ENTREZ DANS LA LÉGENDE", cover_hint: "Ouvrir le grimoire", cover_aria: "Ouvrir le grimoire BROCÉLIANDE",
     programme_chapter: "Chapitre I", programme_title: "Programme", programme_intro: "Le déroulé du week-end, consigné dans le carnet de route.",
-    memory_eyebrow: "Souvenirs de route", memory_title: "Quelques éclats de notre histoire",
+    memory_eyebrow: "", memory_title: "SOUVENIRS DE ROUTE",
     nav_prev: "Page précédente", nav_next: "Page suivante", nav_cover: "Revenir à la couverture",
     programme_items: [
       { titre: "Vendredi soir : L’échauffement des troupes (Édition Amis)", description: "On commence les hostilités en douceur autour d’un verre et de quoi grignoter.\n\nAttention, soirée strictement réservée à la team des amis : la famille a quartier libre pour se reposer (vous aurez besoin d’énergie pour samedi)." },
@@ -54,7 +54,7 @@ installer: "📲 Installer l'appli", installer_court: "Installer l'appli", insta
     _nom: "Italiano", _locale: "it-IT",
     cover_enter: "ENTRATE NELLA LEGGENDA", cover_hint: "Aprire il grimorio", cover_aria: "Aprire il grimorio BROCÉLIANDE",
     programme_chapter: "Capitolo I", programme_title: "Programma", programme_intro: "Il programma del fine settimana, annotato nel diario di viaggio.",
-    memory_eyebrow: "Ricordi di viaggio", memory_title: "Alcuni frammenti della nostra storia",
+    memory_eyebrow: "", memory_title: "RICORDI DI VIAGGIO",
     nav_prev: "Pagina precedente", nav_next: "Pagina successiva", nav_cover: "Torna alla copertina",
     programme_items: [
       { titre: "Venerdì sera: Il riscaldamento delle truppe (Edizione Amici)", description: "Si aprono le ostilità con calma, davanti a un bicchiere e qualcosa da sgranocchiare.\n\nAttenzione: serata strettamente riservata al team degli amici; la famiglia ha il quartiere libero per riposarsi (vi servirà energia per sabato)." },
@@ -103,7 +103,7 @@ installer: "📲 Installa l'app", installer_court: "Installa l'app", installe: "
     _nom: "Español", _locale: "es-CL",
     cover_enter: "ENTRAD EN LA LEYENDA", cover_hint: "Abrir el grimorio", cover_aria: "Abrir el grimorio BROCÉLIANDE",
     programme_chapter: "Capítulo I", programme_title: "Programa", programme_intro: "El programa del fin de semana, anotado en el cuaderno de ruta.",
-    memory_eyebrow: "Recuerdos del camino", memory_title: "Algunos destellos de nuestra historia",
+    memory_eyebrow: "", memory_title: "RECUERDOS DEL CAMINO",
     nav_prev: "Página anterior", nav_next: "Página siguiente", nav_cover: "Volver a la portada",
     programme_items: [
       { titre: "Viernes por la noche: El calentamiento de las tropas (Edición Amigos)", description: "Empezamos las hostilidades con calma, alrededor de una copa y algo para picar.\n\nAtención: velada estrictamente reservada al equipo de amigos; la familia tiene descanso libre (necesitarán energía para el sábado)." },

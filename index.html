@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
-  <link rel="stylesheet" href="style.css?v=3.6.0">
+  <link rel="stylesheet" href="style.css?v=3.7.0">
 
-  <!-- V3.6.0 — couverture responsive, inscription unifiée et zoom pilotable -->
+  <!-- V3.7.0 — couverture responsive, inscription unifiée et zoom pilotable -->
   <style id="cover-v350">
     .book-cover-screen {
       --cover-zoom: 1;
@@ -155,26 +155,34 @@
     .book-cover-screen.is-opening .book-cover-art { transform: rotateY(-86deg) translateX(-4%); opacity: 0; }
 
     @media (max-width: 600px) {
-      /* Deux couches : ambiance plein écran derrière, grimoire net et presque entier devant. */
-      .book-cover-art {
-        width: min(132vw, calc((100svh - 3.6rem) * 1.5));
-        height: auto;
-        aspect-ratio: 3 / 2;
-        max-width: none;
-        max-height: calc(100svh - 3.6rem);
-        overflow: visible;
-        box-shadow: 0 18px 56px rgba(0,0,0,.58);
-      }
-      .book-cover-visual { transform: scale(var(--cover-zoom-mobile, 1)); }
-      .book-cover-picture img { object-fit: contain; }
-      .cover-inscription-localized {
-        left: var(--cover-title-x-mobile, 52.5%);
-        top: var(--cover-title-y-mobile, 74%);
-        width: 38%;
-        font-size: clamp(.72rem, 2.75cqw, 1.05rem);
-        letter-spacing: 0;
-      }
-    }
+       /* V3.7 : uniquement le grimoire détouré, intact, sur un fond vert-noir. */
+       .book-cover-screen {
+         padding: max(4.15rem, calc(3.45rem + env(safe-area-inset-top))) .8rem .8rem;
+         background: radial-gradient(circle at 50% 46%, #153b2b 0, #071c14 47%, #020805 100%);
+       }
+       .book-cover-screen::before { display: none; }
+       .book-cover-screen::after { background: radial-gradient(circle at 50% 48%, transparent 42%, rgba(0,0,0,.38) 100%); }
+       .book-cover-art {
+         width: min(92vw, calc(100svh - 5.1rem));
+         height: auto;
+         aspect-ratio: 1020 / 1024;
+         max-width: none;
+         max-height: calc(100svh - 5.1rem);
+         overflow: visible;
+         filter: drop-shadow(0 22px 28px rgba(0,0,0,.68));
+         box-shadow: none;
+       }
+       .book-cover-visual { transform: scale(var(--cover-zoom-mobile, 1)); }
+       .book-cover-picture { overflow: visible; }
+       .book-cover-picture img { object-fit: contain; }
+       .cover-inscription-localized {
+         left: var(--cover-title-x-mobile, 57.5%);
+         top: var(--cover-title-y-mobile, 74%);
+         width: 63%;
+         font-size: clamp(.68rem, 3.25cqw, 1.04rem);
+         letter-spacing: 0;
+       }
+     }
     @media (prefers-reduced-motion: reduce) {
       .book-cover-art, .book-cover-visual { transition: none; }
       .book-cover-screen.is-opening .book-cover-art { transform: none; opacity: 1; }
@@ -219,7 +227,8 @@
       <span class="book-cover-art">
         <span class="book-cover-visual">
           <picture class="book-cover-picture" aria-hidden="true">
-            <img src="assets/cover/cover-main-v333.png" width="1536" height="1024" alt="" decoding="sync" fetchpriority="high">
+            <source media="(max-width: 600px)" srcset="assets/cover/cover-book-mobile-v370.png">
+             <img src="assets/cover/cover-main-v333.png" width="1536" height="1024" alt="" decoding="sync" fetchpriority="high">
           </picture>
           <span class="cover-inscription-localized" data-i18n="cover_enter">ENTREZ DANS LA LÉGENDE</span>
         </span>
@@ -285,35 +294,30 @@
     <div class="strip" id="strip" hidden><div class="strip-track" id="stripTrack"></div></div>
   </section>
 
-  <!-- Programme — double page sur ordinateur/tablette, une page unique sur mobile -->
-  <section class="programme-grimoire book-spread-section" id="programme" aria-labelledby="programmeTitle">
-    <div class="programme-book book-spread">
-      <article class="book-page programme-folio programme-folio-left">
-        <header class="programme-heading">
-          <span class="eyebrow" data-i18n="programme_chapter">Chapitre I</span>
-          <h2 id="programmeTitle" data-i18n="programme_title">Programme</h2>
-          <p data-i18n="programme_intro">Le déroulé du week-end, consigné dans le carnet de route.</p>
-        </header>
-        <div class="programme-list" id="programmeCol1"></div>
-        <span class="folio-number" aria-hidden="true">I</span>
-      </article>
-      <article class="book-page programme-folio programme-folio-right">
-        <div class="programme-list" id="programmeCol2"></div>
-        <span class="folio-number" aria-hidden="true">II</span>
-      </article>
-      <nav class="book-page-nav programme-page-nav" aria-label="Navigation entre les pages">
-        <button type="button" class="book-arrow book-arrow-prev" data-book-cover data-i18n-aria="nav_cover" aria-label="Revenir à la couverture"><span aria-hidden="true">←</span></button>
-        <a href="#parcours" class="book-arrow book-arrow-next" data-i18n-aria="nav_next" aria-label="Page suivante"><span aria-hidden="true">→</span></a>
-      </nav>
-    </div>
-  </section>
+  <!-- Programme — frise visuelle, deux colonnes PC/tablette et une seule page continue mobile -->
+   <section class="programme-grimoire ancient-page-section" id="programme" aria-labelledby="programmeTitle">
+     <div class="programme-book programme-panel">
+       <header class="programme-heading">
+         <span class="eyebrow" data-i18n="programme_chapter">Chapitre I</span>
+         <h2 id="programmeTitle" data-i18n="programme_title">Programme</h2>
+         <p data-i18n="programme_intro">Le déroulé du week-end, consigné dans le carnet de route.</p>
+       </header>
+       <div class="programme-timeline" aria-label="Les six moments du week-end">
+         <div class="programme-list" id="programmeCol1"></div>
+         <div class="programme-list" id="programmeCol2"></div>
+       </div>
+       <nav class="book-page-nav programme-page-nav" aria-label="Navigation entre les pages">
+         <button type="button" class="book-arrow book-arrow-prev" data-book-cover data-i18n-aria="nav_cover" aria-label="Revenir à la couverture"><span aria-hidden="true">←</span></button>
+         <a href="#parcours" class="book-arrow book-arrow-next" data-i18n-aria="nav_next" aria-label="Page suivante"><span aria-hidden="true">→</span></a>
+       </nav>
+     </div>
+   </section>
 
-  <!-- Bandeau de photos : alimenté par le dossier « bandeau » du système existant. -->
+   <!-- Bandeau de photos : alimenté par le dossier « bandeau » du système existant. -->
   <section class="memory-ribbon" id="souvenirs" hidden aria-labelledby="memoryRibbonTitle">
     <div class="memory-ribbon-heading">
-      <span class="eyebrow" data-i18n="memory_eyebrow">Souvenirs de route</span>
-      <h2 id="memoryRibbonTitle" data-i18n="memory_title">Quelques éclats de notre histoire</h2>
-    </div>
+       <h2 id="memoryRibbonTitle" data-i18n="memory_title">SOUVENIRS DE ROUTE</h2>
+     </div>
     <div class="strip memory-strip"><div class="strip-track" id="memoryRibbonTrack"></div></div>
   </section>
 
@@ -405,11 +409,11 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="cles.js?v=3.6.0"></script>
-  <script src="config.js?v=3.6.0"></script>
-  <script src="i18n.js?v=3.6.0"></script>
-  <script src="cover.js?v=3.6.0"></script>
-  <script src="app.js?v=3.6.0"></script>
+  <script src="cles.js?v=3.7.0"></script>
+  <script src="config.js?v=3.7.0"></script>
+  <script src="i18n.js?v=3.7.0"></script>
+  <script src="cover.js?v=3.7.0"></script>
+  <script src="app.js?v=3.7.0"></script>
 </body>
 </html>
 

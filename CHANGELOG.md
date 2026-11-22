@@ -1,19 +1,17 @@
 # Changelog
 
+## V3.7.0
+
+- Fond intérieur remplacé par une page ancienne complète et sans bord de livre contraignant.
+- Sections transformées en cartes de parchemin nettement identifiables, cohérentes vert sapin / or.
+- Programme conservé dans son intégralité et présenté comme une frise visuelle en six moments.
+- Hiérarchie, repères, espacements et lisibilité mobile renforcés sans réduire excessivement les textes.
+- Titre du bandeau remplacé par « SOUVENIRS DE ROUTE » ; ancien doublon supprimé.
+- Carte contenue dans la largeur utile sur PC, tablette et mobile.
+- Navigation interne corrigée pour placer chaque nouvelle section sous la bannière.
+- Accueil mobile : grimoire détouré seul, en PNG sans perte, sur fond vert-noir.
+- Logique GitHub / Apps Script, formulaires, traductions, restrictions d’accès et déblocages préservés.
+
 ## V3.6.0
 
-- Ajout de la section Programme après la couverture et avant Parcours.
-- Intégration sûre du programme fourni dans Google Sheets.
-- Mise en page double page PC/tablette et page unique mobile.
-- Ajout des flèches précédent/suivant en bas des pages.
-- Réintégration du bandeau photo défilant dans le style carnet.
-- Suppression de BY UTMB dans la bannière supérieure.
-- Couverture mobile plein écran à deux couches, sans déformation.
-- Quatre paramètres Sheet pour déplacer l’inscription FR/IT/ES.
-- Parcours mobile : liste avant carte, fenêtre de deux étapes visibles exactement.
-- Roulement vertical sur nouveau déblocage, mémorisé et compatible `prefers-reduced-motion`.
-- Cache PWA porté à V3.6.0.
-
-## V3.5.0
-
-Base conservée : carnet réaliste, carte fournie, transition directe et zoom de couverture.
+- Base fonctionnelle conservée sans régression.

@@ -4,7 +4,7 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.6.0",
+  version: "3.7.0",
 
   /* Secours local haute qualité : conservé pour compatibilité avec l’ancien hero masqué. */
   heroFallback: "assets/images/hero-couple-original.jpg",
@@ -14,7 +14,7 @@ window.UTMB_CONFIG = {
   cover: {
     zoom: 1, zoomMobile: 1,
     titleX: 52.5, titleY: 67.5,
-    titleXMobile: 52.5, titleYMobile: 74
+    titleXMobile: 57.5, titleYMobile: 74
   },
 
   apiUrl: (window.UTMB_CLES && window.UTMB_CLES.apiUrl) || "",

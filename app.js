@@ -1,4 +1,4 @@
-/* BROCÉLIANDE — moteur du site V3.6.0 (socle fonctionnel préservé, prototype Parcours) */
+/* BROCÉLIANDE — moteur du site V3.7.0 (socle fonctionnel préservé, prototype Parcours) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
@@ -685,9 +685,14 @@
     return (I18N[LANG] && I18N[LANG].programme_items) || I18N.fr.programme_items || [];
   }
   function programmeEntryHtml(x, i) {
-    const time = x.heure ? `<span class="programme-time">${esc(x.heure)}</span>` : '';
-    return `<article class="programme-entry" style="--programme-order:${i}">${time}<h3>${esc(x.titre)}</h3>${x.lieu ? `<p class="programme-place">⌖ ${esc(x.lieu)}</p>` : ''}<div class="programme-description">${md(x.description || '')}</div></article>`;
-  }
+     const time = x.heure ? `<span class="programme-time">${esc(x.heure)}</span>` : '';
+     const symbols = ['✦', '☀', '✓', '♥', '♫', '☕'];
+     const number = String(i + 1).padStart(2, '0');
+     return `<article class="programme-entry programme-entry-${i + 1}" style="--programme-order:${i}">
+       <span class="programme-marker" aria-hidden="true"><span class="programme-symbol">${symbols[i] || '✦'}</span><small>${number}</small></span>
+       <div class="programme-entry-copy">${time}<h3>${esc(x.titre)}</h3>${x.lieu ? `<p class="programme-place">⌖ ${esc(x.lieu)}</p>` : ''}<div class="programme-description">${md(x.description || '')}</div></div>
+     </article>`;
+   }
   function renderProgrammeIntro() {
     const list = programmeData(), split = Math.ceil(list.length / 2);
     $('#programmeCol1').innerHTML = list.slice(0, split).map((x, i) => programmeEntryHtml(x, i)).join('');
@@ -861,10 +866,14 @@
 
   /* ---------- Navigation interne sans « #ancre » dans l'adresse ---------- */
   function goTo(id) {
-    if (id === 'bookCover') { window.BroceliandeCover?.reopen(); return; }
-    if (id === 'top') return scrollTo({ top: 0, behavior: 'smooth' });
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  }
+     if (id === 'bookCover') { window.BroceliandeCover?.reopen(); return; }
+     if (id === 'top') return scrollTo({ top: 0, behavior: 'smooth' });
+     const target = document.getElementById(id); if (!target) return;
+     const navHeight = document.getElementById('nav')?.getBoundingClientRect().height || 0;
+     const breathingRoom = matchMedia('(max-width:600px)').matches ? 10 : 18;
+     const top = Math.max(0, target.getBoundingClientRect().top + scrollY - navHeight - breathingRoom);
+     scrollTo({ top, behavior: 'smooth' });
+   }
   function initAnchors() {
     document.addEventListener('click', ev => {
       const coverButton = ev.target.closest('[data-book-cover]');
