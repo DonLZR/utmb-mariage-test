@@ -860,7 +860,7 @@ body.book-closed .toast,body.book-closed [class^="coach-"]{display:none!importan
 
 
 /* =====================================================================
-   V3.5.0 — pages intérieures issues du visuel validé + responsive mobile
+   V3.6.0 — pages intérieures issues du visuel validé + responsive mobile
    Modifications ciblées : le socle fonctionnel V3.4.0 reste inchangé.
    ===================================================================== */
 :root{
@@ -981,3 +981,168 @@ body{
 
 .stage.locked .stage-head{background:rgba(218,207,181,.62)}
 .stage.locked .stage-body{background:rgba(230,220,196,.45)}
+
+
+/* =====================================================================
+   V3.6.0 — Programme, navigation de pages, couverture mobile immersive
+   et fenêtre mobile de deux étapes avec roulement persistant.
+   ===================================================================== */
+:root{
+  --book-leather:#352116;
+  --book-gold:#a77c35;
+  --book-ink:#3d2c1c;
+  --book-green:#173a2b;
+}
+
+/* Programme : véritable double page jusqu'au format tablette. */
+.programme-grimoire{
+  position:relative;
+  padding:clamp(4.5rem,7vw,6.5rem) clamp(.7rem,2vw,1.5rem) clamp(2.8rem,5vw,4.5rem);
+  scroll-margin-top:58px;
+  background:radial-gradient(circle at 50% 0,rgba(151,112,56,.16),transparent 40%),linear-gradient(160deg,#061810,#0d2a1f 52%,#06150f);
+  overflow:hidden;
+}
+.programme-book{
+  position:relative;
+  isolation:isolate;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  width:min(1420px,100%);
+  min-height:clamp(660px,72vw,850px);
+  margin:0 auto;
+  padding:clamp(.55rem,1.2vw,1rem) clamp(.55rem,1.2vw,1rem) clamp(4.1rem,6vw,5rem);
+  border:1px solid rgba(200,157,83,.72);
+  border-radius:18px;
+  background:linear-gradient(145deg,#4b321f,#25180f 45%,#382319 100%);
+  box-shadow:0 34px 80px rgba(0,0,0,.55),inset 0 0 0 4px rgba(117,79,41,.5),inset 0 0 26px rgba(0,0,0,.72);
+}
+.programme-book::before{
+  content:"";position:absolute;z-index:4;top:1rem;bottom:4.3rem;left:50%;width:30px;transform:translateX(-50%);pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(61,40,21,.26) 20%,rgba(32,18,9,.42) 48%,rgba(255,244,209,.16) 72%,transparent);filter:blur(3px);
+}
+.programme-folio{
+  position:relative;min-width:0;padding:clamp(2.2rem,4vw,4rem) clamp(1.5rem,3.5vw,4.3rem) 3rem;color:var(--book-ink);
+  background:#eadbb6 var(--book-page-image) center/100% 100% no-repeat;
+  box-shadow:inset 0 0 30px rgba(52,30,12,.12),inset 0 0 0 1px rgba(105,73,34,.26);
+}
+.programme-folio-left{border-radius:10px 2px 2px 10px;background-image:var(--book-page-left-image)}
+.programme-folio-right{border-radius:2px 10px 10px 2px;padding-top:clamp(3.4rem,6vw,6rem)}
+.programme-heading{text-align:center;margin:0 auto 1.5rem;max-width:32rem}
+.programme-heading .eyebrow,.memory-ribbon .eyebrow{color:var(--book-gold);font:700 .82rem 'Cormorant Garamond',serif;letter-spacing:.24em;text-transform:uppercase}
+.programme-heading h2{margin:.3rem 0 .55rem;color:var(--book-green);font:700 clamp(2.2rem,4vw,3.7rem)/1.05 'Cinzel Decorative','Cormorant Garamond',serif}
+.programme-heading h2::after{content:"";display:block;width:92px;height:1px;margin:.8rem auto 0;background:linear-gradient(90deg,transparent,var(--book-gold),transparent)}
+.programme-heading p{margin:0;font:italic 600 clamp(1rem,1.35vw,1.15rem)/1.4 'Cormorant Garamond',serif;color:#5a4329}
+.programme-list{display:grid;align-content:start;gap:clamp(.8rem,1.4vw,1.25rem)}
+.programme-entry{position:relative;padding:.2rem 0 .75rem 1.15rem;border-left:1px solid rgba(144,102,45,.38)}
+.programme-entry::before{content:"";position:absolute;left:-5px;top:.42rem;width:9px;height:9px;border-radius:50%;background:var(--book-gold);box-shadow:0 0 0 3px rgba(238,220,176,.75)}
+.programme-time{display:block;margin-bottom:.15rem;color:#8d682f;font:700 .68rem var(--sans);letter-spacing:.1em;text-transform:uppercase}
+.programme-entry h3{margin:0 0 .36rem;color:var(--book-green);font:700 clamp(1.05rem,1.45vw,1.32rem)/1.15 'Cormorant Garamond',serif;text-decoration:underline;text-decoration-color:rgba(142,100,42,.38);text-underline-offset:.18em}
+.programme-description p{margin:.2rem 0;color:#4b3823;font:600 clamp(.86rem,1.05vw,1rem)/1.35 'Cormorant Garamond',serif}
+.programme-description p + p{font-style:italic}
+.programme-place{margin:.2rem 0;color:#74562f;font:600 .8rem var(--sans)}
+
+/* Deux flèches discrètes et cohérentes, toujours réunies au bas de la page. */
+.book-page-nav{
+  display:flex;align-items:center;justify-content:center;gap:.72rem;z-index:12;
+}
+.programme-page-nav,.parcours-page-nav{position:absolute;left:50%;bottom:1.15rem;transform:translateX(-50%)}
+.book-arrow{
+  display:grid;place-items:center;width:36px;height:30px;padding:0;border:1px solid rgba(119,82,35,.52);border-radius:999px;
+  color:#f3dfaa;background:linear-gradient(145deg,#214a37,#112d21);box-shadow:0 4px 10px rgba(38,24,12,.25),inset 0 0 0 1px rgba(231,195,121,.15);
+  font:700 1rem/1 var(--serif);text-decoration:none;cursor:pointer;transition:transform .18s,background .18s,box-shadow .18s;
+}
+.book-arrow:hover,.book-arrow:focus-visible{transform:translateY(-2px);background:linear-gradient(145deg,#2c5c45,#173a2b);box-shadow:0 6px 14px rgba(38,24,12,.32),0 0 0 2px rgba(202,163,88,.35)}
+.book-arrow:focus-visible{outline:2px solid #d7aa5b;outline-offset:2px}
+.parcours-book{padding-bottom:clamp(4.1rem,6vw,5rem)}
+.stage{position:relative;padding-bottom:3.8rem}
+.stage-page-nav{position:absolute;left:50%;bottom:.85rem;transform:translateX(-50%)}
+.galerie{position:relative;padding-bottom:4.5rem}
+.galerie .stage-page-nav{bottom:1rem}
+
+/* Ruban de souvenirs : photographies physiques posées sur le carnet. */
+.memory-ribbon{position:relative;padding:2.2rem 0 2.7rem;overflow:hidden;background:linear-gradient(180deg,#0b2419,#071910)}
+.memory-ribbon-heading{text-align:center;padding:0 1rem}
+.memory-ribbon-heading h2{margin:.3rem 0;color:#ead39c;font:700 clamp(1.35rem,3.4vw,2.25rem) 'Cinzel Decorative','Cormorant Garamond',serif}
+.memory-ribbon .strip{margin:1.4rem 0 0;padding:.65rem 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.memory-ribbon .strip img{height:clamp(145px,18vw,220px);padding:6px 6px 20px;border:1px solid rgba(98,67,31,.34);border-radius:3px;background:#eadfbe;box-shadow:0 10px 26px rgba(0,0,0,.38);filter:sepia(.16) saturate(.88);transition:filter .25s,transform .25s}
+.memory-ribbon .strip img:hover{filter:none;transform:rotate(0) translateY(-3px)}
+
+/* Tablette : la double page reste une double page, avec une typographie plus compacte. */
+@media (min-width:601px) and (max-width:880px){
+  .programme-book,.parcours-book{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:860px;padding:.55rem .55rem 4.3rem;border:1px solid rgba(200,157,83,.72);border-radius:16px;background:linear-gradient(145deg,#4b321f,#25180f 45%,#382319 100%);box-shadow:0 28px 65px rgba(0,0,0,.52),inset 0 0 0 3px rgba(117,79,41,.45)}
+  .programme-book::before,.parcours-book::before{display:block;left:50%;top:.8rem;bottom:4.2rem}
+  .programme-folio,.parcours-folio{min-width:0;border-radius:0;padding:2rem clamp(.8rem,2.2vw,1.5rem) 2.6rem;background-color:#eadbb6;background-size:100% 100%;box-shadow:inset 0 0 24px rgba(52,30,12,.12),inset 0 0 0 1px rgba(105,73,34,.24)}
+  .programme-folio-left,.parcours-folio-index{border-radius:9px 2px 2px 9px;background-image:var(--book-page-left-image)}
+  .programme-folio-right,.parcours-folio-map{border-radius:2px 9px 9px 2px;background-image:var(--book-page-image)}
+  .programme-folio-right{padding-top:3.5rem}
+  .parcours-folio-index{order:1}.parcours-folio-map{order:2;padding-top:2rem}.parcours-folio-map::before{display:none}
+  .programme-entry h3{font-size:1rem}.programme-description p{font-size:.82rem}
+  .parcours-book .cp-panel{grid-template-columns:1fr;gap:.24rem}
+  .parcours-book .cp{min-height:44px;padding:.38rem;grid-template-columns:32px 1fr;gap:.45rem}
+  .parcours-book .cp-num{width:30px;height:30px}
+  .map-stage-detail{min-height:0;padding:.75rem}
+}
+
+/* Mobile : une seule page réelle. Deux étapes exactement sont visibles, puis la carte. */
+@media (max-width:600px){
+  .programme-grimoire{padding:4.1rem .3rem 1.2rem}
+  .programme-book,.parcours-book{
+    display:flex;flex-direction:column;gap:0;width:100%;min-height:0;margin:0;padding:.45rem .42rem 4.2rem;
+    border:1px solid rgba(113,77,35,.54);border-radius:11px;
+    background:#eadbb6 var(--book-page-image) center/100% 100% no-repeat;
+    box-shadow:0 20px 48px rgba(0,0,0,.55),inset 0 0 24px rgba(69,42,18,.1);
+  }
+  .programme-book::before,.parcours-book::before{display:none}
+  .programme-folio,.parcours-folio{
+    width:100%;min-height:0;padding:1.15rem .72rem .35rem;border:0;border-radius:0!important;background:none!important;box-shadow:none!important;overflow:visible;
+  }
+  .programme-folio-right{padding-top:0;padding-bottom:1.2rem}
+  .programme-folio .folio-number,.parcours-folio .folio-number{display:none}
+  .programme-heading{margin-bottom:1rem}
+  .programme-heading h2{font-size:clamp(1.85rem,10vw,2.55rem)}
+  .programme-heading p{font-size:.92rem}
+  .programme-list{gap:.36rem}
+  .programme-entry{padding:.12rem 0 .42rem .85rem}
+  .programme-entry::before{width:7px;height:7px;left:-4px}
+  .programme-entry h3{font-size:.94rem;line-height:1.08;margin-bottom:.18rem}
+  .programme-description p{font-size:.78rem;line-height:1.2;margin:.12rem 0}
+  .programme-page-nav,.parcours-page-nav{bottom:.78rem}
+
+  .parcours-grimoire{padding:1.2rem .3rem 1.5rem}
+  .parcours-folio-index{order:1;padding-top:1.2rem;padding-bottom:.55rem}
+  .parcours-folio-map{order:2;padding-top:.45rem;padding-bottom:1.1rem}
+  .parcours-heading{padding-bottom:.42rem}
+  .parcours-heading h2{font-size:clamp(1.75rem,9vw,2.35rem);margin-bottom:.35rem}
+  .parcours-lead{font-size:.9rem;line-height:1.25}
+  .parcours-progress{margin:.65rem auto .75rem}
+  .stage-index-title{font-size:.94rem;margin-bottom:.42rem}
+  .mobile-stage-window{
+    --mobile-stage-row:54px;
+    --mobile-stage-gap:4px;
+    position:relative;z-index:3;height:calc(var(--mobile-stage-row) * 2 + var(--mobile-stage-gap));overflow:hidden;
+    border-block:1px solid rgba(126,88,42,.22);
+  }
+  .parcours-book .cp-panel{
+    display:flex;flex-direction:column;gap:var(--mobile-stage-gap);width:100%;padding:0;
+    transform:translateY(calc(var(--mobile-stage-start,0) * (var(--mobile-stage-row) + var(--mobile-stage-gap)) * -1));
+    will-change:transform;
+  }
+  .parcours-book .cp-panel.is-rolling{transition:transform .64s cubic-bezier(.22,.72,.25,1)}
+  .parcours-book .cp{flex:0 0 var(--mobile-stage-row);width:100%;min-height:var(--mobile-stage-row);max-height:var(--mobile-stage-row);grid-template-columns:34px 1fr;gap:.5rem;padding:.38rem .45rem;overflow:hidden}
+  .parcours-book .cp-title{display:block;font-size:.93rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .parcours-book .cp-meta{display:block;font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .parcours-book .cp-num{width:32px;height:32px}
+  .map-stage-detail{margin-top:.65rem;padding:.72rem;min-height:0}
+  .map-stage-detail h4{font-size:1.08rem}
+  .parchment-map-heading{margin:0 0 .45rem}
+  .parchment-map-heading h3{font-size:clamp(1.25rem,7vw,1.7rem)}
+  .parchment-map-figure{width:100%;aspect-ratio:3/2}
+  .map-hint{font-size:.72rem;margin:.45rem .2rem 0}
+  .book-arrow{width:34px;height:29px}
+  .stage{padding-bottom:3.5rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .parcours-book .cp-panel.is-rolling{transition:none!important}
+  .memory-ribbon .strip img{transition:none}
+}

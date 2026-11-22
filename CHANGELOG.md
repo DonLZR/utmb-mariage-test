@@ -1,30 +1,19 @@
-# CHANGELOG
+# Changelog
 
-## V3.5.0 — transition directe, carnet réaliste et zoom de couverture
+## V3.6.0
 
-### Couverture
-- L’ouverture mène directement à la section Parcours.
-- L’ancien hero devient invisible tout en restant présent pour la compatibilité des fonctions historiques.
-- L’inscription FR utilise désormais la même police HTML que les versions IT et ES.
-- La taille des trois inscriptions est légèrement augmentée.
-- Le mobile affiche une couverture plus petite, centrée et au ratio 3:2.
-- Ajout des paramètres Sheet `couverture_zoom` et `couverture_zoom_mobile` (0,75 à 1,35 ; défaut 1).
+- Ajout de la section Programme après la couverture et avant Parcours.
+- Intégration sûre du programme fourni dans Google Sheets.
+- Mise en page double page PC/tablette et page unique mobile.
+- Ajout des flèches précédent/suivant en bas des pages.
+- Réintégration du bandeau photo défilant dans le style carnet.
+- Suppression de BY UTMB dans la bannière supérieure.
+- Couverture mobile plein écran à deux couches, sans déformation.
+- Quatre paramètres Sheet pour déplacer l’inscription FR/IT/ES.
+- Parcours mobile : liste avant carte, fenêtre de deux étapes visibles exactement.
+- Roulement vertical sur nouveau déblocage, mémorisé et compatible `prefers-reduced-motion`.
+- Cache PWA porté à V3.6.0.
 
-### Pages intérieures
-- Utilisation du référentiel de page vierge fourni comme texture réelle.
-- Variante miroir pour le folio gauche.
-- Habillage cohérent des étapes et de la galerie.
-- Sur mobile, pages séparées plus lisibles et carte affichée avant Parcours.
+## V3.5.0
 
-### Carte
-- Remplacement par la carte Brocéliande fournie.
-- Suppression des toponymes HTML redondants.
-- Recalage des cinq pastilles sur les numéros imprimés.
-- Conservation des surcharges facultatives `carte_x` / `carte_y`.
-
-### Continuité
-- Sources V3.4.0 fournies utilisées comme base directe.
-- `i18n.js` fonctionnellement inchangé.
-- Formulaires, déblocages, dossard, galerie et Coach non réécrits.
-- Cache PWA porté à V3.5.0.
-- `Code.gs` conserve sa logique ; seules deux lignes de paramètres et la version sont ajoutées.
+Base conservée : carnet réaliste, carte fournie, transition directe et zoom de couverture.

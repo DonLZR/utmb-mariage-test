@@ -1,10 +1,11 @@
-/* BROCÉLIANDE — moteur du site V3.5.0 (socle fonctionnel préservé, prototype Parcours) */
+/* BROCÉLIANDE — moteur du site V3.6.0 (socle fonctionnel préservé, prototype Parcours) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
   const $ = (s, r = document) => r.querySelector(s);
   const SEEN_KEY = 'utmb_seen', DOSSARD_KEY = 'utmb_dossard', GATE_KEY = 'utmb_ok', LANG_KEY = 'utmb_lang',
-        SCROLL_KEY = 'utmb_scroll', FORMS_KEY = 'utmb_forms', UNLOCK_KEY = 'utmb_unlock';
+        SCROLL_KEY = 'utmb_scroll', FORMS_KEY = 'utmb_forms', UNLOCK_KEY = 'utmb_unlock',
+        MOBILE_STAGE_KEY = 'utmb_mobile_stage_window_v1';
   const NOUVEAU_PERSO_H = 48;                     // durée (heures) du badge « Nouveau » après un déblocage personnel
   let DATA = null, DATA_SIG = '', RAW = null, deferredInstall = null, selectedMapStage = null;
   let chronoTarget = null, chronoTimer = null, slideTimer = null;
@@ -311,6 +312,14 @@
     if (!cover) return;
     cover.style.setProperty('--cover-zoom', clampZoom(p.couverture_zoom, cfg.zoom));
     cover.style.setProperty('--cover-zoom-mobile', clampZoom(p.couverture_zoom_mobile, cfg.zoomMobile ?? cfg.zoom));
+    const clampPosition = (value, fallback) => {
+      const parsed = num(value), base = num(fallback);
+      return Math.min(100, Math.max(0, parsed === null ? (base === null ? 50 : base) : parsed));
+    };
+    cover.style.setProperty('--cover-title-x', clampPosition(p.couverture_texte_position_h, cfg.titleX) + '%');
+    cover.style.setProperty('--cover-title-y', clampPosition(p.couverture_texte_position_v, cfg.titleY) + '%');
+    cover.style.setProperty('--cover-title-x-mobile', clampPosition(p.couverture_texte_position_h_mobile, cfg.titleXMobile ?? cfg.titleX) + '%');
+    cover.style.setProperty('--cover-title-y-mobile', clampPosition(p.couverture_texte_position_v_mobile, cfg.titleYMobile ?? cfg.titleY) + '%');
   }
 
   function renderHero() {
@@ -452,7 +461,7 @@
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     spy = io;
-    document.querySelectorAll('.stage, #galerie').forEach(s => io.observe(s));
+    document.querySelectorAll('#programme, #parcours, .stage, #galerie').forEach(s => io.observe(s));
   }
 
   /* ---------- Progression ---------- */
@@ -482,6 +491,43 @@
         <span class="cp-meta">${esc(e.cp || '')} · ${esc(e.lieu || '')}${e.km !== '' && e.km != null ? ' · km ' + esc(e.km) : ''}</span></span>
       </button>`;
     }).join('');
+    updateMobileStageWindow(true);
+  }
+
+  /* Mobile : exactement deux étapes visibles. La fenêtre suit le dernier déblocage,
+     sans rejouer le roulement si l'état mémorisé n'a pas progressé. */
+  function updateMobileStageWindow(allowAnimation) {
+    const panel = $('#cpPanel'); if (!panel || !DATA) return;
+    const stages = mapStages(), buttons = [...panel.querySelectorAll('.cp')];
+    const mobile = matchMedia('(max-width:600px)').matches;
+    const unlocked = stages.reduce((n, e) => n + (isOpen(e) ? 1 : 0), 0);
+    const latest = Math.max(0, stages.reduce((last, e, i) => isOpen(e) ? i : last, 0));
+    const start = Math.max(0, Math.min(stages.length - 2, latest - 1));
+    let previous = null;
+    try { previous = JSON.parse(localStorage.getItem(MOBILE_STAGE_KEY) || 'null'); } catch (e) {}
+    const previousCount = previous ? Number(previous.count) : NaN;
+    const previousStart = previous && Number.isFinite(Number(previous.start)) ? Number(previous.start) : start;
+    const progressed = previous && Number.isFinite(previousCount) && unlocked > previousCount;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const animate = mobile && allowAnimation && progressed && !reduced;
+
+    panel.classList.remove('is-rolling');
+    panel.style.setProperty('--mobile-stage-start', String(animate ? previousStart : start));
+    buttons.forEach((button, i) => {
+      const visible = !mobile || (i >= start && i < start + 2);
+      if (visible) { button.removeAttribute('aria-hidden'); button.removeAttribute('tabindex'); }
+      else { button.setAttribute('aria-hidden', 'true'); button.setAttribute('tabindex', '-1'); }
+    });
+    if (animate) requestAnimationFrame(() => requestAnimationFrame(() => {
+      panel.classList.add('is-rolling');
+      panel.style.setProperty('--mobile-stage-start', String(start));
+      window.setTimeout(() => panel.classList.remove('is-rolling'), 700);
+    }));
+
+    /* Ne jamais faire reculer la mémoire à cause d'un cache plus ancien. */
+    if (!previous || !Number.isFinite(previousCount) || unlocked >= previousCount) {
+      try { localStorage.setItem(MOBILE_STAGE_KEY, JSON.stringify({ count: unlocked, start, latest: stages[latest]?.id || '' })); } catch (e) {}
+    }
   }
 
   function renderParchmentMap() {
@@ -633,12 +679,41 @@
       ${x.lien ? `<a class="row-lien" href="${esc(x.lien)}" target="_blank" rel="noopener">${esc(t('voir_reserver'))}</a>` : '<span></span>'}
     </article>`).join('')}</div>`;
   }
+  function programmeData() {
+    const sheet = (DATA.programme || []).filter(x => x && x.titre && !String(x.titre).includes('[à compléter]'));
+    if (sheet.length) return sheet;
+    return (I18N[LANG] && I18N[LANG].programme_items) || I18N.fr.programme_items || [];
+  }
+  function programmeEntryHtml(x, i) {
+    const time = x.heure ? `<span class="programme-time">${esc(x.heure)}</span>` : '';
+    return `<article class="programme-entry" style="--programme-order:${i}">${time}<h3>${esc(x.titre)}</h3>${x.lieu ? `<p class="programme-place">⌖ ${esc(x.lieu)}</p>` : ''}<div class="programme-description">${md(x.description || '')}</div></article>`;
+  }
+  function renderProgrammeIntro() {
+    const list = programmeData(), split = Math.ceil(list.length / 2);
+    $('#programmeCol1').innerHTML = list.slice(0, split).map((x, i) => programmeEntryHtml(x, i)).join('');
+    $('#programmeCol2').innerHTML = list.slice(split).map((x, i) => programmeEntryHtml(x, i + split)).join('');
+  }
+  function renderMemoryRibbon() {
+    const own = photos('bandeau');
+    const box = $('#souvenirs');
+    if (!box) return;
+    box.hidden = !own.length;
+    $('#memoryRibbonTrack').innerHTML = own.length ? stripTrack(own) : '';
+  }
+
   function programmeHtml() {
     const p = DATA.programme.filter(x => x.titre);
     if (!p.length) return '';
     return `<ol class="timeline">${p.map(x => `<li><div class="tl-time">${esc(x.heure)}</div>
       <div class="tl-title">${esc(x.titre)}</div>${x.lieu ? `<div class="tl-place">📍 ${esc(x.lieu)}</div>` : ''}
       ${x.description ? `<div>${esc(x.description)}</div>` : ''}</li>`).join('')}</ol>`;
+  }
+
+  const pageArrowHtml = (direction, target, label) => `<a href="#${esc(target)}" class="book-arrow book-arrow-${direction}" aria-label="${esc(label)}"><span aria-hidden="true">${direction === 'prev' ? '←' : '→'}</span></a>`;
+  function stagePageNav(i) {
+    const prev = i === 0 ? 'parcours' : DATA.etapes[i - 1].id;
+    const next = i < DATA.etapes.length - 1 ? DATA.etapes[i + 1].id : (hasGalerie() ? 'galerie' : 'footer');
+    return `<nav class="book-page-nav stage-page-nav" aria-label="${esc(t('nav_prev'))} / ${esc(t('nav_next'))}">${pageArrowHtml('prev', prev, t('nav_prev'))}${pageArrowHtml('next', next, t('nav_next'))}</nav>`;
   }
 
   function renderSections() {
@@ -666,6 +741,7 @@
         </div>
         ${st === 'nouveau' ? `<span class="badge stage-new badge-inline">${esc(t('nouveau'))}</span>` : ''}
         <div class="stage-body">${body}</div>
+        ${stagePageNav(i)}
       </section>`;
     }).join('');
     initForms();
@@ -676,6 +752,7 @@
     if (!hasGalerie()) return;
     $('#galerie').hidden = false;
     $('#galerieGrid').innerHTML = photos('galerie').map(u => imgTag(u)).join('');
+    if (!$('#galerie .book-page-nav')) $('#galerie').insertAdjacentHTML('beforeend', `<nav class="book-page-nav stage-page-nav" aria-label="${esc(t('nav_prev'))} / ${esc(t('nav_next'))}">${pageArrowHtml('prev', DATA.etapes[DATA.etapes.length - 1]?.id || 'parcours', t('nav_prev'))}${pageArrowHtml('next', 'footer', t('nav_next'))}</nav>`);
   }
 
   /* ---------- Envoi des formulaires ---------- */
@@ -784,11 +861,14 @@
 
   /* ---------- Navigation interne sans « #ancre » dans l'adresse ---------- */
   function goTo(id) {
+    if (id === 'bookCover') { window.BroceliandeCover?.reopen(); return; }
     if (id === 'top') return scrollTo({ top: 0, behavior: 'smooth' });
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }
   function initAnchors() {
     document.addEventListener('click', ev => {
+      const coverButton = ev.target.closest('[data-book-cover]');
+      if (coverButton) { ev.preventDefault(); window.BroceliandeCover?.reopen(); return; }
       const a = ev.target.closest('a[href^="#"]'); if (!a) return;
       const id = a.getAttribute('href').slice(1); if (!id) return;
       ev.preventDefault(); goTo(id);
@@ -804,7 +884,7 @@
       if (sig === DATA_SIG && !force) return false;
       if (maj && formulaireEnCours()) return false;    // l'invité remplit un formulaire : on ne touche à rien
       RAW = d; DATA_SIG = sig; DATA = prepare(JSON.parse(sig));
-    renderCoverSettings(); renderHero(); renderNav(); renderProgress(); renderPanel(); renderParchmentMap(); renderSections(); renderGalerie(); initScrollSpy(); initStrips();
+    renderCoverSettings(); renderHero(); renderProgrammeIntro(); renderMemoryRibbon(); renderNav(); renderProgress(); renderPanel(); renderParchmentMap(); renderSections(); renderGalerie(); initScrollSpy(); initStrips();
     appliquerCorrectionsPage(false);
     document.body.classList.remove('chargement');
     return true;
@@ -938,6 +1018,10 @@
     applyStaticI18n();
     renderHeroInstant();                              // titres + compte à rebours tout de suite
     initInstall(); initLightbox(); initAnchors(); initCoachToggle();
+    const mobileQuery = matchMedia('(max-width:600px)');
+    const refreshMobileStageWindow = () => updateMobileStageWindow(false);
+    if (mobileQuery.addEventListener) mobileQuery.addEventListener('change', refreshMobileStageWindow);
+    else if (mobileQuery.addListener) mobileQuery.addListener(refreshMobileStageWindow);
     const nav = $('#nav'), upd = () => nav.classList.toggle('scrolled', scrollY > 60);
     addEventListener('scroll', upd, { passive: true }); upd();
     $('#parcours').addEventListener('click', ev => {
@@ -963,3 +1047,4 @@
   }
   start();
 })();
+

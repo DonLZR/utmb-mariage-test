@@ -4,6 +4,17 @@ window.UTMB_I18N = {
   fr: {
     _nom: "Français", _locale: "fr-FR",
     cover_enter: "ENTREZ DANS LA LÉGENDE", cover_hint: "Ouvrir le grimoire", cover_aria: "Ouvrir le grimoire BROCÉLIANDE",
+    programme_chapter: "Chapitre I", programme_title: "Programme", programme_intro: "Le déroulé du week-end, consigné dans le carnet de route.",
+    memory_eyebrow: "Souvenirs de route", memory_title: "Quelques éclats de notre histoire",
+    nav_prev: "Page précédente", nav_next: "Page suivante", nav_cover: "Revenir à la couverture",
+    programme_items: [
+      { titre: "Vendredi soir : L’échauffement des troupes (Édition Amis)", description: "On commence les hostilités en douceur autour d’un verre et de quoi grignoter.\n\nAttention, soirée strictement réservée à la team des amis : la famille a quartier libre pour se reposer (vous aurez besoin d’énergie pour samedi)." },
+      { titre: "Samedi matin : Opération « Grasse Matinée »", description: "Pas de programme officiel le matin ! Profitez-en pour peaufiner votre brushing, repasser votre plus belle chemise ou simplement dormir. On vous veut frais et dispos." },
+      { titre: "Samedi début d’après-midi : Le « Oui » officiel (Accès VIP)", description: "Passage éclair devant Monsieur le Maire pour officialiser tout ça. Pour des raisons de capacité, ce moment se fera en comité très restreint : uniquement les parents, les frangins et nos précieux témoins.\n\nPour tous les autres, rendez-vous directement à l’étape suivante !" },
+      { titre: "Samedi fin d’après-midi : La Cérémonie Laïque au Domaine", description: "C’est là que tout le monde se retrouve ! Sortez les mouchoirs (et les lunettes de soleil), on se dit « oui » pour de vrai au milieu du domaine." },
+      { titre: "Samedi soir : L’apéro, le dîner et la FIESTA", description: "Les choses sérieuses commencent. Au programme : des bulles, un bon repas et une piste de danse ouverte jusqu’au bout de la nuit." },
+      { titre: "Dimanche midi : Le Brunch de récupération", description: "Parce qu’on ne se quitte pas comme ça, on remet le couvert au domaine ! Venez en mode décontracté (lunettes noires fortement tolérées) pour débriefer la soirée et reprendre des forces." }
+    ],
     gate_titre: "Zone d'accès coureurs", gate_texte: "Saisissez le code figurant sur votre faire-part.",
     gate_ph: "Code d'accès", gate_btn: "Entrer sur le parcours", gate_err: "Code incorrect — vérifiez votre faire-part.",
     jours: "jours", heures: "heures", min: "min", sec: "sec",
@@ -16,7 +27,7 @@ installer: "📲 Installer l'appli", installer_court: "Installer l'appli", insta
     ios_1: "Touchez le bouton Partager (carré avec une flèche) en bas de Safari.",
     ios_2: "Choisissez « Sur l'écran d'accueil ».",
     ios_3: "Touchez « Ajouter » : l'icône « BROCÉLIANDE » apparaît comme une appli.",
-    parcours_eyebrow: "Le parcours", parcours_chapter: "Chapitre I", parcours_titre: "Le Parcours",
+    parcours_eyebrow: "Le parcours", parcours_chapter: "Chapitre II", parcours_titre: "Le Parcours",
     parcours_intro: "Choisissez une étape sur la carte pour consulter ses informations.",
     parcours_legend: "Les cinq haltes du parcours", map_hint: "Sélectionnez une pastille pour ouvrir la fiche de l’étape.",
     map_selected: "Étape sélectionnée", map_open_stage: "Consulter l’étape",
@@ -42,6 +53,17 @@ installer: "📲 Installer l'appli", installer_court: "Installer l'appli", insta
   it: {
     _nom: "Italiano", _locale: "it-IT",
     cover_enter: "ENTRATE NELLA LEGGENDA", cover_hint: "Aprire il grimorio", cover_aria: "Aprire il grimorio BROCÉLIANDE",
+    programme_chapter: "Capitolo I", programme_title: "Programma", programme_intro: "Il programma del fine settimana, annotato nel diario di viaggio.",
+    memory_eyebrow: "Ricordi di viaggio", memory_title: "Alcuni frammenti della nostra storia",
+    nav_prev: "Pagina precedente", nav_next: "Pagina successiva", nav_cover: "Torna alla copertina",
+    programme_items: [
+      { titre: "Venerdì sera: Il riscaldamento delle truppe (Edizione Amici)", description: "Si aprono le ostilità con calma, davanti a un bicchiere e qualcosa da sgranocchiare.\n\nAttenzione: serata strettamente riservata al team degli amici; la famiglia ha il quartiere libero per riposarsi (vi servirà energia per sabato)." },
+      { titre: "Sabato mattina: Operazione « Mattinata tranquilla »", description: "Nessun programma ufficiale al mattino! Approfittatene per sistemare l’acconciatura, stirare la camicia più bella o semplicemente dormire. Vi vogliamo freschi e riposati." },
+      { titre: "Sabato, primo pomeriggio: Il « Sì » ufficiale (Accesso VIP)", description: "Passaggio lampo davanti al Sindaco per rendere tutto ufficiale. Per ragioni di capienza, questo momento si svolgerà in un gruppo molto ristretto: soltanto genitori, fratelli, sorelle e i nostri preziosi testimoni.\n\nPer tutti gli altri, appuntamento direttamente alla tappa successiva!" },
+      { titre: "Sabato, tardo pomeriggio: La cerimonia laica alla tenuta", description: "È qui che ci ritroviamo tutti! Tirate fuori i fazzoletti (e gli occhiali da sole): ci diremo « sì » per davvero nel cuore della tenuta." },
+      { titre: "Sabato sera: Aperitivo, cena e FIESTA", description: "Cominciano le cose serie. In programma: bollicine, una buona cena e una pista da ballo aperta fino a notte fonda." },
+      { titre: "Domenica a pranzo: Il brunch di recupero", description: "Perché non ci si saluta così in fretta, torniamo a tavola alla tenuta! Venite comodi (occhiali scuri decisamente ammessi) per commentare la serata e recuperare le forze." }
+    ],
     gate_titre: "Area riservata ai corridori", gate_texte: "Inserite il codice indicato sulla partecipazione.",
     gate_ph: "Codice di accesso", gate_btn: "Entra nel percorso", gate_err: "Codice errato — controllate la partecipazione.",
     jours: "giorni", heures: "ore", min: "min", sec: "sec",
@@ -54,7 +76,7 @@ installer: "📲 Installa l'app", installer_court: "Installa l'app", installe: "
     ios_1: "Toccate il pulsante Condividi (quadrato con una freccia) in basso in Safari.",
     ios_2: "Scegliete « Aggiungi alla schermata Home ».",
     ios_3: "Toccate « Aggiungi »: l'icona « BROCÉLIANDE » appare come un'app.",
-    parcours_eyebrow: "Il percorso", parcours_chapter: "Capitolo I", parcours_titre: "Il Percorso",
+    parcours_eyebrow: "Il percorso", parcours_chapter: "Capitolo II", parcours_titre: "Il Percorso",
     parcours_intro: "Scegliete una tappa sulla mappa per consultarne le informazioni.",
     parcours_legend: "Le cinque tappe del percorso", map_hint: "Selezionate un indicatore per aprire la scheda della tappa.",
     map_selected: "Tappa selezionata", map_open_stage: "Consulta la tappa",
@@ -80,6 +102,17 @@ installer: "📲 Installa l'app", installer_court: "Installa l'app", installe: "
   es: {
     _nom: "Español", _locale: "es-CL",
     cover_enter: "ENTRAD EN LA LEYENDA", cover_hint: "Abrir el grimorio", cover_aria: "Abrir el grimorio BROCÉLIANDE",
+    programme_chapter: "Capítulo I", programme_title: "Programa", programme_intro: "El programa del fin de semana, anotado en el cuaderno de ruta.",
+    memory_eyebrow: "Recuerdos del camino", memory_title: "Algunos destellos de nuestra historia",
+    nav_prev: "Página anterior", nav_next: "Página siguiente", nav_cover: "Volver a la portada",
+    programme_items: [
+      { titre: "Viernes por la noche: El calentamiento de las tropas (Edición Amigos)", description: "Empezamos las hostilidades con calma, alrededor de una copa y algo para picar.\n\nAtención: velada estrictamente reservada al equipo de amigos; la familia tiene descanso libre (necesitarán energía para el sábado)." },
+      { titre: "Sábado por la mañana: Operación « Mañana tranquila »", description: "¡No hay programa oficial por la mañana! Aprovechen para retocar el peinado, planchar su mejor camisa o simplemente dormir. Los queremos frescos y descansados." },
+      { titre: "Sábado, primera hora de la tarde: El « Sí » oficial (Acceso VIP)", description: "Paso relámpago ante el Alcalde para hacerlo todo oficial. Por razones de aforo, este momento será en un grupo muy reducido: únicamente los padres, hermanos y nuestros queridos testigos.\n\nPara todos los demás, ¡nos vemos directamente en la etapa siguiente!" },
+      { titre: "Sábado, final de la tarde: La ceremonia laica en la finca", description: "¡Aquí nos reunimos todos! Saquen los pañuelos (y los lentes de sol): nos diremos « sí » de verdad en medio de la finca." },
+      { titre: "Sábado por la noche: Aperitivo, cena y FIESTA", description: "Empieza lo serio. En el programa: burbujas, una buena cena y una pista de baile abierta hasta el final de la noche." },
+      { titre: "Domingo al mediodía: El brunch de recuperación", description: "Como no vamos a despedirnos tan rápido, ¡volvemos a poner la mesa en la finca! Vengan cómodos (los lentes oscuros están más que permitidos) para comentar la noche y recuperar fuerzas." }
+    ],
     gate_titre: "Zona de acceso de corredores", gate_texte: "Ingresen el código que aparece en la invitación.",
     gate_ph: "Código de acceso", gate_btn: "Entrar al recorrido", gate_err: "Código incorrecto — revisen la invitación.",
     jours: "días", heures: "horas", min: "min", sec: "seg",
@@ -92,7 +125,7 @@ installer: "📲 Instalar la app", installer_court: "Instalar la app", installe:
     ios_1: "Toquen el botón Compartir (cuadrado con una flecha) abajo en Safari.",
     ios_2: "Elijan « Agregar a pantalla de inicio ».",
     ios_3: "Toquen « Agregar »: el ícono « BROCÉLIANDE » aparece como una app.",
-    parcours_eyebrow: "El recorrido", parcours_chapter: "Capítulo I", parcours_titre: "El Recorrido",
+    parcours_eyebrow: "El recorrido", parcours_chapter: "Capítulo II", parcours_titre: "El Recorrido",
     parcours_intro: "Elijan una etapa en el mapa para consultar su información.",
     parcours_legend: "Las cinco paradas del recorrido", map_hint: "Seleccionen un marcador para abrir la ficha de la etapa.",
     map_selected: "Etapa seleccionada", map_open_stage: "Ver la etapa",
@@ -123,3 +156,4 @@ window.UTMB_FLAGS = {
   it: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#CE2B37"/></svg>',
   es: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon fill="#fff" points="0.500,0.200 0.567,0.407 0.785,0.407 0.609,0.535 0.676,0.743 0.500,0.615 0.324,0.743 0.391,0.535 0.215,0.407 0.433,0.407"/></svg>'
 };
+

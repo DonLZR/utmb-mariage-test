@@ -1,4 +1,4 @@
-/* BROCÉLIANDE V3.5.0 — ouverture de la couverture photoréaliste.
+/* BROCÉLIANDE V3.6.0 — ouverture de la couverture photoréaliste.
    Module volontairement isolé : aucun impact sur les formulaires, la carte ou Apps Script. */
 (() => {
   'use strict';
@@ -30,10 +30,21 @@
     opening = true;
     document.body.classList.add('book-opening');
     cover.classList.add('is-opening');
-    window.setTimeout(() => finish(target || '#parcours'), reduced.matches ? 0 : 720);
+    window.setTimeout(() => finish(target || '#programme'), reduced.matches ? 0 : 720);
   }
 
-  trigger.addEventListener('click', () => openCover('#parcours'));
+  trigger.addEventListener('click', () => openCover('#programme'));
+
+  function reopenCover() {
+    opening = false;
+    cover.classList.remove('is-opening');
+    cover.hidden = false;
+    document.body.classList.remove('book-opening');
+    document.body.classList.add('book-closed');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    requestAnimationFrame(() => trigger.focus({ preventScroll: true }));
+  }
+  window.BroceliandeCover = Object.freeze({ open: openCover, reopen: reopenCover });
 
   /* Les liens de la bannière restent utilisables même lorsque la couverture est fermée. */
   document.addEventListener('click', event => {
@@ -46,3 +57,4 @@
     openCover(target);
   }, true);
 })();
+

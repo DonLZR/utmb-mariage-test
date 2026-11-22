@@ -4,14 +4,18 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.5.0",
+  version: "3.6.0",
 
   /* Secours local haute qualité : conservé pour compatibilité avec l’ancien hero masqué. */
   heroFallback: "assets/images/hero-couple-original.jpg",
 
   /* Couverture : valeurs de repli si les clés Google Sheet sont absentes.
      1 = rendu validé ; plages appliquées par app.js : 0.75 à 1.35. */
-  cover: { zoom: 1, zoomMobile: 1 },
+  cover: {
+    zoom: 1, zoomMobile: 1,
+    titleX: 52.5, titleY: 67.5,
+    titleXMobile: 52.5, titleYMobile: 74
+  },
 
   apiUrl: (window.UTMB_CLES && window.UTMB_CLES.apiUrl) || "",
   accessCodeHash: (window.UTMB_CLES && window.UTMB_CLES.accessCodeHash) || "",
@@ -66,7 +70,11 @@ window.UTMB_CONFIG = {
       date_limite_reponse: "[à compléter]",
       carte_zoom_etape: 12.1,
       couverture_zoom: 1,
-      couverture_zoom_mobile: 1
+      couverture_zoom_mobile: 1,
+      couverture_texte_position_h: 52.5,
+      couverture_texte_position_v: 67.5,
+      couverture_texte_position_h_mobile: 52.5,
+      couverture_texte_position_v_mobile: 74
     },
     etapes: [
       { id:"etape-1", ordre:1, cp:"Départ", lieu:"Domaine des Hayes", km:0, altitude:82, titre:"Le Départ", sous_titre:"Entrée dans la légende", type:"texte", statut:"ouvert", indice:"", lat:47.9820, lng:-2.0500,
@@ -116,3 +124,4 @@ window.UTMB_CONFIG = {
     }
   }
 };
+

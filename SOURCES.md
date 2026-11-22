@@ -1,15 +1,8 @@
-# Sources visuelles — BROCÉLIANDE V3.5.0
+# Sources visuelles
 
-## Fichiers fournis par l’utilisateur
+- Couverture : `cover-main-v333.png` fournie et validée.
+- Fond du carnet : `Reference-Page-vierge.png` fourni ; dérivés gauche/droite optimisés en WebP.
+- Carte : `Reference-Carte-Brocéliande.png` fournie ; source PNG et WebP optimisé livrés.
+- Déroulé du week-end : pièce jointe `image.png`, retranscrite dans le programme.
 
-- `cover-main-v333.png` — couverture du grimoire, 1536×1024, ratio 3:2 ;
-- `Reference-Page-vierge.png` — référentiel réaliste de page intérieure, 1536×1024, ratio 3:2 ;
-- `Reference-Carte-Brocéliande.png` — carte validée, 1536×1024, ratio 3:2.
-
-## Dérivés techniques
-
-- `assets/book/page-vierge.webp` — conversion WebP qualité 90 ;
-- `assets/book/page-vierge-gauche.webp` — même page miroir pour le folio gauche ;
-- `assets/map/carte-broceliande.webp` — conversion WebP qualité 90.
-
-Les conversions ne modifient pas les dimensions ni les proportions. Les PNG source sont conservés dans les sous-dossiers `assets/book/` et `assets/map/` à des fins de référence.
+Aucun visuel tiers supplémentaire n’a été introduit.

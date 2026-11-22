@@ -1,13 +1,11 @@
-# Fichiers à préserver lors du déploiement
+# Fichiers à préserver
 
-La livraison est une mise à jour additive du dépôt existant. Ne pas effectuer de suppression globale.
+Ne pas écraser ni supprimer :
 
-Ne pas supprimer ni remplacer avec des fichiers absents du paquet :
+- `cles.js` ;
+- `icons/` ;
+- `assets/coach/coach.webp` ;
+- les photos et médias privés du dépôt ;
+- les réponses et contenus personnalisés du Google Sheet.
 
-- `cles.js` — URL Apps Script et hash du code d’accès ;
-- `icons/` — icônes PWA ;
-- `assets/coach/coach.js` et `assets/coach/coach.webp` ;
-- `assets/brand/` — logos existants ;
-- les photos Drive exportées, médias privés et autres assets personnels.
-
-Les fichiers de `A_COPIER_DANS_GITHUB/` peuvent être copiés à la racine en remplaçant uniquement leurs homonymes.
+La migration V3.6.0 ne remplace le contenu de l’onglet `Programme` que s’il est vide ou contient encore l’unique ligne d’exemple `[à compléter]`.
