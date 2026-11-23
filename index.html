@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
-  <link rel="stylesheet" href="style.css?v=3.7.0">
+  <link rel="stylesheet" href="style.css?v=3.8.0">
 
-  <!-- V3.7.0 — couverture responsive, inscription unifiée et zoom pilotable -->
+  <!-- V3.8.0 — couverture responsive, inscription unifiée et zoom pilotable -->
   <style id="cover-v350">
     .book-cover-screen {
       --cover-zoom: 1;
@@ -227,7 +227,7 @@
       <span class="book-cover-art">
         <span class="book-cover-visual">
           <picture class="book-cover-picture" aria-hidden="true">
-            <source media="(max-width: 600px)" srcset="assets/cover/cover-book-mobile-v370.png">
+            <source media="(max-width: 600px)" srcset="assets/cover/Reference-Accueil-Mobile.png">
              <img src="assets/cover/cover-main-v333.png" width="1536" height="1024" alt="" decoding="sync" fetchpriority="high">
           </picture>
           <span class="cover-inscription-localized" data-i18n="cover_enter">ENTREZ DANS LA LÉGENDE</span>
@@ -306,10 +306,6 @@
          <div class="programme-list" id="programmeCol1"></div>
          <div class="programme-list" id="programmeCol2"></div>
        </div>
-       <nav class="book-page-nav programme-page-nav" aria-label="Navigation entre les pages">
-         <button type="button" class="book-arrow book-arrow-prev" data-book-cover data-i18n-aria="nav_cover" aria-label="Revenir à la couverture"><span aria-hidden="true">←</span></button>
-         <a href="#parcours" class="book-arrow book-arrow-next" data-i18n-aria="nav_next" aria-label="Page suivante"><span aria-hidden="true">→</span></a>
-       </nav>
      </div>
    </section>
 
@@ -330,7 +326,7 @@
         <header class="parcours-heading">
           <span class="eyebrow" data-i18n="parcours_chapter">Chapitre II</span>
           <h2 id="parcoursTitle" data-i18n="parcours_titre">Le Parcours</h2>
-          <p class="parcours-lead" data-i18n="parcours_intro">Choisissez une étape sur la carte pour consulter ses informations.</p>
+          <p class="parcours-lead" data-i18n="parcours_intro">Choisissez une étape : la carte et la liste restent synchronisées.</p>
         </header>
         <div class="progress parcours-progress">
           <div class="progress-bar"><span id="progressFill"></span></div>
@@ -338,7 +334,6 @@
         </div>
         <h3 class="stage-index-title" data-i18n="parcours_legend">Les cinq haltes du parcours</h3>
         <div class="mobile-stage-window" id="mobileStageWindow"><nav class="cp-panel stage-index" id="cpPanel" aria-label="Étapes du parcours"></nav></div>
-        <aside class="map-stage-detail" id="mapStageDetail" aria-live="polite"></aside>
         <span class="folio-number" aria-hidden="true">III</span>
       </article>
 
@@ -356,13 +351,9 @@
           </picture>
           <div class="map-markers" id="mapMarkers"></div>
         </div>
-        <p class="map-hint" data-i18n="map_hint">Sélectionnez une pastille pour ouvrir la fiche de l’étape.</p>
+        <p class="map-hint" data-i18n="map_hint">Touchez une pastille pour mettre l’étape en évidence dans la liste.</p>
         <span class="folio-number" aria-hidden="true">IV</span>
       </article>
-      <nav class="book-page-nav parcours-page-nav" aria-label="Navigation entre les pages">
-        <a href="#programme" class="book-arrow book-arrow-prev" data-i18n-aria="nav_prev" aria-label="Page précédente"><span aria-hidden="true">←</span></a>
-        <a href="#etape-1" class="book-arrow book-arrow-next" data-i18n-aria="nav_next" aria-label="Page suivante"><span aria-hidden="true">→</span></a>
-      </nav>
     </div>
   </section>
 
@@ -409,11 +400,10 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="cles.js?v=3.7.0"></script>
-  <script src="config.js?v=3.7.0"></script>
-  <script src="i18n.js?v=3.7.0"></script>
-  <script src="cover.js?v=3.7.0"></script>
-  <script src="app.js?v=3.7.0"></script>
+  <script src="cles.js?v=3.8.0"></script>
+  <script src="config.js?v=3.8.0"></script>
+  <script src="i18n.js?v=3.8.0"></script>
+  <script src="cover.js?v=3.8.0"></script>
+  <script src="app.js?v=3.8.0"></script>
 </body>
 </html>
-

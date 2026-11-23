@@ -1322,3 +1322,245 @@ body:not(.book-closed){
 }
 
 @media (prefers-reduced-motion:reduce){.programme-entry{transition:none}}
+
+
+/* =====================================================================
+   V3.8.0 — harmonisation visuelle, parcours simplifié et mobile renforcé
+   Référence : palette et typographies de la section Parcours.
+   ===================================================================== */
+:root{
+  --v380-green:#123b2b;
+  --v380-green-deep:#08261b;
+  --v380-gold:#aa7c32;
+  --v380-gold-light:#d7b86c;
+  --v380-ink:#39291b;
+  --v380-paper:#efe1bd;
+  --v380-paper-light:#fff8df;
+  --v380-paper-shadow:rgba(86,55,24,.18);
+  --v380-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 .075'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+}
+
+/* Un seul fond continu : aucune rupture de couleur entre les chapitres. */
+body:not(.book-closed){
+  background-color:#dfc995;
+  background-image:
+    radial-gradient(circle at 18% 4%,rgba(255,250,224,.52),transparent 34rem),
+    linear-gradient(180deg,rgba(248,235,198,.90),rgba(218,192,137,.88)),
+    var(--v380-grain);
+  background-size:auto,auto,180px 180px;
+  background-position:center top;
+  background-attachment:fixed;
+}
+.programme-grimoire,.parcours-grimoire,.sections,.memory-ribbon,.galerie{
+  background:transparent!important;
+}
+.programme-grimoire::before,.parcours-grimoire::before,.sections::before{display:none!important}
+
+/* Même langage graphique partout : vert sapin, or ancien, parchemin discret. */
+.programme-panel,.parcours-folio,.stage,.galerie{
+  color:var(--v380-ink);
+  border-color:rgba(101,69,32,.42);
+  border-top-color:var(--v380-green);
+  background-color:var(--v380-paper);
+  background-image:
+    linear-gradient(135deg,rgba(255,252,238,.91),rgba(231,208,158,.84)),
+    var(--v380-grain);
+  background-size:auto,180px 180px;
+  background-position:center,0 0;
+  box-shadow:0 18px 38px var(--v380-paper-shadow),inset 0 0 38px rgba(112,73,27,.07);
+}
+.programme-entry,.form,.row,.map-stage-detail{
+  background-color:rgba(255,250,232,.88);
+  background-image:
+    linear-gradient(135deg,rgba(255,253,243,.70),rgba(235,216,174,.43)),
+    var(--v380-grain);
+  background-size:auto,180px 180px;
+}
+.programme-heading h2,.parcours-heading h2,.parchment-map-heading h3,
+.stage-head h2,.memory-ribbon-heading h2,.section-head h2{
+  color:var(--v380-green);
+  font-family:'Cinzel Decorative','Cormorant Garamond',Georgia,serif;
+  font-weight:700;
+}
+.programme-heading .eyebrow,.parcours-heading .eyebrow,.stage-cp,.map-kicker{
+  color:var(--v380-gold);
+}
+.programme-heading p,.parcours-lead,.stage-sub{font-family:'Cormorant Garamond',Georgia,serif;color:#5b4328}
+.programme-description,.stage-body,.form,.row{font-family:var(--sans);color:var(--v380-ink)}
+.stage-head{background:linear-gradient(100deg,rgba(18,59,43,.12),rgba(255,248,225,.42)),var(--v380-grain);background-size:auto,180px 180px}
+
+/* Le ruban photo reste une section, sans créer une bande de couleur coupée. */
+.memory-ribbon{padding-block:clamp(2.2rem,4vw,3.2rem)}
+.memory-ribbon-heading h2{color:var(--v380-green);text-shadow:0 1px rgba(255,250,229,.85)}
+.memory-ribbon .strip img{border-color:rgba(101,69,32,.42);background:#efe1bd}
+
+/* Suppression volontaire de toute navigation précédent/suivant : lecture verticale. */
+.book-page-nav{display:none!important}
+.programme-panel{padding-bottom:clamp(2rem,4vw,3.5rem)}
+.parcours-book{padding-bottom:0}
+.stage{padding-bottom:0}
+.galerie{padding-bottom:clamp(1.4rem,3vw,2.6rem)}
+
+/* Parcours : progression centrée et sélection portée directement par la liste. */
+.parcours-progress p{text-align:center;font-family:var(--sans);font-weight:650;letter-spacing:.015em}
+.parcours-book .cp{
+  overflow:hidden;
+  border-left:4px solid transparent;
+  touch-action:manipulation;
+}
+.parcours-book .cp.active{
+  border-color:var(--v380-gold);
+  border-left-color:var(--v380-gold-light);
+  background:
+    linear-gradient(100deg,rgba(8,38,27,.98),rgba(18,59,43,.94)),
+    var(--v380-grain);
+  box-shadow:0 9px 20px rgba(39,28,15,.22),inset 0 0 0 1px rgba(226,190,112,.18);
+  transform:translateX(3px);
+}
+.parcours-book .cp.active::after{
+  content:'✓';
+  position:absolute;
+  right:.62rem;
+  top:50%;
+  transform:translateY(-50%);
+  display:grid;
+  place-items:center;
+  width:1.35rem;
+  height:1.35rem;
+  border:1px solid rgba(244,218,158,.72);
+  border-radius:50%;
+  color:#f4d99a;
+  font:800 .76rem/1 var(--sans);
+}
+.parcours-book .cp.active > span:last-of-type{padding-right:1.55rem}
+.map-stage-detail{display:none!important}
+
+/* La carte reste intacte : aucune texture ou filtre ajouté sur l'image. */
+.parchment-map-figure,.parchment-map-figure picture,.parchment-map-figure img{
+  background-image:none!important;
+  filter:none!important;
+}
+
+/* Programme : cartes mieux contenues et ponctuation française sans débordement. */
+.programme-timeline,.programme-list,.programme-entry,.programme-entry-copy{min-width:0}
+.programme-entry h3,.programme-description,.programme-description p{
+  max-width:100%;
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:auto;
+  text-wrap:pretty;
+}
+.programme-entry h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700}
+.programme-description p{font-family:var(--sans);font-weight:500}
+
+/* Image mobile fournie : ratio natif, aucun étirement, centrage sur fond vert-noir. */
+@media (max-width:600px){
+  .book-cover-screen{
+    padding:max(4.15rem,calc(3.45rem + env(safe-area-inset-top))) .45rem .65rem!important;
+    place-items:center!important;
+    background:radial-gradient(circle at 50% 48%,#143b2a 0,#071c14 50%,#020805 100%)!important;
+  }
+  .book-cover-screen::before{display:none!important}
+  .book-cover-screen::after{background:radial-gradient(circle at 50% 49%,transparent 38%,rgba(0,0,0,.40) 100%)!important}
+  .book-cover-hit{place-items:center!important}
+  .book-cover-art{
+    width:min(96vw,1264px)!important;
+    height:auto!important;
+    max-width:1264px!important;
+    max-height:calc(100svh - 5rem)!important;
+    aspect-ratio:1264 / 848!important;
+    overflow:visible!important;
+    filter:drop-shadow(0 22px 30px rgba(0,0,0,.66))!important;
+  }
+  .book-cover-visual,.book-cover-picture{width:100%!important;height:100%!important}
+  .book-cover-picture img{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important}
+  .cover-inscription-localized{
+    left:var(--cover-title-x-mobile,57.5%)!important;
+    top:var(--cover-title-y-mobile,74%)!important;
+    width:60%!important;
+    font-size:clamp(.64rem,3.05cqw,1rem)!important;
+  }
+
+  body:not(.book-closed){background-attachment:scroll}
+  .programme-grimoire{padding:4.55rem .55rem 1.6rem}
+  .programme-panel{padding:1.45rem .65rem 1.2rem}
+  .programme-panel::after{inset:7px}
+  .programme-heading{margin-bottom:1.15rem;padding-inline:.35rem}
+  .programme-heading h2{font-size:clamp(2rem,11vw,2.85rem)}
+  .programme-heading p{font-size:.98rem;line-height:1.42;text-wrap:balance}
+  .programme-list{gap:.82rem;padding-left:3rem}
+  .programme-list + .programme-list{margin-top:.82rem}
+  .programme-list::before{left:1.15rem}
+  .programme-marker{left:-3rem;top:.83rem;width:2.45rem;height:2.45rem}
+  .programme-entry{padding:.86rem .76rem .86rem .88rem;border-radius:11px}
+  .programme-entry h3{font-size:clamp(1rem,4.75vw,1.12rem);line-height:1.24;margin-bottom:.38rem}
+  .programme-description p{font-size:.9rem;line-height:1.45;margin:.25rem 0}
+  .programme-description p + p{padding:.48rem .52rem;margin-top:.45rem}
+
+  .parcours-grimoire{padding:1.35rem .55rem 1.8rem}
+  .parcours-book{gap:.9rem}
+  .parcours-folio{padding:1.25rem .7rem 1.05rem!important}
+  .parcours-heading{padding-inline:.2rem}
+  .parcours-progress{margin:.7rem auto 1rem}
+  .stage-index-title{margin-bottom:.58rem}
+
+  /* Les cinq étapes sont toutes visibles et sélectionnables sur smartphone. */
+  .mobile-stage-window{
+    height:auto!important;
+    overflow:visible!important;
+    border-block:1px solid rgba(126,88,42,.22);
+    background:rgba(255,252,239,.34);
+  }
+  .parcours-book .cp-panel{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:.35rem!important;
+    width:100%!important;
+    padding:.18rem 0!important;
+    transform:none!important;
+    transition:none!important;
+  }
+  .parcours-book .cp{
+    display:grid!important;
+    flex:none!important;
+    width:100%!important;
+    min-height:52px!important;
+    max-height:none!important;
+    grid-template-columns:34px minmax(0,1fr)!important;
+    gap:.52rem!important;
+    padding:.42rem .48rem!important;
+  }
+  .parcours-book .cp[aria-hidden='true']{display:grid!important}
+  .parcours-book .cp-title,.parcours-book .cp-meta{
+    display:block;
+    white-space:normal;
+    overflow:visible;
+    text-overflow:clip;
+    overflow-wrap:anywhere;
+  }
+  .parcours-book .cp-title{font-size:.94rem;line-height:1.08}
+  .parcours-book .cp-meta{font-size:.66rem;line-height:1.2;margin-top:.12rem}
+  .parcours-book .cp.active{transform:none}
+  .parcours-book .cp.active::after{right:.42rem;width:1.2rem;height:1.2rem}
+  .parcours-book .cp.active > span:last-of-type{padding-right:1.32rem}
+  .parcours-folio-map{padding-top:1.05rem!important}
+  .parchment-map-figure{aspect-ratio:3/2}
+
+  .sections{padding:1.1rem 0 2.4rem}
+  .stage{width:calc(100% - 1.1rem);border-radius:14px}
+  .stage-head{padding:1rem .82rem}
+  .stage-body{padding:1rem .82rem 1.25rem}
+  .galerie{padding-bottom:1.4rem}
+}
+
+@media (max-width:370px){
+  .programme-list{padding-left:2.8rem}
+  .programme-marker{left:-2.8rem}
+  .programme-entry{padding-inline:.68rem}
+  .programme-entry h3{font-size:.98rem}
+  .programme-description p{font-size:.86rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .parcours-book .cp,.programme-entry{transition:none!important}
+}

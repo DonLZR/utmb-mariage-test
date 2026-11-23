@@ -1,11 +1,10 @@
-/* BROCÉLIANDE — moteur du site V3.7.0 (socle fonctionnel préservé, prototype Parcours) */
+/* BROCÉLIANDE — moteur du site V3.8.0 (socle fonctionnel préservé, Parcours harmonisé) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
   const $ = (s, r = document) => r.querySelector(s);
   const SEEN_KEY = 'utmb_seen', DOSSARD_KEY = 'utmb_dossard', GATE_KEY = 'utmb_ok', LANG_KEY = 'utmb_lang',
-        SCROLL_KEY = 'utmb_scroll', FORMS_KEY = 'utmb_forms', UNLOCK_KEY = 'utmb_unlock',
-        MOBILE_STAGE_KEY = 'utmb_mobile_stage_window_v1';
+        SCROLL_KEY = 'utmb_scroll', FORMS_KEY = 'utmb_forms', UNLOCK_KEY = 'utmb_unlock';
   const NOUVEAU_PERSO_H = 48;                     // durée (heures) du badge « Nouveau » après un déblocage personnel
   let DATA = null, DATA_SIG = '', RAW = null, deferredInstall = null, selectedMapStage = null;
   let chronoTarget = null, chronoTimer = null, slideTimer = null;
@@ -494,40 +493,16 @@
     updateMobileStageWindow(true);
   }
 
-  /* Mobile : exactement deux étapes visibles. La fenêtre suit le dernier déblocage,
-     sans rejouer le roulement si l'état mémorisé n'a pas progressé. */
-  function updateMobileStageWindow(allowAnimation) {
-    const panel = $('#cpPanel'); if (!panel || !DATA) return;
-    const stages = mapStages(), buttons = [...panel.querySelectorAll('.cp')];
-    const mobile = matchMedia('(max-width:600px)').matches;
-    const unlocked = stages.reduce((n, e) => n + (isOpen(e) ? 1 : 0), 0);
-    const latest = Math.max(0, stages.reduce((last, e, i) => isOpen(e) ? i : last, 0));
-    const start = Math.max(0, Math.min(stages.length - 2, latest - 1));
-    let previous = null;
-    try { previous = JSON.parse(localStorage.getItem(MOBILE_STAGE_KEY) || 'null'); } catch (e) {}
-    const previousCount = previous ? Number(previous.count) : NaN;
-    const previousStart = previous && Number.isFinite(Number(previous.start)) ? Number(previous.start) : start;
-    const progressed = previous && Number.isFinite(previousCount) && unlocked > previousCount;
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const animate = mobile && allowAnimation && progressed && !reduced;
-
+  /* Mobile V3.8 : les cinq étapes restent visibles. La sélection est portée
+     directement par la liste et synchronisée avec les pastilles de la carte. */
+  function updateMobileStageWindow() {
+    const panel = $('#cpPanel'); if (!panel) return;
     panel.classList.remove('is-rolling');
-    panel.style.setProperty('--mobile-stage-start', String(animate ? previousStart : start));
-    buttons.forEach((button, i) => {
-      const visible = !mobile || (i >= start && i < start + 2);
-      if (visible) { button.removeAttribute('aria-hidden'); button.removeAttribute('tabindex'); }
-      else { button.setAttribute('aria-hidden', 'true'); button.setAttribute('tabindex', '-1'); }
+    panel.style.removeProperty('--mobile-stage-start');
+    panel.querySelectorAll('.cp').forEach(button => {
+      button.removeAttribute('aria-hidden');
+      button.removeAttribute('tabindex');
     });
-    if (animate) requestAnimationFrame(() => requestAnimationFrame(() => {
-      panel.classList.add('is-rolling');
-      panel.style.setProperty('--mobile-stage-start', String(start));
-      window.setTimeout(() => panel.classList.remove('is-rolling'), 700);
-    }));
-
-    /* Ne jamais faire reculer la mémoire à cause d'un cache plus ancien. */
-    if (!previous || !Number.isFinite(previousCount) || unlocked >= previousCount) {
-      try { localStorage.setItem(MOBILE_STAGE_KEY, JSON.stringify({ count: unlocked, start, latest: stages[latest]?.id || '' })); } catch (e) {}
-    }
   }
 
   function renderParchmentMap() {
@@ -543,21 +518,14 @@
     if (selected) selectStage(selected.id, false, true);
   }
 
-  function renderStageDetail(e) {
-    const box = $('#mapStageDetail'); if (!box || !e) return;
-    const st = statut(e), locked = st === 'verrouille';
-    const meta = [e.cp, e.lieu, e.km !== '' && e.km != null ? `km ${e.km}` : '', e.altitude ? `${e.altitude} m` : ''].filter(Boolean).map(esc).join(' · ');
-    box.innerHTML = `<span class="map-detail-status">${locked ? '🔒 ' + esc(t('verrouille')) : esc(t('map_selected'))}</span>
-      <h4>${esc(e.titre)}</h4><p class="map-detail-meta">${meta}</p>
-      ${e.sous_titre ? `<p>${esc(e.sous_titre)}</p>` : ''}
-      ${locked ? `<p class="map-detail-lock">${esc(e.indice || t('bientot'))}</p>` : `<button type="button" class="btn btn-gold map-detail-open" data-map-go="${esc(e.id)}">${esc(t('map_open_stage'))} →</button>`}`;
-  }
-
   function selectStage(id, fly, silent) {
     const e = DATA.etapes.find(x => x.id === id); if (!e) return;
     selectedMapStage = id;
-    document.querySelectorAll('[data-map-stage]').forEach(b => b.classList.toggle('active', b.dataset.mapStage === id));
-    renderStageDetail(e);
+    document.querySelectorAll('[data-map-stage]').forEach(b => {
+      const active = b.dataset.mapStage === id;
+      b.classList.toggle('active', active);
+      if (b.classList.contains('cp')) b.setAttribute('aria-pressed', String(active));
+    });
     if (silent) return;
     if (!isOpen(e)) toast(`🔒 ${e.titre} — ${e.indice || t('bientot')}`);
   }
@@ -714,12 +682,7 @@
       ${x.description ? `<div>${esc(x.description)}</div>` : ''}</li>`).join('')}</ol>`;
   }
 
-  const pageArrowHtml = (direction, target, label) => `<a href="#${esc(target)}" class="book-arrow book-arrow-${direction}" aria-label="${esc(label)}"><span aria-hidden="true">${direction === 'prev' ? '←' : '→'}</span></a>`;
-  function stagePageNav(i) {
-    const prev = i === 0 ? 'parcours' : DATA.etapes[i - 1].id;
-    const next = i < DATA.etapes.length - 1 ? DATA.etapes[i + 1].id : (hasGalerie() ? 'galerie' : 'footer');
-    return `<nav class="book-page-nav stage-page-nav" aria-label="${esc(t('nav_prev'))} / ${esc(t('nav_next'))}">${pageArrowHtml('prev', prev, t('nav_prev'))}${pageArrowHtml('next', next, t('nav_next'))}</nav>`;
-  }
+  const stagePageNav = () => "";
 
   function renderSections() {
     $('#sections').innerHTML = DATA.etapes.map((e, i) => {
@@ -757,7 +720,6 @@
     if (!hasGalerie()) return;
     $('#galerie').hidden = false;
     $('#galerieGrid').innerHTML = photos('galerie').map(u => imgTag(u)).join('');
-    if (!$('#galerie .book-page-nav')) $('#galerie').insertAdjacentHTML('beforeend', `<nav class="book-page-nav stage-page-nav" aria-label="${esc(t('nav_prev'))} / ${esc(t('nav_next'))}">${pageArrowHtml('prev', DATA.etapes[DATA.etapes.length - 1]?.id || 'parcours', t('nav_prev'))}${pageArrowHtml('next', 'footer', t('nav_next'))}</nav>`);
   }
 
   /* ---------- Envoi des formulaires ---------- */
@@ -1056,4 +1018,3 @@
   }
   start();
 })();
-

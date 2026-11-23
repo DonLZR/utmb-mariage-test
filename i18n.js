@@ -28,8 +28,8 @@ installer: "📲 Installer l'appli", installer_court: "Installer l'appli", insta
     ios_2: "Choisissez « Sur l'écran d'accueil ».",
     ios_3: "Touchez « Ajouter » : l'icône « BROCÉLIANDE » apparaît comme une appli.",
     parcours_eyebrow: "Le parcours", parcours_chapter: "Chapitre II", parcours_titre: "Le Parcours",
-    parcours_intro: "Choisissez une étape sur la carte pour consulter ses informations.",
-    parcours_legend: "Les cinq haltes du parcours", map_hint: "Sélectionnez une pastille pour ouvrir la fiche de l’étape.",
+    parcours_intro: "Choisissez une étape : la carte et la liste restent synchronisées.",
+    parcours_legend: "Les cinq haltes du parcours", map_hint: "Touchez une pastille pour mettre l’étape en évidence dans la liste.",
     map_selected: "Étape sélectionnée", map_open_stage: "Consulter l’étape",
     progress: "{n} / {t} points de passage débloqués", survol: "⟳ Survol", ensemble: "⌂ Vue d'ensemble",
     mode2d: "🗺️ 2D", mode3d: "⛰️ 3D", info2d: "Carte 2D activée sur cet appareil.",
@@ -77,8 +77,8 @@ installer: "📲 Installa l'app", installer_court: "Installa l'app", installe: "
     ios_2: "Scegliete « Aggiungi alla schermata Home ».",
     ios_3: "Toccate « Aggiungi »: l'icona « BROCÉLIANDE » appare come un'app.",
     parcours_eyebrow: "Il percorso", parcours_chapter: "Capitolo II", parcours_titre: "Il Percorso",
-    parcours_intro: "Scegliete una tappa sulla mappa per consultarne le informazioni.",
-    parcours_legend: "Le cinque tappe del percorso", map_hint: "Selezionate un indicatore per aprire la scheda della tappa.",
+    parcours_intro: "Scegliete una tappa: la mappa e l’elenco restano sincronizzati.",
+    parcours_legend: "Le cinque tappe del percorso", map_hint: "Toccate un indicatore per evidenziare la tappa nell’elenco.",
     map_selected: "Tappa selezionata", map_open_stage: "Consulta la tappa",
     progress: "{n} / {t} punti di passaggio sbloccati", survol: "⟳ Sorvolo", ensemble: "⌂ Vista d'insieme",
     mode2d: "🗺️ 2D", mode3d: "⛰️ 3D", info2d: "Mappa 2D attivata su questo dispositivo.",
@@ -126,8 +126,8 @@ installer: "📲 Instalar la app", installer_court: "Instalar la app", installe:
     ios_2: "Elijan « Agregar a pantalla de inicio ».",
     ios_3: "Toquen « Agregar »: el ícono « BROCÉLIANDE » aparece como una app.",
     parcours_eyebrow: "El recorrido", parcours_chapter: "Capítulo II", parcours_titre: "El Recorrido",
-    parcours_intro: "Elijan una etapa en el mapa para consultar su información.",
-    parcours_legend: "Las cinco paradas del recorrido", map_hint: "Seleccionen un marcador para abrir la ficha de la etapa.",
+    parcours_intro: "Elijan una etapa: el mapa y la lista permanecen sincronizados.",
+    parcours_legend: "Las cinco paradas del recorrido", map_hint: "Toquen un marcador para destacar la etapa en la lista.",
     map_selected: "Etapa seleccionada", map_open_stage: "Ver la etapa",
     progress: "{n} / {t} puntos de paso desbloqueados", survol: "⟳ Sobrevuelo", ensemble: "⌂ Vista general",
     mode2d: "🗺️ 2D", mode3d: "⛰️ 3D", info2d: "Mapa 2D activado en este dispositivo.",
@@ -156,4 +156,3 @@ window.UTMB_FLAGS = {
   it: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#CE2B37"/></svg>',
   es: '<svg viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#D52B1E"/><rect width="3" height="1" fill="#fff"/><rect width="1" height="1" fill="#0039A6"/><polygon fill="#fff" points="0.500,0.200 0.567,0.407 0.785,0.407 0.609,0.535 0.676,0.743 0.500,0.615 0.324,0.743 0.391,0.535 0.215,0.407 0.433,0.407"/></svg>'
 };
-

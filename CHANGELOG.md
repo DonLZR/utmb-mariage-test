@@ -1,5 +1,17 @@
 # Changelog
 
+## V3.8.0
+
+- Identité visuelle harmonisée sur la palette et les typographies du Parcours.
+- Fond intérieur continu et textures de papier ancien ajoutées aux cartes, sans filtre sur la carte géographique.
+- Navigation précédent/suivant retirée.
+- Progression du Parcours centrée.
+- Sous-carte « Étape sélectionnée » supprimée ; sélection mise en valeur dans la liste.
+- Cinq étapes visibles sur mobile.
+- Accueil mobile remplacé par `Reference-Accueil-Mobile.png`, au ratio natif.
+- Programme mobile renforcé contre les débordements et les ruptures typographiques.
+- Cache PWA porté en V3.8.0.
+
 ## V3.7.0
 
 - Fond intérieur remplacé par une page ancienne complète et sans bord de livre contraignant.
