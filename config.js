@@ -4,7 +4,7 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.9.0",
+  version: "3.10.0",
 
   /* Secours local haute qualité : conservé pour compatibilité avec l’ancien hero masqué. */
   heroFallback: "assets/images/hero-couple-original.jpg",
@@ -14,7 +14,8 @@ window.UTMB_CONFIG = {
   cover: {
     zoom: 1, zoomMobile: 1,
     titleX: 52.5, titleY: 67.5,
-    titleXMobile: 57.5, titleYMobile: 74
+    titleXMobile: 57.5, titleYMobile: 74,
+    titleSize: 22, titleSizeMobile: 16
   },
 
   apiUrl: (window.UTMB_CLES && window.UTMB_CLES.apiUrl) || "",
@@ -74,7 +75,9 @@ window.UTMB_CONFIG = {
       couverture_texte_position_h: 52.5,
       couverture_texte_position_v: 67.5,
       couverture_texte_position_h_mobile: 52.5,
-      couverture_texte_position_v_mobile: 74
+      couverture_texte_position_v_mobile: 74,
+      couverture_texte_taille: 22,
+      couverture_texte_taille_mobile: 16
     },
     etapes: [
       { id:"etape-1", ordre:1, cp:"Départ", lieu:"Domaine des Hayes", km:0, altitude:82, titre:"Le Départ", sous_titre:"Entrée dans la légende", type:"texte", statut:"ouvert", indice:"", lat:47.9820, lng:-2.0500,

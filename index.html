@@ -18,14 +18,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Polices chargées sans bloquer l'affichage -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&family=Oswald:wght@500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;600;700;800&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&family=Oswald:wght@500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <!-- Connexions anticipées : données (Apps Script) et carte (chargée seulement à l'approche) -->
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
-  <link rel="stylesheet" href="style.css?v=3.9.0">
+  <link rel="stylesheet" href="style.css?v=3.10.0">
 
-  <!-- V3.9.0 — couverture responsive et entrée cinématique dans l'aventure -->
+  <!-- V3.10.0 — couverture responsive et entrée cinématique dans l'aventure -->
   <style id="cover-v350">
     .book-cover-screen {
       --cover-zoom: 1;
@@ -34,6 +34,8 @@
       --cover-title-y: 67.5%;
       --cover-title-x-mobile: 52.5%;
       --cover-title-y-mobile: 74%;
+      --cover-title-size: 22px;
+      --cover-title-size-mobile: 16px;
       position: fixed;
       inset: 0;
       z-index: 40;
@@ -49,7 +51,7 @@
       perspective: 1800px;
       isolation: isolate;
       opacity: 1;
-      transition: opacity .28s ease .68s, background-color .55s ease;
+      transition: background-color .34s ease;
     }
     .book-cover-screen::before {
       content: "";
@@ -99,7 +101,7 @@
       transform-origin: 8% 50%;
       container-type: inline-size;
       transform-style: preserve-3d;
-      transition: transform .96s cubic-bezier(.18,.74,.22,1), opacity .78s ease, filter .78s ease;
+      transition: transform .66s cubic-bezier(.16,.76,.2,1), opacity .54s ease .08s, filter .58s ease;
     }
     .book-cover-visual,
     .book-cover-picture {
@@ -142,53 +144,61 @@
       text-align: center;
       pointer-events: none;
       font-family: "Cinzel Decorative", "Cinzel", Georgia, serif;
-      font-size: clamp(.85rem, 1.35vw, 1.45rem);
+      font-size: var(--cover-title-size, 22px);
       font-weight: 700;
       line-height: 1;
       letter-spacing: .01em;
       text-transform: uppercase;
-      color: #e9c66b;
-      -webkit-text-fill-color: #e9c66b;
-      -webkit-text-stroke: .25px #6b3e0d;
-      background: none;
-      filter: none;
+      color: #c49a53;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: .22px #5e3a16;
+      background: linear-gradient(105deg,#8e642d 0%,#c49a53 35%,#f5dda0 49%,#c49a53 63%,#8e642d 100%);
+      background-size: 260% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      filter: drop-shadow(0 1px 0 rgba(44,25,8,.78));
       text-shadow: none;
+      animation: cover-inscription-shimmer 3.4s ease-in-out infinite;
     }
-    .book-cover-screen.is-opening { pointer-events: none; opacity: 0; background-color: #000; }
-    .book-cover-screen.is-opening::after { background: rgba(0,0,0,.94); }
+    @keyframes cover-inscription-shimmer {
+      0%,28% { background-position: 100% 50%; }
+      62%,100% { background-position: -100% 50%; }
+    }
+    .book-cover-screen.is-opening { pointer-events: none; opacity: 1; background-color: #000; }
+    .book-cover-screen.is-opening::after { background: rgba(0,0,0,1); }
     .book-cover-screen.is-opening .book-cover-art {
-      transform: scale(1.19) translateZ(70px);
+      transform: scale(1.48) translateZ(150px);
       transform-origin: 50% 50%;
-      filter: brightness(.22) blur(2px);
-      opacity: .38;
+      filter: brightness(.04) blur(3px);
+      opacity: 0;
     }
 
     @media (max-width: 600px) {
-       /* Mobile : uniquement le grimoire fourni, intact, sur un fond vert-noir. */
+         /* Mobile : visuel vertical V2 fourni, affiché en plein écran sans déformation. */
        .book-cover-screen {
-         padding: max(4.15rem, calc(3.45rem + env(safe-area-inset-top))) .8rem .8rem;
-         background: radial-gradient(circle at 50% 46%, #153b2b 0, #071c14 47%, #020805 100%);
+          padding: 0;
+          background: #020805;
        }
        .book-cover-screen::before { display: none; }
        .book-cover-screen::after { background: radial-gradient(circle at 50% 48%, transparent 42%, rgba(0,0,0,.38) 100%); }
        .book-cover-art {
-         width: min(92vw, calc(100svh - 5.1rem));
-         height: auto;
-         aspect-ratio: 1020 / 1024;
-         max-width: none;
-         max-height: calc(100svh - 5.1rem);
-         overflow: visible;
-         filter: drop-shadow(0 22px 28px rgba(0,0,0,.68));
+          width: 100vw;
+          height: 100svh;
+          aspect-ratio: auto;
+          max-width: none;
+          max-height: none;
+          overflow: hidden;
+          filter: none;
          box-shadow: none;
        }
        .book-cover-visual { transform: scale(var(--cover-zoom-mobile, 1)); }
-       .book-cover-picture { overflow: visible; }
-       .book-cover-picture img { object-fit: contain; }
+        .book-cover-picture { overflow: hidden; }
+        .book-cover-picture img { object-fit: cover; object-position: 50% 50%; }
        .cover-inscription-localized {
          left: var(--cover-title-x-mobile, 57.5%);
          top: var(--cover-title-y-mobile, 74%);
          width: 63%;
-         font-size: clamp(.68rem, 3.25cqw, 1.04rem);
+          font-size: var(--cover-title-size-mobile, 16px);
          letter-spacing: 0;
        }
      }
@@ -237,10 +247,19 @@
       <span class="book-cover-art">
         <span class="book-cover-visual">
           <picture class="book-cover-picture" aria-hidden="true">
-            <source media="(max-width: 600px)" srcset="assets/cover/Reference-Accueil-Mobile.png">
+            <source media="(max-width: 600px)" srcset="assets/cover/Accueil_Mobile_Reference_V2.0.jpg">
              <img src="assets/cover/cover-main-v333.png" width="1536" height="1024" alt="" decoding="sync" fetchpriority="high">
           </picture>
           <span class="cover-inscription-localized" data-i18n="cover_enter">ENTREZ DANS LA LÉGENDE</span>
+        </span>
+        <span class="cover-countdown" id="coverCountdown" role="timer" aria-live="off" hidden>
+          <span class="cover-countdown-label" data-i18n="countdown_label">Avant le grand départ</span>
+          <span class="cover-countdown-grid">
+            <span><strong id="ccJ">0</strong><small data-i18n="jours">jours</small></span>
+            <span><strong id="ccH">00</strong><small data-i18n="heures">heures</small></span>
+            <span><strong id="ccM">00</strong><small data-i18n="min">min</small></span>
+            <span><strong id="ccS">00</strong><small data-i18n="sec">sec</small></span>
+          </span>
         </span>
         <span class="sr-only" data-i18n="cover_hint">Ouvrir le grimoire</span>
       </span>
@@ -410,10 +429,10 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="cles.js?v=3.9.0"></script>
-  <script src="config.js?v=3.9.0"></script>
-  <script src="i18n.js?v=3.9.0"></script>
-  <script src="cover.js?v=3.9.0"></script>
-  <script src="app.js?v=3.9.0"></script>
+  <script src="cles.js?v=3.10.0"></script>
+  <script src="config.js?v=3.10.0"></script>
+  <script src="i18n.js?v=3.10.0"></script>
+  <script src="cover.js?v=3.10.0"></script>
+  <script src="app.js?v=3.10.0"></script>
 </body>
 </html>

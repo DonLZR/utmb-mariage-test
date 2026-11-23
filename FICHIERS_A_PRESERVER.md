@@ -8,4 +8,4 @@ Ne pas supprimer :
 - les photos et médias privés ;
 - les ressources existantes dans `assets/book/` et `assets/brand/` absentes de cette archive.
 
-Exception volontaire : remplacer `assets/coach/coach.js` et `assets/coach/coach.webp` par les fichiers V3.9.0 fournis.
+Exceptions volontaires : remplacer `assets/coach/coach.js`, `assets/coach/coach.webp` et ajouter `assets/cover/Accueil_Mobile_Reference_V2.0.jpg` avec les fichiers V3.10.0 fournis.

@@ -1,5 +1,19 @@
 # Changelog
 
+## V3.10.0
+
+- Entrée dans le grimoire accélérée et accentuée : zoom plus ample, assombrissement plus rapide et écran noir final.
+- Inscription de couverture passée au bronze du sceau, avec scintillement discret et respect de la réduction des animations.
+- Deux réglages Google Sheet ajoutés pour la taille de l'inscription sur ordinateur/tablette et mobile.
+- Compte à rebours forestier ajouté au bas de la couverture en FR/IT/ES.
+- Pastilles de navigation mobiles passées du rose à l'or ancien.
+- Coach Merlin confirmé actif par défaut dans la configuration et le Google Sheet.
+- Carte « Date limite de réponse » harmonisée en vert sapin et or.
+- Textes longs passés à Alegreya Sans, plus ronde et chaleureuse tout en restant très lisible.
+- Accueil mobile remplacé par `Accueil_Mobile_Reference_V2.0.jpg`.
+- Badges « Nouveau » mobiles stabilisés en haut à droite, sans étirement ni recouvrement du texte.
+- Cache PWA porté en V3.10.0.
+
 ## V3.9.0
 
 - Fond général vert forêt sombre, clairement séparé des pages de contenu.

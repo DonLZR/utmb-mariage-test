@@ -1,4 +1,4 @@
-/* BROCÉLIANDE — moteur du site V3.9.0 (socle fonctionnel préservé, Parcours harmonisé) */
+/* BROCÉLIANDE — moteur du site V3.10.0 (socle fonctionnel préservé, couverture immersive) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
@@ -281,14 +281,23 @@
     chronoTarget = target;
     $('#heroDate').textContent = target.toLocaleDateString(t('_locale'), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     $('#chrono').hidden = false;
+    const coverCountdown = $('#coverCountdown');
+    if (coverCountdown) coverCountdown.hidden = false;
     initAltimetre();
     let last = -1;
     const tick = () => {
       let s = Math.max(0, Math.floor((chronoTarget - Date.now()) / 1000));
-      $('#cJ').textContent = Math.floor(s / 86400); s %= 86400;
-      $('#cH').textContent = String(Math.floor(s / 3600)).padStart(2, '0'); s %= 3600;
-      $('#cM').textContent = String(Math.floor(s / 60)).padStart(2, '0');
-      $('#cS').textContent = String(s % 60).padStart(2, '0');
+      const values = {
+        J: Math.floor(s / 86400),
+        H: String(Math.floor((s % 86400) / 3600)).padStart(2, '0'),
+        M: String(Math.floor((s % 3600) / 60)).padStart(2, '0'),
+        S: String(s % 60).padStart(2, '0')
+      };
+      Object.entries(values).forEach(([unit, value]) => {
+        const hero = $('#c' + unit), coverValue = $('#cc' + unit);
+        if (hero) hero.textContent = value;
+        if (coverValue) coverValue.textContent = value;
+      });
       const minute = Math.floor(Date.now() / 60000);
       if (minute !== last) { last = minute; majAltimetre(chronoTarget); }
     };
@@ -319,6 +328,12 @@
     cover.style.setProperty('--cover-title-y', clampPosition(p.couverture_texte_position_v, cfg.titleY) + '%');
     cover.style.setProperty('--cover-title-x-mobile', clampPosition(p.couverture_texte_position_h_mobile, cfg.titleXMobile ?? cfg.titleX) + '%');
     cover.style.setProperty('--cover-title-y-mobile', clampPosition(p.couverture_texte_position_v_mobile, cfg.titleYMobile ?? cfg.titleY) + '%');
+    const clampSize = (value, fallback, min, max) => {
+      const parsed = num(value), base = num(fallback);
+      return Math.min(max, Math.max(min, parsed === null ? (base === null ? min : base) : parsed));
+    };
+    cover.style.setProperty('--cover-title-size', clampSize(p.couverture_texte_taille, cfg.titleSize, 10, 48) + 'px');
+    cover.style.setProperty('--cover-title-size-mobile', clampSize(p.couverture_texte_taille_mobile, cfg.titleSizeMobile, 10, 36) + 'px');
   }
 
   function renderHero() {

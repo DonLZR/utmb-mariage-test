@@ -1,4 +1,4 @@
-/* BROCÉLIANDE V3.9.0 — ouverture cinématique : zoom avant et fondu noir.
+/* BROCÉLIANDE V3.10.0 — ouverture cinématique : zoom avant accéléré et fondu noir final.
    Module volontairement isolé : aucun impact sur les formulaires, la carte ou Apps Script. */
 (() => {
   'use strict';
@@ -30,7 +30,7 @@
     opening = true;
     document.body.classList.add('book-opening');
     cover.classList.add('is-opening');
-    window.setTimeout(() => finish(target || '#programme'), reduced.matches ? 0 : 960);
+    window.setTimeout(() => finish(target || '#programme'), reduced.matches ? 0 : 720);
   }
 
   trigger.addEventListener('click', () => openCover('#programme'));

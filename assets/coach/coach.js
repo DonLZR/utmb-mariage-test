@@ -1,4 +1,4 @@
-/* BROCÉLIANDE — Coach Merlin (moteur d'animation V2.4.2 préservé, visuel V3.9.0)
+/* BROCÉLIANDE — Coach Merlin (moteur d'animation V2.4.2 préservé, visuel V3.10.0)
    Module chargé À LA DEMANDE uniquement (jamais au démarrage de la page) par app.js.
    1 seule image (coach.webp) + animations Web Animations API (transform / opacity).
    7 animations : coucou, jumelles, montre, ravito (aléatoires) + dossard, deblocage, matos (événements). */
@@ -6,7 +6,7 @@
   'use strict';
   if (window.UTMB_COACH) return;
   const BASE = (document.currentScript && document.currentScript.src.replace(/coach\.js.*$/, '')) || 'assets/coach/';
-  const IMG = BASE + 'coach.webp?v=3.9.0';
+  const IMG = BASE + 'coach.webp?v=3.10.0';
   const RATIO = 1024 / 1536;                     // largeur / hauteur du Merlin fourni
   const VUES_KEY = 'utmb_coach_vues', OFF_KEY = 'utmb_coach_off';
 
