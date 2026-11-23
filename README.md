@@ -1,43 +1,38 @@
-# BROCÉLIANDE V3.10.0
+# BROCÉLIANDE V3.11.0 — Studio du site
 
-Évolution ciblée de la V3.9.0. Le socle GitHub Pages / Google Apps Script, les formulaires, les traductions FR/IT/ES, les déblocages, la carte interactive et Coach Merlin sont conservés.
+Cette version ajoute un onglet **Studio du site** dans Google Sheets, sans intégrer le prologue Merlin.
 
-## Évolutions principales
+## Ce que le Studio pilote
 
-- entrée dans le grimoire plus rapide et plus ample, conclue par un écran noir ;
-- inscription FR/IT/ES en bronze avec scintillement discret ;
-- taille de l'inscription réglable séparément sur ordinateur/tablette et mobile via Google Sheets ;
-- compte à rebours forestier ajouté au bas de la couverture ;
-- pastilles de navigation mobiles en or ;
-- Coach Merlin actif par défaut ;
-- bloc « Date limite de réponse » harmonisé en vert sapin et or ;
-- textes longs en Alegreya Sans, plus ronde et toujours très lisible ;
-- accueil mobile remplacé par `Accueil_Mobile_Reference_V2.0.jpg` ;
-- badges « Nouveau » mobiles placés en haut à droite, sans étirement ni recouvrement.
+- réglages généraux, couverture, carte et Coach Merlin ;
+- Programme, étapes, hébergements et formulaires ;
+- contenus FR avec surcharges facultatives IT/ES ;
+- tailles de tous les textes par appareil, famille et section ;
+- position, échelle et texte du compte à rebours de couverture ;
+- zoom et cadrage horizontal/vertical indépendants de l’image de couverture sur PC/tablette et mobile.
 
-## Déploiement
+## Typographie sans régression
 
-1. Sauvegarder le dépôt actuel ou créer une branche de test.
-2. Copier le contenu de `A_COPIER_DANS_GITHUB/` à la racine, sans suppression globale.
-3. Conserver `cles.js`, les icônes, les cartes et les médias privés existants.
-4. Remplacer `Apps_Script/Code.gs`, exécuter `majStructure()`, puis redéployer l'application Web Apps Script.
-5. Publier le site puis forcer l'actualisation du cache PWA.
+Tous les réglages typographiques sont initialisés à **100 %**. À 100 %, aucune taille V3.10.0 n’est remplacée : le navigateur conserve les règles CSS historiques, y compris les `clamp()` responsives. Les valeurs sont bornées et le facteur final est limité pour éviter les débordements.
 
-`majStructure()` ajoute les deux nouvelles lignes de taille sans écraser les valeurs déjà présentes.
+Familles disponibles : global, couverture, chronomètre, titres de chapitres, titres, sous-titres, paragraphes, Programme, Parcours, étapes, formulaires, boutons, navigation, badges et Coach. Chaque famille dispose de valeurs PC, tablette et mobile.
 
-## Nouveaux paramètres Google Sheet
+## Couverture
 
-| Clé | Valeur initiale | Plage |
-|---|---:|---:|
-| `couverture_texte_taille` | 22 | 10 à 48 px |
-| `couverture_texte_taille_mobile` | 16 | 10 à 36 px |
+- inscription FR/IT/ES : taille et position toujours réglables ;
+- correctif PC : zone de rendu élargie et ajustement de sécurité pour que `ENTREZ DANS LA LÉGENDE`, `ENTRATE NELLA LEGGENDA` et `ENTRAD EN LA LEYENDA` restent entièrement visibles et centrés ;
+- image : zoom + cadrage horizontal/vertical distincts PC/tablette et mobile, avec proportions verrouillées (`object-fit: cover`) ;
+- chronomètre : position horizontale, distance au bas et échelle distinctes PC/tablette et mobile.
 
-## Contrôles prioritaires après publication
+## Installation
 
-- couverture et transition sur ordinateur, tablette et téléphone ;
-- inscription dans les trois langues et réglages de taille ;
-- compte à rebours ;
-- badges « Nouveau » ;
-- apparition de Merlin ;
-- carte, formulaires et déblocages ;
-- Safari iOS et Chrome Android.
+1. Sauvegarder le dépôt et le Google Sheet.
+2. Copier `A_COPIER_DANS_GITHUB/` à la racine sans supprimer les fichiers privés.
+3. Remplacer `Apps_Script/Code.gs`.
+4. Exécuter `majStructure()` : les nouveaux paramètres sont ajoutés sans écraser l’existant et le Studio est construit.
+5. Redéployer l’application Web Apps Script.
+6. Publier le site puis forcer l’actualisation du cache PWA.
+
+## Utilisation
+
+Dans Google Sheets : menu **🌲 BROCÉLIANDE → 🎛️ Ouvrir le Studio du site**. Modifier uniquement la colonne **Valeur**, puis utiliser **Publier mes modifications maintenant**.

@@ -1,4 +1,4 @@
-/* BROCÉLIANDE V3.10.0 — ouverture cinématique : zoom avant accéléré et fondu noir final.
+/* BROCÉLIANDE V3.11.0 — ouverture cinématique : zoom avant accéléré et fondu noir final.
    Module volontairement isolé : aucun impact sur les formulaires, la carte ou Apps Script. */
 (() => {
   'use strict';

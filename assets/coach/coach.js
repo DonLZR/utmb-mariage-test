@@ -1,4 +1,4 @@
-/* BROCÉLIANDE — Coach Merlin (moteur d'animation V2.4.2 préservé, visuel V3.10.0)
+/* BROCÉLIANDE — Coach Merlin (moteur d'animation V2.4.2 préservé, visuel V3.11.0)
    Module chargé À LA DEMANDE uniquement (jamais au démarrage de la page) par app.js.
    1 seule image (coach.webp) + animations Web Animations API (transform / opacity).
    7 animations : coucou, jumelles, montre, ravito (aléatoires) + dossard, deblocage, matos (événements). */
@@ -6,7 +6,7 @@
   'use strict';
   if (window.UTMB_COACH) return;
   const BASE = (document.currentScript && document.currentScript.src.replace(/coach\.js.*$/, '')) || 'assets/coach/';
-  const IMG = BASE + 'coach.webp?v=3.10.0';
+  const IMG = BASE + 'coach.webp?v=3.11.0';
   const RATIO = 1024 / 1536;                     // largeur / hauteur du Merlin fourni
   const VUES_KEY = 'utmb_coach_vues', OFF_KEY = 'utmb_coach_off';
 
@@ -72,16 +72,16 @@
 .coach-body img{transform-origin:50% 100%;width:100%;height:100%;display:block;pointer-events:auto;cursor:pointer;user-select:none;-webkit-user-drag:none;
   filter:drop-shadow(0 10px 14px rgba(20,30,24,.38)) drop-shadow(0 2px 3px rgba(0,0,0,.25))}
 .coach-shadow{position:absolute;left:18%;right:18%;bottom:-2%;height:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.35),transparent);filter:blur(2px)}
-.coach-bubble{position:absolute;pointer-events:auto;width:max-content;max-width:min(250px,64vw);background:#fffdf8;color:#24382c;font:700 .92rem/1.3 'Inter',system-ui,sans-serif;
+.coach-bubble{position:absolute;pointer-events:auto;width:max-content;max-width:min(250px,64vw);background:#fffdf8;color:#24382c;font:700 var(--coach-bubble-font-size,.92rem)/1.3 'Inter',system-ui,sans-serif;
   padding:.6rem .8rem;border-radius:16px;border:2px solid #24382c;box-shadow:0 10px 24px -10px rgba(0,0,0,.45);opacity:0;white-space:normal}
 .coach-bubble::after{content:"";position:absolute;bottom:-9px;width:14px;height:14px;background:#fffdf8;border-right:2px solid #24382c;border-bottom:2px solid #24382c;transform:rotate(45deg)}
 .coach-bubble.q-g::after{left:18px}.coach-bubble.q-d::after{right:18px}
-.coach-bubble .cb-go{display:inline-block;margin-top:.35rem;font:700 .8rem 'Inter',sans-serif;color:#fff;background:#b08d57;border:0;border-radius:999px;padding:.3rem .7rem;cursor:pointer}
+.coach-bubble .cb-go{display:inline-block;margin-top:.35rem;font:700 var(--coach-button-font-size,.8rem) 'Inter',sans-serif;color:#fff;background:#b08d57;border:0;border-radius:999px;padding:.3rem .7rem;cursor:pointer}
 .coach-bubble .cb-x{position:absolute;top:-10px;right:-10px;width:22px;height:22px;border-radius:50%;border:2px solid #24382c;background:#fff;color:#24382c;font:700 12px/1 sans-serif;cursor:pointer;display:grid;place-items:center;padding:0}
 .coach-bubble .cb-x:focus-visible,.coach-bubble .cb-go:focus-visible{outline:3px solid #c9a66b;outline-offset:2px}
 .coach-confetti{position:absolute;width:8px;height:12px;border-radius:2px;pointer-events:none}
 .coach-nudge{display:inline-block;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
-@media (max-width:820px){.coach-bubble{font-size:.82rem;padding:.5rem .65rem}}`;
+@media (max-width:820px){.coach-bubble{font-size:var(--coach-bubble-font-size,.82rem);padding:.5rem .65rem}}`;
     document.head.appendChild(s);
   }
 
@@ -354,7 +354,17 @@
   let file = Promise.resolve();
   function evt(type, info) { return window.UTMB_COACH._evt(type, info); }
   window.UTMB_COACH = {
-    init(c) { ctx = c; if (!stage) build(); },
+    init(c) {
+      ctx = c; if (!stage) build();
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      const largeur = innerWidth <= 600 ? 'mobile' : innerWidth <= 1024 ? 'tablette' : 'pc';
+      const pct = largeur === 'mobile' ? Number(ctx.cfg.texteMobile || 100) : largeur === 'tablette' ? Number(ctx.cfg.texteTablette || 100) : Number(ctx.cfg.textePc || 100);
+      if (Math.abs(pct - 100) > .001) {
+        const base = largeur === 'mobile' ? .82 : .92;
+        stage.style.setProperty('--coach-bubble-font-size', (base * rem * pct / 100).toFixed(2) + 'px');
+        stage.style.setProperty('--coach-button-font-size', (.8 * rem * pct / 100).toFixed(2) + 'px');
+      }
+    },
     /* Première apparition aléatoire (déjà temporisée par app.js), puis suivantes */
     start(sec) { if (sec) planifier(sec); else tour(); },
     /* Événements : dossard / deblocage / matos */

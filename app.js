@@ -1,4 +1,4 @@
-/* BROCÉLIANDE — moteur du site V3.10.0 (socle fonctionnel préservé, couverture immersive) */
+/* BROCÉLIANDE — moteur du site V3.11.0 (socle fonctionnel préservé, couverture immersive) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
@@ -334,7 +334,76 @@
     };
     cover.style.setProperty('--cover-title-size', clampSize(p.couverture_texte_taille, cfg.titleSize, 10, 48) + 'px');
     cover.style.setProperty('--cover-title-size-mobile', clampSize(p.couverture_texte_taille_mobile, cfg.titleSizeMobile, 10, 36) + 'px');
+    cover.style.setProperty('--cover-image-x', clampPosition(p.couverture_image_position_h, 50) + '%');
+    cover.style.setProperty('--cover-image-y', clampPosition(p.couverture_image_position_v, 50) + '%');
+    cover.style.setProperty('--cover-image-x-mobile', clampPosition(p.couverture_image_position_h_mobile, 50) + '%');
+    cover.style.setProperty('--cover-image-y-mobile', clampPosition(p.couverture_image_position_v_mobile, 50) + '%');
+    const setPcMobile = (base, css, defPc, defMob, min, max, suffix, div, maxMobile) => {
+      const pc = clampSize(p[base], defPc, min, max), mob = clampSize(p[base + '_mobile'], defMob, min, maxMobile ?? max);
+      cover.style.setProperty(css, (pc / (div || 1)) + (suffix || ''));
+      cover.style.setProperty(css + '-mobile', (mob / (div || 1)) + (suffix || ''));
+    };
+    setPcMobile('compte_rebours_position_h', '--cover-countdown-x', 50, 50, 10, 90, '%', 1);
+    setPcMobile('compte_rebours_position_v', '--cover-countdown-bottom', 16, 11.52, 0, 220, 'px', 1, 160);
+    setPcMobile('compte_rebours_echelle', '--cover-countdown-scale', 100, 100, 70, 135, '', 100, 125);
+    requestAnimationFrame(() => { appliquerTypographieStudio(); ajusterInscriptionCouverturePc(); });
   }
+
+  /* ---------- Studio : tailles de TOUS les textes, sans modifier le rendu à 100 % ---------- */
+  const FONT_ORIG = new WeakMap();
+  let fontResizeTimer = null;
+  const TYPO_FAMILLES = ['couverture','chronometre','titres_chapitres','titres','sous_titres','paragraphes','programme','parcours','etapes','formulaires','boutons','navigation','badges','coach'];
+  function typoBreakpoint() { return innerWidth <= 600 ? 'mobile' : innerWidth <= 1024 ? 'tablette' : 'pc'; }
+  function typoValeur(famille, bp) {
+    const p = (DATA && DATA.parametres) || {}, cle = 'typo_' + famille + '_' + bp, n = num(p[cle]);
+    const min = famille === 'global' ? 80 : ['couverture','titres_chapitres','titres'].includes(famille) ? 70 : 80;
+    const max = famille === 'global' ? 125 : ['couverture','titres_chapitres','titres'].includes(famille) ? 150 : 135;
+    return Math.min(max, Math.max(min, n === null ? 100 : n));
+  }
+  function typoSection(el) {
+    if (el.closest('#bookCover')) return el.closest('.cover-countdown') ? 'chronometre' : 'couverture';
+    if (el.closest('form,.form,.gate-card')) return 'formulaires';
+    if (el.closest('#programme')) return 'programme';
+    if (el.closest('#parcours')) return 'parcours';
+    if (el.closest('.stage')) return 'etapes';
+    return null;
+  }
+  function typoType(el) {
+    if (el.matches('.cover-inscription-localized') || el.closest('.cover-inscription-localized')) return 'titres';
+    if (el.closest('.nav')) return 'navigation';
+    if (el.matches('button,.btn,[role="button"]') || el.closest('button,.btn,[role="button"]')) return 'boutons';
+    if (el.matches('.badge,.stage-new,.badge-coin,.nl-badge,.chip') || el.closest('.badge,.stage-new,.badge-coin,.nl-badge,.chip')) return 'badges';
+    if (el.matches('.eyebrow,.stage-chapter,.programme-chapter,.chapter-kicker') || el.closest('.eyebrow,.stage-chapter,.programme-chapter,.chapter-kicker')) return 'titres_chapitres';
+    if (el.matches('h1,h2,h3,h4,.hero-title,.programme-title,.cp-title,.row-title')) return 'titres';
+    if (el.matches('.hero-sub,.stage-sub,.programme-intro,.cp-meta,.form-legende')) return 'sous_titres';
+    return 'paragraphes';
+  }
+  function appliquerTypographieStudio() {
+    if (!DATA) return;
+    const selecteur = 'h1,h2,h3,h4,h5,h6,p,li,dt,dd,a,button,label,input,select,textarea,legend,small,strong,em,span';
+    const els = [...document.querySelectorAll(selecteur)].filter(el => !el.closest('script,style,svg') && (el.textContent || el.matches('input,select,textarea')));
+    els.forEach(el => { if (!FONT_ORIG.has(el)) FONT_ORIG.set(el, el.style.fontSize || ''); el.style.fontSize = FONT_ORIG.get(el); el.classList.remove('font-studio-scaled'); });
+    const bp = typoBreakpoint(), global = typoValeur('global', bp) / 100;
+    const mesures = els.map(el => {
+      const section = typoSection(el), type = typoType(el), sectionFacteur = section ? typoValeur(section,bp)/100 : 1;
+      const facteur = Math.min(1.6, Math.max(.65, global * sectionFacteur * typoValeur(type,bp)/100));
+      return { el, facteur, base: parseFloat(getComputedStyle(el).fontSize) || 16 };
+    });
+    mesures.forEach(x => { if (Math.abs(x.facteur - 1) < .001) return; x.el.style.fontSize = (x.base * x.facteur).toFixed(2) + 'px'; x.el.classList.add('font-studio-scaled'); });
+  }
+  function ajusterInscriptionCouverturePc() {
+    if (innerWidth <= 600) return;
+    const el = document.querySelector('.cover-inscription-localized'); if (!el) return;
+    el.style.maxWidth = 'none';
+    const style = getComputedStyle(el), disponible = Math.max(320, el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight));
+    const plage = document.createRange(); plage.selectNodeContents(el);
+    const largeur = plage.getBoundingClientRect().width;
+    if (largeur > disponible) {
+      const actuel = parseFloat(getComputedStyle(el).fontSize) || 22;
+      el.style.fontSize = Math.max(10, actuel * disponible / largeur * .98).toFixed(2) + 'px';
+    }
+  }
+  function programmerTypographie() { clearTimeout(fontResizeTimer); fontResizeTimer = setTimeout(() => { appliquerTypographieStudio(); ajusterInscriptionCouverturePc(); }, 120); }
 
   function renderHero() {
     const p = DATA.parametres;
@@ -877,6 +946,7 @@
       RAW = d; DATA_SIG = sig; DATA = prepare(JSON.parse(sig));
     renderCoverSettings(); renderHero(); renderProgrammeIntro(); renderMemoryRibbon(); renderNav(); renderProgress(); renderPanel(); renderParchmentMap(); renderSections(); renderGalerie(); initScrollSpy(); initStrips();
     appliquerCorrectionsPage(false);
+    appliquerTypographieStudio(); ajusterInscriptionCouverturePc();
     document.body.classList.remove('chargement');
     return true;
   }
@@ -930,7 +1000,8 @@
     return { active: b('active', d.active !== false), mobile: b('mobile', d.mobile !== false), evenements: b('evenements', d.evenements !== false),
       delaiMin: v('delai_min', d.delaiMin ?? 25), delaiMax: v('delai_max', d.delaiMax ?? 50),
       intervalleMin: v('intervalle_min', d.intervalleMin ?? 120), intervalleMax: v('intervalle_max', d.intervalleMax ?? 300),
-      maxVisite: v('max_visite', d.maxVisite ?? 3), taillePc: v('taille_pc', d.taillePc ?? 230), tailleMobile: v('taille_mobile', d.tailleMobile ?? 160) };
+      maxVisite: v('max_visite', d.maxVisite ?? 3), taillePc: v('taille_pc', d.taillePc ?? 230), tailleMobile: v('taille_mobile', d.tailleMobile ?? 160),
+      textePc: typoValeur('coach','pc'), texteTablette: typoValeur('coach','tablette'), texteMobile: typoValeur('coach','mobile') };
   }
   const coachParam = () => new URLSearchParams(location.search).get('coach');
   const coachOff = () => localStorage.getItem('utmb_coach_off') === '1';
@@ -1015,6 +1086,7 @@
     else if (mobileQuery.addListener) mobileQuery.addListener(refreshMobileStageWindow);
     const nav = $('#nav'), upd = () => nav.classList.toggle('scrolled', scrollY > 60);
     addEventListener('scroll', upd, { passive: true }); upd();
+    addEventListener('resize', programmerTypographie, { passive: true });
     $('#parcours').addEventListener('click', ev => {
       const stage = ev.target.closest('[data-map-stage]');
       if (stage) return selectStage(stage.dataset.mapStage, false);

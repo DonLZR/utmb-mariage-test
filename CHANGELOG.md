@@ -1,5 +1,14 @@
 # Changelog
 
+## V3.11.0
+
+- Ajout du Studio du site dans Google Sheets avec synchronisation vers les onglets techniques.
+- Contrôle de toutes les tailles de texte : global, types et sections, avec profils PC/tablette/mobile et valeurs neutres à 100 %.
+- Contrôle indépendant de la position et de l’échelle du compte à rebours sur PC/tablette et mobile.
+- Contrôle indépendant du zoom et du cadrage horizontal/vertical de l’image de couverture sur PC/tablette et mobile.
+- Correctif PC de l’inscription italienne : zone élargie, overflow visible et ajustement de sécurité sans changement de police, couleur ou scintillement.
+- Prologue Merlin non intégré.
+
 ## V3.10.0
 
 - Entrée dans le grimoire accélérée et accentuée : zoom plus ample, assombrissement plus rapide et écran noir final.
