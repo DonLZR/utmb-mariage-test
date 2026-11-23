@@ -1564,3 +1564,152 @@ body:not(.book-closed){
 @media (prefers-reduced-motion:reduce){
   .parcours-book .cp,.programme-entry{transition:none!important}
 }
+
+
+/* =====================================================================
+   V3.9.0 — contraste site/pages, chapitres unifiés et vieux parchemin
+   Référence visuelle : en-tête de la section Parcours.
+   ===================================================================== */
+:root{
+  --v390-site:#061810;
+  --v390-site-mid:#0b2a1e;
+  --v390-site-light:#154331;
+  --v390-paper:#ead9ae;
+  --v390-paper-light:#fff7da;
+  --v390-paper-dark:#c9aa6b;
+  --v390-ink:#3d2c1c;
+  --v390-green:#123b2b;
+  --v390-gold:#9f7938;
+  --v390-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='%236c4a26' fill-opacity='.055'%3E%3Ccircle cx='17' cy='28' r='.8'/%3E%3Ccircle cx='83' cy='11' r='.55'/%3E%3Ccircle cx='142' cy='67' r='.7'/%3E%3Ccircle cx='205' cy='34' r='.5'/%3E%3Ccircle cx='39' cy='151' r='.65'/%3E%3Ccircle cx='119' cy='188' r='.8'/%3E%3Ccircle cx='184' cy='136' r='.6'/%3E%3C/g%3E%3Cg fill='none' stroke='%2375522d' stroke-opacity='.035' stroke-width='.7'%3E%3Cpath d='M0 74c44 9 73-8 113 2s69 4 107-5'/%3E%3Cpath d='M0 164c52-7 92 11 139 1s56-4 81 1'/%3E%3C/g%3E%3C/svg%3E");
+  --v390-site-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='%23d7b86c' fill-opacity='.035'%3E%3Ccircle cx='18' cy='31' r='.7'/%3E%3Ccircle cx='96' cy='17' r='.5'/%3E%3Ccircle cx='151' cy='82' r='.7'/%3E%3Ccircle cx='52' cy='143' r='.55'/%3E%3Ccircle cx='128' cy='161' r='.65'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Le décor du site est désormais nettement distinct des pages de contenu. */
+body:not(.book-closed){
+  background-color:var(--v390-site);
+  background-image:
+    radial-gradient(circle at 18% 7%,rgba(49,112,80,.28),transparent 31rem),
+    radial-gradient(circle at 82% 32%,rgba(159,121,56,.10),transparent 28rem),
+    linear-gradient(150deg,var(--v390-site) 0,var(--v390-site-mid) 52%,#04110c 100%),
+    var(--v390-site-grain);
+  background-size:auto,auto,auto,180px 180px;
+  background-position:center top;
+  background-attachment:fixed;
+}
+.programme-grimoire,.parcours-grimoire,.sections,.memory-ribbon,.galerie{background:transparent!important}
+
+/* Pages et cartes : vieux parchemin texturé, lisible, avec relief discret. */
+.programme-panel,.parcours-folio,.stage,.galerie{
+  color:var(--v390-ink);
+  border-color:rgba(83,56,27,.55);
+  border-top-color:var(--v390-green);
+  background-color:var(--v390-paper);
+  background-image:
+    radial-gradient(circle at 12% 10%,rgba(255,255,245,.58),transparent 26%),
+    radial-gradient(circle at 88% 82%,rgba(112,70,25,.13),transparent 29%),
+    linear-gradient(112deg,rgba(255,247,218,.88),rgba(232,211,163,.84) 58%,rgba(211,181,121,.72)),
+    var(--v390-grain);
+  background-size:auto,auto,auto,220px 220px;
+  box-shadow:0 24px 58px rgba(0,0,0,.42),inset 0 0 44px rgba(76,47,19,.12);
+}
+.programme-panel::after,.parcours-folio::after{
+  border-color:rgba(92,61,29,.24);
+  box-shadow:inset 0 0 22px rgba(97,62,26,.05);
+}
+.programme-entry,.form,.row,.map-stage-detail{
+  background-color:rgba(255,248,222,.86);
+  background-image:
+    linear-gradient(135deg,rgba(255,253,239,.68),rgba(226,201,150,.35)),
+    var(--v390-grain);
+  background-size:auto,220px 220px;
+}
+
+/* Même signature de chapitre partout, calée sur « Le Parcours ». */
+.programme-heading .eyebrow,.parcours-heading .eyebrow,.stage-chapter{
+  display:inline-block;
+  margin:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:none;
+  color:var(--v390-gold);
+  font:700 .9rem/1.2 'Cormorant Garamond',Georgia,serif;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+}
+.programme-heading .eyebrow::before,.programme-heading .eyebrow::after{display:none!important;content:none!important}
+.programme-heading h2,.parcours-heading h2,.stage-head h2{
+  color:var(--v390-green);
+  font-family:'Cinzel Decorative','Cormorant Garamond',Georgia,serif;
+  font-weight:700;
+  text-wrap:balance;
+}
+.programme-heading h2,.stage-head h2{margin:.38rem 0 .58rem}
+.programme-heading h2::after,.parcours-heading h2::after,.stage-head h2::after{
+  content:"";
+  display:block;
+  width:84px;
+  height:1px;
+  margin:.72rem auto 0;
+  background:linear-gradient(90deg,transparent,var(--v390-gold),transparent);
+}
+
+/* Sections Départ, Présence, Hébergement, Programme, Plan… : chapitres III et suivants. */
+.stage{overflow:hidden}
+.stage-head{
+  position:relative;
+  display:block;
+  padding:clamp(1.45rem,3.4vw,2.25rem) clamp(1rem,3.5vw,2.4rem) clamp(1.2rem,2.8vw,1.75rem);
+  text-align:center;
+  border-bottom:1px solid rgba(117,78,34,.34);
+  background:
+    linear-gradient(180deg,rgba(255,250,229,.46),rgba(216,188,132,.16)),
+    var(--v390-grain);
+  background-size:auto,220px 220px;
+}
+.stage-title-block{width:min(760px,100%);margin:0 auto}
+.stage-head h2{font-size:clamp(2rem,5vw,3.25rem);line-height:1.04}
+.stage-sub{margin:.2rem auto 0;max-width:42rem;font:italic 600 clamp(1rem,1.7vw,1.2rem)/1.38 'Cormorant Garamond',Georgia,serif;color:#5a4329}
+.stage-cp{margin:.8rem auto 0;color:#795a2c;font:700 .72rem/1.35 var(--sans);letter-spacing:.13em;text-transform:uppercase}
+.stage-num{display:none!important}
+.stage-head .badge-coin{position:absolute;right:1rem;top:1rem}
+.stage-body{background:rgba(255,249,229,.20);color:var(--v390-ink)}
+.stage.locked{filter:none;opacity:.86}
+.stage.locked .stage-head{background:linear-gradient(180deg,rgba(245,237,215,.50),rgba(196,182,149,.25)),var(--v390-grain);background-size:auto,220px 220px}
+.stage.locked h2,.stage.locked .stage-cp,.stage.locked .stage-chapter{color:#736653}
+
+/* Programme, Parcours et autres sections partagent maintenant exactement la même palette. */
+.programme-description p,.stage-body,.form,.row{color:var(--v390-ink)}
+.programme-time,.stage-cp,.map-kicker{color:var(--v390-gold)}
+.programme-entry{border-color:rgba(101,69,32,.32);border-left-color:var(--entry-accent,var(--v390-green))}
+.parcours-book .cp:not(.active){background:rgba(255,248,222,.55)}
+.parcours-book .cp.active{background:linear-gradient(100deg,rgba(8,38,27,.98),rgba(18,59,43,.94)),var(--v390-grain)}
+
+/* La carte géographique est volontairement exclue de tout effet papier supplémentaire. */
+.parchment-map-figure,.parchment-map-figure picture,.parchment-map-figure img{
+  background-image:none!important;
+  filter:none!important;
+}
+
+/* Le ruban reste sur le décor sombre : pas de faux raccord de parchemin. */
+.memory-ribbon-heading h2{color:#ead39c;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+
+@media (max-width:880px){
+  body:not(.book-closed){background-attachment:scroll}
+}
+@media (max-width:600px){
+  .programme-grimoire{padding-top:4.55rem}
+  .programme-panel,.parcours-folio,.stage,.galerie{box-shadow:0 16px 34px rgba(0,0,0,.38),inset 0 0 30px rgba(76,47,19,.10)}
+  .programme-heading .eyebrow,.parcours-heading .eyebrow,.stage-chapter{font-size:.76rem;letter-spacing:.22em}
+  .stage-head{padding:1.35rem .86rem 1.05rem}
+  .stage-head h2{font-size:clamp(1.82rem,9.4vw,2.55rem);margin-top:.34rem}
+  .stage-head h2::after{margin-top:.58rem;width:70px}
+  .stage-sub{font-size:1rem;line-height:1.32}
+  .stage-cp{margin-top:.62rem;font-size:.64rem;letter-spacing:.09em}
+  .stage-head .badge-coin{right:.65rem;top:.65rem}
+  .sections{gap:1.45rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .book-cover-screen.is-opening .book-cover-art{filter:none!important}
+}

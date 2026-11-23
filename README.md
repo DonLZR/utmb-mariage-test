@@ -1,35 +1,31 @@
-# BROCÉLIANDE V3.8.0
+# BROCÉLIANDE V3.9.0
 
-Mise à jour visuelle ciblée de la V3.7.0. Le socle GitHub Pages / Google Apps Script, les formulaires, les traductions et les règles de déblocage sont conservés.
+Évolution graphique ciblée de la V3.8.0. Le socle GitHub Pages / Google Apps Script, les formulaires, les traductions FR/IT/ES, les déblocages et la carte interactive sont conservés.
 
-## À copier
+## Évolutions principales
 
-Copier le contenu de `A_COPIER_DANS_GITHUB/` à la racine du dépôt **sans suppression globale**. Cette livraison contient le nouveau visuel mobile `assets/cover/Reference-Accueil-Mobile.png`.
-
-## Changements principaux
-
-- palette, polices et fonds harmonisés sur la direction artistique du Parcours ;
-- texture de page ancienne discrète sur les cartes de section, jamais sur la carte géographique ;
-- arrière-plan intérieur continu, sans coupure de couleur entre les sections ;
-- boutons précédent/suivant supprimés au profit de la navigation verticale et de la bannière ;
-- progression du Parcours centrée ;
-- sous-carte « Étape sélectionnée » supprimée ;
-- étape sélectionnée mise en valeur directement dans la liste ;
-- cinq étapes visibles sur mobile ;
-- accueil mobile remplacé par `Reference-Accueil-Mobile.png`, centré et sans déformation ;
-- Programme mobile renforcé : largeur, retours à la ligne, guillemets et hiérarchie typographique fiabilisés.
-
-## À préserver impérativement
-
-- `cles.js` ;
-- `icons/` ;
-- `assets/coach/` ;
-- les photos et médias privés ;
-- les autres images déjà présentes dans `assets/book/` et `assets/map/` ;
-- les contenus et réponses du Google Sheet.
+- le fond général du site devient vert forêt sombre et se distingue clairement des pages de contenu ;
+- chaque page/carte reçoit une texture discrète de vieux parchemin, sans effet appliqué à la carte géographique ;
+- la hiérarchie visuelle de toutes les sections est alignée sur **Parcours** ;
+- Programme = Chapitre I, Parcours = Chapitre II, puis les étapes commencent au Chapitre III ;
+- les anciennes pastilles numérotées noires des sections sont supprimées ;
+- le Coach marmotte est remplacé par **Merlin**, avec le moteur d'animation existant conservé ;
+- l'ouverture de la couverture devient un zoom avant avec fondu noir, sans rotation de page.
 
 ## Déploiement
 
-Aucune modification du schéma Google Sheet ni du backend n'est nécessaire. `Apps_Script/Code.gs` est fourni à titre de référence et reste identique à la V3.7.0. Aucun redéploiement Apps Script n'est requis.
+1. Sauvegarder le dépôt actuel ou créer une branche de test.
+2. Copier le contenu de `A_COPIER_DANS_GITHUB/` à la racine du dépôt, sans suppression globale.
+3. Conserver `cles.js`, les icônes, les cartes et les médias privés déjà présents.
+4. Autoriser le remplacement de `assets/coach/coach.js` et `assets/coach/coach.webp` : ce sont les nouveaux fichiers Merlin.
+5. Publier puis forcer l'actualisation du cache PWA.
 
-Après publication, forcer l'actualisation du site ou vider l'ancien cache PWA, puis contrôler la couverture et le Programme sur un téléphone réel.
+Aucune modification du Google Sheet ni aucun redéploiement Apps Script n'est requis.
+
+## Contrôles prioritaires après publication
+
+- ouverture de la couverture sur ordinateur et téléphone ;
+- enchaînement Chapitres I, II, III et suivants ;
+- apparition de Merlin et de ses animations ;
+- carte, formulaires et déblocages ;
+- rendu Safari iOS et Chrome Android.

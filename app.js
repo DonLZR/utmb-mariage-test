@@ -1,4 +1,4 @@
-/* BROCÉLIANDE — moteur du site V3.8.0 (socle fonctionnel préservé, Parcours harmonisé) */
+/* BROCÉLIANDE — moteur du site V3.9.0 (socle fonctionnel préservé, Parcours harmonisé) */
 (() => {
   'use strict';
   const C = window.UTMB_CONFIG, I18N = window.UTMB_I18N, FLAGS = window.UTMB_FLAGS;
@@ -683,6 +683,8 @@
   }
 
   const stagePageNav = () => "";
+  const ROMAN_CHAPTERS = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+  const chapterLabel = number => `${t('chapter')} ${ROMAN_CHAPTERS[number - 1] || number}`;
 
   function renderSections() {
     $('#sections').innerHTML = DATA.etapes.map((e, i) => {
@@ -701,12 +703,15 @@
         body += photosHtml(e.id) + linkHtml(e);
       }
       return `<section class="stage ${locked ? 'locked' : ''}${st === 'nouveau' ? ' is-new' : ''}" id="${esc(e.id)}">
-        <div class="stage-head">
-          <div class="stage-num">${locked ? '🔒' : i + 1}</div>
-          <div><div class="stage-cp">${esc(e.cp || '')}${e.lieu ? ' · ' + esc(e.lieu) : ''}${e.km !== '' && e.km != null ? ' · km ' + esc(e.km) : ''}${e.altitude ? ' · ' + esc(e.altitude) + ' m' : ''}</div>
-            <h2>${esc(e.titre)}</h2>${e.sous_titre ? `<p class="stage-sub">${esc(e.sous_titre)}</p>` : ''}</div>
+        <header class="stage-head">
+          <div class="stage-title-block">
+            <span class="eyebrow stage-chapter">${esc(chapterLabel(i + 3))}</span>
+            <h2>${esc(e.titre)}</h2>
+            ${e.sous_titre ? `<p class="stage-sub">${esc(e.sous_titre)}</p>` : ''}
+            <div class="stage-cp">${esc(e.cp || '')}${e.lieu ? ' · ' + esc(e.lieu) : ''}${e.km !== '' && e.km != null ? ' · km ' + esc(e.km) : ''}${e.altitude ? ' · ' + esc(e.altitude) + ' m' : ''}</div>
+          </div>
           ${st === 'nouveau' ? `<span class="badge badge-coin" aria-hidden="true">${esc(t('nouveau'))}</span>` : ''}
-        </div>
+        </header>
         ${st === 'nouveau' ? `<span class="badge stage-new badge-inline">${esc(t('nouveau'))}</span>` : ''}
         <div class="stage-body">${body}</div>
         ${stagePageNav(i)}
@@ -898,8 +903,8 @@
     }
 
     /* ---------- Démarrage ---------- */
-  /* ---------- Coach la marmotte : AUCUN fichier Coach chargé au démarrage ----------
-     Le module (assets/coach/coach.js + coach.webp, ~85 Ko au total) n'est téléchargé qu'au moment
+  /* ---------- Coach Merlin : AUCUN fichier Coach chargé au démarrage ----------
+     Le module (assets/coach/coach.js + coach.webp) n'est téléchargé qu'au moment
      de la 1re apparition (25-50 s après l'ouverture, navigateur au repos) ou après une action de l'invité. */
   const T0 = performance.now();
   let coachProm = null, coachPlanifie = false, coachPending = null;

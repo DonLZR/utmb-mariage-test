@@ -3,7 +3,7 @@
 window.UTMB_I18N = {
   fr: {
     _nom: "Français", _locale: "fr-FR",
-    cover_enter: "ENTREZ DANS LA LÉGENDE", cover_hint: "Ouvrir le grimoire", cover_aria: "Ouvrir le grimoire BROCÉLIANDE",
+    cover_enter: "ENTREZ DANS LA LÉGENDE", cover_hint: "Ouvrir le grimoire", cover_aria: "Ouvrir le grimoire BROCÉLIANDE", chapter: "Chapitre",
     programme_chapter: "Chapitre I", programme_title: "Programme", programme_intro: "Le déroulé du week-end, consigné dans le carnet de route.",
     memory_eyebrow: "", memory_title: "SOUVENIRS DE ROUTE",
     nav_prev: "Page précédente", nav_next: "Page suivante", nav_cover: "Revenir à la couverture",
@@ -52,7 +52,7 @@ installer: "📲 Installer l'appli", installer_court: "Installer l'appli", insta
   },
   it: {
     _nom: "Italiano", _locale: "it-IT",
-    cover_enter: "ENTRATE NELLA LEGGENDA", cover_hint: "Aprire il grimorio", cover_aria: "Aprire il grimorio BROCÉLIANDE",
+    cover_enter: "ENTRATE NELLA LEGGENDA", cover_hint: "Aprire il grimorio", cover_aria: "Aprire il grimorio BROCÉLIANDE", chapter: "Capitolo",
     programme_chapter: "Capitolo I", programme_title: "Programma", programme_intro: "Il programma del fine settimana, annotato nel diario di viaggio.",
     memory_eyebrow: "", memory_title: "RICORDI DI VIAGGIO",
     nav_prev: "Pagina precedente", nav_next: "Pagina successiva", nav_cover: "Torna alla copertina",
@@ -101,7 +101,7 @@ installer: "📲 Installa l'app", installer_court: "Installa l'app", installe: "
   },
   es: {
     _nom: "Español", _locale: "es-CL",
-    cover_enter: "ENTRAD EN LA LEYENDA", cover_hint: "Abrir el grimorio", cover_aria: "Abrir el grimorio BROCÉLIANDE",
+    cover_enter: "ENTRAD EN LA LEYENDA", cover_hint: "Abrir el grimorio", cover_aria: "Abrir el grimorio BROCÉLIANDE", chapter: "Capítulo",
     programme_chapter: "Capítulo I", programme_title: "Programa", programme_intro: "El programa del fin de semana, anotado en el cuaderno de ruta.",
     memory_eyebrow: "", memory_title: "RECUERDOS DEL CAMINO",
     nav_prev: "Página anterior", nav_next: "Página siguiente", nav_cover: "Volver a la portada",

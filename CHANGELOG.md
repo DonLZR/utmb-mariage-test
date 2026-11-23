@@ -1,5 +1,17 @@
 # Changelog
 
+## V3.9.0
+
+- Fond général vert forêt sombre, clairement séparé des pages de contenu.
+- Texture discrète de vieux parchemin sur les cartes et pages, hors carte géographique.
+- Palette et typographies de toutes les sections alignées sur Parcours.
+- Chapitres ajoutés aux étapes : III pour Départ, IV pour Présence, puis numérotation automatique.
+- Pastilles numérotées noires supprimées des en-têtes de section.
+- Coach remplacé par Merlin ; moteur d'animation restauré et proportions adaptées au nouveau visuel.
+- Animation de couverture remplacée par un zoom avant avec fondu noir.
+- Cache PWA porté en V3.9.0.
+- Inventaire binaire parasite retiré de la copie de référence `Code.gs` ; logique Apps Script inchangée.
+
 ## V3.8.0
 
 - Identité visuelle harmonisée sur la palette et les typographies du Parcours.

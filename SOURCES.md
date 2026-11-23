@@ -1,11 +1,9 @@
 # Sources visuelles
 
-- Couverture bureau : `cover-main-v333.png` fournie et validée.
-- Couverture mobile : détourage sans recompression destructive de la même source.
-- Fond de page : dérivé de `Reference-Page-vierge.png` fourni.
-- Carte : `Reference-Carte-Brocéliande.png` fournie.
+- Couverture bureau : `assets/cover/cover-main-v333.png`, fournie par le propriétaire du site.
+- Couverture mobile : `assets/cover/Reference-Accueil-Mobile.png`, fournie par le propriétaire du site.
+- Référence de page : `assets/book/Reference-Page-vierge.png`, fournie par le propriétaire du site.
+- Coach Merlin : `assets/coach/coach.webp`, visuel fourni et validé dans la demande V3.9.0.
+- Carte et autres médias : ressources existantes du dépôt, à préserver.
 
-Aucun visuel tiers n’a été ajouté.
-
-- Accueil mobile V3.8.0 : `Reference-Accueil-Mobile.png` fourni par le propriétaire du site.
-- Copie de référence incluse : `assets/book/Reference-Page-vierge.png`.
+Aucun visuel tiers n'a été ajouté.

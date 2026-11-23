@@ -1,4 +1,4 @@
-/* BROCÉLIANDE V3.8.0 — ouverture de la couverture photoréaliste.
+/* BROCÉLIANDE V3.9.0 — ouverture cinématique : zoom avant et fondu noir.
    Module volontairement isolé : aucun impact sur les formulaires, la carte ou Apps Script. */
 (() => {
   'use strict';
@@ -30,7 +30,7 @@
     opening = true;
     document.body.classList.add('book-opening');
     cover.classList.add('is-opening');
-    window.setTimeout(() => finish(target || '#programme'), reduced.matches ? 0 : 720);
+    window.setTimeout(() => finish(target || '#programme'), reduced.matches ? 0 : 960);
   }
 
   trigger.addEventListener('click', () => openCover('#programme'));

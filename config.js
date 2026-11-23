@@ -4,7 +4,7 @@
    (onglet Parametres) priment sur les valeurs ci-dessous.
    ========================================================= */
 window.UTMB_CONFIG = {
-  version: "3.8.0",
+  version: "3.9.0",
 
   /* Secours local haute qualité : conservé pour compatibilité avec l’ancien hero masqué. */
   heroFallback: "assets/images/hero-couple-original.jpg",
@@ -31,7 +31,7 @@ window.UTMB_CONFIG = {
   altitudeDepart: 55,     // secteur de Paimpont (valeur de démonstration)
   altitudeSommet: 181,    // Fontaine de Barenton (valeur de démonstration)
 
-  /* Coach la marmotte — valeurs par défaut (les lignes « coach_… » de l'onglet Parametres priment)
+  /* Coach Merlin — valeurs par défaut (les lignes « coach_… » de l'onglet Parametres priment)
      Aucun fichier Coach n'est chargé au démarrage : uniquement à sa 1re apparition. */
   coach: {
     active: true, mobile: true, evenements: true,

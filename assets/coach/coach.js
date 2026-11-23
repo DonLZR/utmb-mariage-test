@@ -1,13 +1,13 @@
-/* UTMB — Coach la marmotte (V2.4.2)
+/* BROCÉLIANDE — Coach Merlin (moteur d'animation V2.4.2 préservé, visuel V3.9.0)
    Module chargé À LA DEMANDE uniquement (jamais au démarrage de la page) par app.js.
-   1 seule image (coach.webp, ~60 Ko) + animations Web Animations API (transform / opacity).
+   1 seule image (coach.webp) + animations Web Animations API (transform / opacity).
    7 animations : coucou, jumelles, montre, ravito (aléatoires) + dossard, deblocage, matos (événements). */
 (() => {
   'use strict';
   if (window.UTMB_COACH) return;
   const BASE = (document.currentScript && document.currentScript.src.replace(/coach\.js.*$/, '')) || 'assets/coach/';
-  const IMG = BASE + 'coach.webp?v=2.4.2';
-  const RATIO = 315 / 560;                       // largeur / hauteur de coach.webp
+  const IMG = BASE + 'coach.webp?v=3.9.0';
+  const RATIO = 1024 / 1536;                     // largeur / hauteur du Merlin fourni
   const VUES_KEY = 'utmb_coach_vues', OFF_KEY = 'utmb_coach_off';
 
   /* ---------- Pancartes FR / IT / ES ---------- */
@@ -145,7 +145,7 @@
     let cote = a.cote === 'any' ? (Math.random() < 0.5 ? 'gauche' : 'droite') : a.cote;
     const el = document.createElement('div'); el.className = 'coach';
     el.style.width = W + 'px'; el.style.height = H + 'px';
-    el.innerHTML = `<div class="coach-shadow"></div><div class="coach-body"><div class="coach-gest"><img src="${IMG}" alt="Coach" draggable="false"></div></div>`;
+    el.innerHTML = `<div class="coach-shadow"></div><div class="coach-body"><div class="coach-gest"><img src="${IMG}" alt="Coach Merlin" draggable="false"></div></div>`;
     /* Position */
     perchEl = null;
     let x, y;

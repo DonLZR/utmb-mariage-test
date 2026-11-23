@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://script.google.com">
   <link rel="preconnect" href="https://script.googleusercontent.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
-  <link rel="stylesheet" href="style.css?v=3.8.0">
+  <link rel="stylesheet" href="style.css?v=3.9.0">
 
-  <!-- V3.8.0 — couverture responsive, inscription unifiée et zoom pilotable -->
+  <!-- V3.9.0 — couverture responsive et entrée cinématique dans l'aventure -->
   <style id="cover-v350">
     .book-cover-screen {
       --cover-zoom: 1;
@@ -48,6 +48,8 @@
       background: #030906;
       perspective: 1800px;
       isolation: isolate;
+      opacity: 1;
+      transition: opacity .28s ease .68s, background-color .55s ease;
     }
     .book-cover-screen::before {
       content: "";
@@ -65,6 +67,7 @@
       z-index: -1;
       pointer-events: none;
       background: radial-gradient(circle at 50% 48%, transparent 24%, rgba(1,10,7,.52) 100%);
+      transition: background .7s ease;
     }
     .book-cover-hit {
       position: absolute;
@@ -96,7 +99,7 @@
       transform-origin: 8% 50%;
       container-type: inline-size;
       transform-style: preserve-3d;
-      transition: transform .72s cubic-bezier(.6,.02,.25,1), opacity .56s ease;
+      transition: transform .96s cubic-bezier(.18,.74,.22,1), opacity .78s ease, filter .78s ease;
     }
     .book-cover-visual,
     .book-cover-picture {
@@ -151,11 +154,17 @@
       filter: none;
       text-shadow: none;
     }
-    .book-cover-screen.is-opening { pointer-events: none; }
-    .book-cover-screen.is-opening .book-cover-art { transform: rotateY(-86deg) translateX(-4%); opacity: 0; }
+    .book-cover-screen.is-opening { pointer-events: none; opacity: 0; background-color: #000; }
+    .book-cover-screen.is-opening::after { background: rgba(0,0,0,.94); }
+    .book-cover-screen.is-opening .book-cover-art {
+      transform: scale(1.19) translateZ(70px);
+      transform-origin: 50% 50%;
+      filter: brightness(.22) blur(2px);
+      opacity: .38;
+    }
 
     @media (max-width: 600px) {
-       /* V3.7 : uniquement le grimoire détouré, intact, sur un fond vert-noir. */
+       /* Mobile : uniquement le grimoire fourni, intact, sur un fond vert-noir. */
        .book-cover-screen {
          padding: max(4.15rem, calc(3.45rem + env(safe-area-inset-top))) .8rem .8rem;
          background: radial-gradient(circle at 50% 46%, #153b2b 0, #071c14 47%, #020805 100%);
@@ -184,8 +193,9 @@
        }
      }
     @media (prefers-reduced-motion: reduce) {
-      .book-cover-art, .book-cover-visual { transition: none; }
-      .book-cover-screen.is-opening .book-cover-art { transform: none; opacity: 1; }
+      .book-cover-screen, .book-cover-art, .book-cover-visual { transition: none; }
+      .book-cover-screen.is-opening { opacity: 0; }
+      .book-cover-screen.is-opening .book-cover-art { transform: none; opacity: 1; filter: none; }
     }
   </style>
 </head>
@@ -400,10 +410,10 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="cles.js?v=3.8.0"></script>
-  <script src="config.js?v=3.8.0"></script>
-  <script src="i18n.js?v=3.8.0"></script>
-  <script src="cover.js?v=3.8.0"></script>
-  <script src="app.js?v=3.8.0"></script>
+  <script src="cles.js?v=3.9.0"></script>
+  <script src="config.js?v=3.9.0"></script>
+  <script src="i18n.js?v=3.9.0"></script>
+  <script src="cover.js?v=3.9.0"></script>
+  <script src="app.js?v=3.9.0"></script>
 </body>
 </html>
